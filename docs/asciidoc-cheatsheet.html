@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/_style/style.css">
+<title>タイトル</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>タイトル</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_見出しh2">見出し(h2)</a>
+<ul class="sectlevel2">
+<li><a href="#_サブ見出しh3">サブ見出し(h3)</a>
+<ul class="sectlevel3">
+<li><a href="#_サブサブ見出しh4">サブサブ見出し(h4)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_強調テキスト">強調テキスト</a></li>
+<li><a href="#_リスト">リスト</a></li>
+<li><a href="#_数式">数式</a></li>
+<li><a href="#_補足ブロック">補足ブロック</a></li>
+<li><a href="#_画像">画像</a></li>
+<li><a href="#_スケッチ">スケッチ</a></li>
+<li><a href="#_折りたたみ">折りたたみ</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_見出しh2">見出し(h2)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>これはテストです</p>
+</div>
+<div class="sect2">
+<h3 id="_サブ見出しh3">サブ見出し(h3)</h3>
+<div class="paragraph">
+<p>さらにテストです</p>
+</div>
+<div class="sect3">
+<h4 id="_サブサブ見出しh4">サブサブ見出し(h4)</h4>
+<div class="paragraph">
+<p>さらにさらにテストです</p>
+</div>
+<div class="sect4">
+<h5 id="_サブサブサブ見出しh5">サブサブサブ見出し(h5)</h5>
+<div class="paragraph">
+<p>さらにさらにさらにテストです</p>
+</div>
+<div class="sect5">
+<h6 id="_サブサブサブサブ見出しh6">サブサブサブサブ見出し(h6)</h6>
+<div class="paragraph">
+<p>さらにさらにさらにさらにテストです</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_強調テキスト">強調テキスト</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>山路を登りながらこう考えた。<br>
+<strong>山路</strong> を登りながらこう考えた。<br>
+<em>山路</em> を登りながらこう考えた。<br>
+<mark>山路</mark> を登りながらこう考えた。<br></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_リスト">リスト</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>番号なしリスト</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Level 1 list item</p>
+</li>
+<li>
+<p>Level 1 list item</p>
+</li>
+<li>
+<p>Level 1 list item</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Level 2 list item</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Level 3 list item</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Level 1 list item</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>番号付きリスト</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Level 1 list item</p>
+</li>
+<li>
+<p>Level 1 list item</p>
+</li>
+<li>
+<p>Level 1 list item</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Level 2 list item</p>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p>Level 3 list item</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Level 1 list item</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_数式">数式</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ブロック数式</p>
+</div>
+<div class="stemblock">
+<div class="content">
+\[e^{i\pi} + 1 = 0\]
+</div>
+</div>
+$$ e^{i\pi} + 1 = 0 $$
+<div class="paragraph">
+<p>\[
+e^{i\pi} + 1 = 0
+\]</p>
+</div>
+<div class="paragraph">
+<p>これはインライン数式 \(E=mc^2\) です。</p>
+</div>
+<div class="paragraph">
+<p>これはインライン数式 $E=mc^2$ です。</p>
+</div>
+<div class="paragraph">
+<p>これはインライン数式 \(E=mc^2\) です。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_補足ブロック">補足ブロック</h2>
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+これは補足アドモニションです。
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+これは重要なアドモニションです。
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+これはヒントのアドモニションです。
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+これは注意のアドモニションです。
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+これは警告のアドモニションです。
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_画像">画像</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="https://placehold.jp/150x150.png" alt="サンプル画像">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_スケッチ">スケッチ</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<div class="sketch" sketch-name="test-sketch"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_折りたたみ">折りたたみ</h2>
+<div class="sectionbody">
+<details>
+<summary class="title">クリックして開く</summary>
+<div class="content">
+<div class="paragraph">
+<p>ここは畳まれるはず</p>
+</div>
+<details>
+<summary class="title">さらに折りたたみ</summary>
+<div class="content">
+<div class="paragraph">
+<p>ネストされた折り畳み</p>
+</div>
+</div>
+</details>
+</div>
+</details>
+</div>
+</div>
+</main>
+<script src="/_script/main.js"></script>
+</body>
+
+</html>

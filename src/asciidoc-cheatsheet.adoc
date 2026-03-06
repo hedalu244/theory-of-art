@@ -1,0 +1,115 @@
+---
+layout: base.njk
+title: タイトル
+permalink: /asciidoc-cheatsheet.html
+---
+
+:stem: latexmath
+
+:toc: macro
+:toclevels: 3
+:toc-title: 目次
+
+toc::[]
+
+== 見出し(h2)
+
+これはテストです
+
+=== サブ見出し(h3)
+
+さらにテストです
+
+==== サブサブ見出し(h4)
+
+さらにさらにテストです
+
+===== サブサブサブ見出し(h5)
+
+さらにさらにさらにテストです
+
+====== サブサブサブサブ見出し(h6)
+
+さらにさらにさらにさらにテストです
+
+== 強調テキスト
+
+山路を登りながらこう考えた。 +
+*山路* を登りながらこう考えた。 +
+_山路_ を登りながらこう考えた。 +
+#山路# を登りながらこう考えた。 + 
+
+== リスト
+
+番号なしリスト
+
+* Level 1 list item
+* Level 1 list item
+* Level 1 list item
+** Level 2 list item
+*** Level 3 list item
+* Level 1 list item
+
+番号付きリスト
+
+. Level 1 list item
+. Level 1 list item
+. Level 1 list item
+.. Level 2 list item
+... Level 3 list item
+. Level 1 list item
+
+== 数式
+
+ブロック数式
+
+[stem]
+++++
+e^{i\pi} + 1 = 0
+++++
+
+++++
+$$ e^{i\pi} + 1 = 0 $$
+++++
+
+\[
+e^{i\pi} + 1 = 0
+\]
+
+これはインライン数式 stem:[E=mc^2] です。
+
+これはインライン数式 $E=mc^2$ です。
+
+これはインライン数式 \(E=mc^2\) です。
+
+== 補足ブロック
+NOTE: これは補足アドモニションです。
+
+IMPORTANT: これは重要なアドモニションです。
+
+TIP: これはヒントのアドモニションです。
+
+CAUTION: これは注意のアドモニションです。
+
+WARNING: これは警告のアドモニションです。
+
+== 画像
+image::https://placehold.jp/150x150.png[サンプル画像]
+
+== スケッチ
+sketch::test-sketch[]
+
+== 折りたたみ
+.クリックして開く
+[%collapsible]
+====
+ここは畳まれるはず
+
+.さらに折りたたみ
+[%collapsible]
+=====
+ネストされた折り畳み
+
+=====
+
+====
