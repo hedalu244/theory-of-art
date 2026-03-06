@@ -11,7 +11,7 @@ module.exports = function(eleventyConfig){
   eleventyConfig.addFilter("processSketchMacro", function(content){
     return content.replace(
       /<p>sketch::([^\[\]]+)\[\]<\/p>/g,
-      '<div class="sketch" sketch-name="$1"></div>'
+      '<div class="sketch" data-name="$1"></div>'
     );
   });
   
