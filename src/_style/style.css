@@ -7,13 +7,13 @@
   --color-accent: #3498db;
   --color-code-bg: #f7f9fa;
   
-  --color-note: #3498db;
+  --color-note: #b0b8cd;
   --color-important: #e67e22;
   --color-tip: #27ae60;
   --color-caution: #f39c12;
   --color-warning: #e74c3c;
 
-  --color-note-bg: #d6eaf8;
+  --color-note-bg: #f0f4f8;
   --color-important-bg: #ffe5b4;
   --color-tip-bg: #d4edda;
   --color-caution-bg: #fff3cd;
@@ -321,7 +321,7 @@ details {
 
   & summary {
     cursor: pointer;
-    font-weight: 600;
+    font-weight: normal;
     color: var(--color-heading);
     padding: var(--spacing-sm) var(--spacing-md);
     margin: calc(-1 * var(--spacing-md));

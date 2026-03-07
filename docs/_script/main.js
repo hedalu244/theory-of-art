@@ -19,10 +19,36 @@ function create(el) {
   }, el);
 }
 
+// src/_script/sketches/sine-wave.ts
+function create2(el) {
+  new p5((p) => {
+    p.setup = () => {
+      p.createCanvas(800, 600);
+    };
+    p.draw = () => {
+      p.background(255);
+      const phase = -(p.millis() / 1e3) * 2 * p.PI * 0.5;
+      const amplitude = 100;
+      const frequency = 0.01;
+      p.stroke(0);
+      p.noFill();
+      p.beginShape();
+      for (let x = 0; x < p.width; x++) {
+        const y = p.height / 2 + amplitude * Math.sin(frequency * x + phase);
+        p.vertex(x, y);
+      }
+      p.endShape();
+      p.line(0, p.height / 2, p.width, p.height / 2);
+      p.line(30, 0, 30, p.height);
+    };
+  }, el);
+}
+
 // src/_script/sketch.ts
 function initSketches() {
   const sketches = {
-    "test-sketch": create
+    "test-sketch": create,
+    "sine-wave": create2
   };
   document.querySelectorAll(".sketch").forEach((el) => {
     const name = el.getAttribute("data-name");
