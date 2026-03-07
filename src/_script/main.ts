@@ -1,6 +1,6 @@
 
-import { initSketches } from "./sketch"
-import { initQuizzes } from "./quiz"
+import { initSketches } from "./sketches"
+import { initQuizzes } from "./quizzes"
 
 document.addEventListener("DOMContentLoaded", () => {
   initSketches();

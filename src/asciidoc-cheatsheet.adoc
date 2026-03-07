@@ -97,7 +97,8 @@ WARNING: これは警告のアドモニションです。
 image::https://placehold.jp/150x150.png[サンプル画像]
 
 == スケッチ
-sketch::test-sketch[]
+{% sketch "test-sketch" %}
+{% sketch "sine-wave", {"amplitude":120,"frequency":0.02,"axis":true} %}
 
 == クイズ
 [quiz]

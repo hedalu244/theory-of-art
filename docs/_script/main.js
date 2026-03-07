@@ -1,4 +1,18 @@
-// src/_script/sketches/test-sketch.ts
+var __defProp = Object.defineProperty;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __esm = (fn, res) => function __init() {
+  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+};
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+
+// src/_script/sketches/test-sketch.sketch.ts
+var test_sketch_sketch_exports = {};
+__export(test_sketch_sketch_exports, {
+  create: () => create
+});
 function create(el) {
   const input = document.createElement("input");
   input.type = "range";
@@ -18,9 +32,50 @@ function create(el) {
     };
   }, el);
 }
+var init_test_sketch_sketch = __esm({
+  "src/_script/sketches/test-sketch.sketch.ts"() {
+    "use strict";
+  }
+});
 
-// src/_script/sketches/sine-wave.ts
+// src/pages/3d-LSM-color.sketch.ts
+var d_LSM_color_sketch_exports = {};
+__export(d_LSM_color_sketch_exports, {
+  create: () => create2
+});
 function create2(el) {
+  new p5((p) => {
+    p.setup = () => {
+      p.createCanvas(600, 600, p.WEBGL);
+    };
+    p.draw = () => {
+      p.background(230);
+      p.rotateX(p.millis() / 2e3);
+      p.rotateY(p.millis() / 3e3);
+      p.stroke(255, 0, 0);
+      p.line(-100, 0, 0, 100, 0, 0);
+      p.stroke(0, 255, 0);
+      p.line(0, -100, 0, 0, 100, 0);
+      p.stroke(0, 0, 255);
+      p.line(0, 0, -100, 0, 0, 100);
+      p.stroke(0);
+      p.fill(255, 0, 0, 50);
+      p.box(100);
+    };
+  }, el);
+}
+var init_d_LSM_color_sketch = __esm({
+  "src/pages/3d-LSM-color.sketch.ts"() {
+    "use strict";
+  }
+});
+
+// src/pages/sine-wave.sketch.ts
+var sine_wave_sketch_exports = {};
+__export(sine_wave_sketch_exports, {
+  create: () => create3
+});
+function create3(el) {
   new p5((p) => {
     p.setup = () => {
       p.createCanvas(800, 600);
@@ -43,23 +98,82 @@ function create2(el) {
     };
   }, el);
 }
+var init_sine_wave_sketch = __esm({
+  "src/pages/sine-wave.sketch.ts"() {
+    "use strict";
+  }
+});
 
-// src/_script/sketch.ts
+// src/_script/sketch-manifest.ts
+var sketchManifest = {
+  "_script/sketches/test-sketch": { loader: () => Promise.resolve().then(() => (init_test_sketch_sketch(), test_sketch_sketch_exports)) },
+  "pages/3d-LSM-color": { loader: () => Promise.resolve().then(() => (init_d_LSM_color_sketch(), d_LSM_color_sketch_exports)) },
+  "pages/sine-wave": { loader: () => Promise.resolve().then(() => (init_sine_wave_sketch(), sine_wave_sketch_exports)) }
+};
+
+// src/_script/sketches.ts
+function normalizeManifestKey(pathname) {
+  return pathname.replace(/^\/+/, "").replace(/\/+$/, "");
+}
+function resolvePathWithUrl(path, baseDir) {
+  const resolved = new URL(path, `${window.location.origin}${baseDir}`).pathname;
+  return normalizeManifestKey(resolved);
+}
+function searchLoaderByPath(path, baseDir) {
+  const resolvedPath = resolvePathWithUrl(path, baseDir);
+  if (resolvedPath in sketchManifest) {
+    console.log(`[sketch] path found, path: ${path}, resolved: ${resolvedPath}`);
+    return sketchManifest[resolvedPath].loader;
+  }
+  console.log(`[sketch] path not found, path: ${path}, resolved: ${resolvedPath}`);
+  return null;
+}
+function searchLoaderByName(name) {
+  const fallbackName = normalizeManifestKey(name).split("/").pop() ?? normalizeManifestKey(name);
+  for (const key in sketchManifest) {
+    if (key.endsWith(`/${fallbackName}`) || key === fallbackName) {
+      console.log(`[sketch] name found: ${name}`);
+      return sketchManifest[key].loader;
+    }
+  }
+  console.log(`[sketch] name not found: ${name}`);
+  return null;
+}
+function normalizePath(path) {
+  if (path.endsWith("/")) return path;
+  if (/\/index\.[^\/\.]*$/.test(path)) return path.replace(/\/index\.[^\/\.]*$/, "/");
+  if (/\/[^\/\.]+$/.test(path)) return path + "/";
+  return path;
+}
+async function mountSketch(el) {
+  const name = el.getAttribute("data-name");
+  if (!name) return;
+  const options = el.getAttribute("data-options") ?? void 0;
+  const basePath = normalizePath(location.pathname);
+  const baseParent = basePath.endsWith("/") ? basePath.replace(/\/[^\/]*\/$/, "/") : basePath.replace(/\/[^\/]*$/, "/");
+  try {
+    const loader = basePath.endsWith("/") ? searchLoaderByPath(name, baseParent) || searchLoaderByPath(name, basePath) || searchLoaderByName(name) : searchLoaderByPath(name, baseParent) || searchLoaderByName(name);
+    if (!loader) {
+      console.error(`[sketch] loader not found: ${name}`);
+      return;
+    }
+    const module = await loader();
+    if (typeof module.create !== "function") {
+      console.error(`[sketch] create() is not exported: ${name}`);
+      return;
+    }
+    await module.create(el, options);
+  } catch (error) {
+    console.error(`[sketch] failed to load: ${name}`, error);
+  }
+}
 function initSketches() {
-  const sketches = {
-    "test-sketch": create,
-    "sine-wave": create2
-  };
   document.querySelectorAll(".sketch").forEach((el) => {
-    const name = el.getAttribute("data-name");
-    if (!name) return;
-    const sketch = sketches[name];
-    if (!sketch) return;
-    sketch(el);
+    void mountSketch(el);
   });
 }
 
-// src/_script/quiz.ts
+// src/_script/quizzes.ts
 function parseChecklistQuiz(container) {
   const checklist = container.querySelector("ul.checklist");
   if (!checklist) return null;

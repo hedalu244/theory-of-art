@@ -1,5 +1,13 @@
 const asciidoc = require("eleventy-plugin-asciidoc")
 
+function escapeAttribute(value) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+}
+
 module.exports = function(eleventyConfig){
   eleventyConfig.addPlugin(asciidoc, {
     attributes: {
@@ -7,12 +15,27 @@ module.exports = function(eleventyConfig){
     }
   });
   
-  // HTML上の sketch::name[] をdivに変換するフィルター
-  eleventyConfig.addFilter("processSketchMacro", function(content){
-    return content.replace(
-      /<p>sketch::([^\[\]]+)\[\]<\/p>/g,
-      '<div class="sketch" data-name="$1"></div>'
-    );
+  // HTML上の {% sketch "name", options... %} をdivに変換するフィルター
+  eleventyConfig.addNunjucksFilter("processSketchMacro", function(content) {
+    const pageUrl = this.ctx?.page?.url || ""
+    const articlePath = pageUrl.replace(/\/$/, "").replace(/index\.html$/, "").replace(/\.html$/, "")
+
+    const withSketchDiv = content.replace(/{%\s*sketch\s+"([^"]+)"(?:\s*,([\s\S]*?))?\s*%}/g, (_match, rawName, rawOptions) => {
+      const name = escapeAttribute(String(rawName).trim())
+      const options = String(rawOptions ?? "").trim()
+
+      let attrs = `data-name="${name}"`
+      if (articlePath) {
+        attrs += ` data-article-path="${escapeAttribute(articlePath)}"`
+      }
+      if (options) {
+        attrs += ` data-options="${escapeAttribute(options)}"`
+      }
+
+      return `<div class="sketch" ${attrs}></div>`
+    })
+
+    return withSketchDiv.replace(/<p>\s*((?:<div class="sketch"[^>]*><\/div>\s*)+)<\/p>/g, "$1")
   });
   
   // src配下の全ファイルをパススルーコピー対象に
