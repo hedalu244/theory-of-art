@@ -8,6 +8,26 @@ function escapeAttribute(value) {
     .replace(/>/g, "&gt;")
 }
 
+function resolvePath(base, relative) {
+  if (relative.startsWith("/")) {
+    return relative;
+  }
+  
+  const stack = base.split("/").slice(0, -1);
+
+  const parts = relative.split("/");
+  for (const part of parts) {
+    if (part === ".") continue;
+    if (part === "..") {
+      stack.pop();
+    } else {
+      stack.push(part);
+    }
+  }
+
+  return stack.join("/");
+}
+
 module.exports = function(eleventyConfig){
   eleventyConfig.addPlugin(asciidoc, {
     attributes: {
@@ -17,17 +37,16 @@ module.exports = function(eleventyConfig){
   
   // HTML上の {% sketch "name", options... %} をdivに変換するフィルター
   eleventyConfig.addNunjucksFilter("processSketchMacro", function(content) {
-    const pageUrl = this.ctx?.page?.url || ""
-    const articlePath = pageUrl.replace(/\/$/, "").replace(/index\.html$/, "").replace(/\.html$/, "")
-
-    const withSketchDiv = content.replace(/{%\s*sketch\s+"([^"]+)"(?:\s*,([\s\S]*?))?\s*%}/g, (_match, rawName, rawOptions) => {
-      const name = escapeAttribute(String(rawName).trim())
+    // ./src/を除去
+    const inputPath = (this.ctx?.page?.inputPath || "").replace(/^(\.\/)?src\//, "");
+    if (!inputPath) return content;
+    
+    const withSketchDiv = content.replace(/{%\s*sketch\s+"([^"]+)"(?:\s*,([\s\S]*?))?\s*%}/g, (_match, rawRelativePath, rawOptions) => {
+      const relativePath = escapeAttribute(String(rawRelativePath).trim())
       const options = String(rawOptions ?? "").trim()
 
-      let attrs = `data-name="${name}"`
-      if (articlePath) {
-        attrs += ` data-article-path="${escapeAttribute(articlePath)}"`
-      }
+      let attrs = `data-path="${resolvePath(inputPath, relativePath)}"`;
+      
       if (options) {
         attrs += ` data-options="${escapeAttribute(options)}"`
       }
@@ -40,7 +59,7 @@ module.exports = function(eleventyConfig){
   
   // src配下の全ファイルをパススルーコピー対象に
   // その他のファイル(css, 画像, その他アセット)をコピーします
-  eleventyConfig.addPassthroughCopy('src/**/*.!(md|adoc|njk|ts)');
+  eleventyConfig.addPassthroughCopy('src/**/*.!(md|adoc|njk|ts|sketch.ts)');
 
   return {
     dir: {
