@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/_style/style.css">
+<title>スケッチテスト</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>スケッチテスト</h1>
+<main>
+<div class="paragraph">
+<div class="sketch" data-path="color-and-light/sketches/gamut-convex-hull"></div>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="color-and-light/sketches/photometry" data-options="{&quot;color1&quot;:[1, 0, 0], &quot;color2&quot;:[0, 1, 0]}"></div>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="color-and-light/sketches/photometry" data-options="{&quot;color1&quot;:[1, 0, 0], &quot;color2&quot;:[0, 0, 1]}"></div>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="color-and-light/sketches/metamerism"></div>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="color-and-light/sketches/metamerism" data-options="{&quot;allowNegative&quot;:true}"></div>
+</div>
+</main>
+<script src="/_script/main.js"></script>
+</body>
+
+</html>

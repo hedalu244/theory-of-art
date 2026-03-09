@@ -1,0 +1,16 @@
+---
+layout: base.njk
+title: スケッチテスト
+---
+
+// {% sketch "3d-LSM-color" %}
+
+{% sketch "gamut-convex-hull" %}
+
+{% sketch "photometry", {"color1":[1, 0, 0], "color2":[0, 1, 0]} %}
+
+{% sketch "photometry", {"color1":[1, 0, 0], "color2":[0, 0, 1]} %}
+
+{% sketch "metamerism" %}
+
+{% sketch "metamerism", {"allowNegative":true} %}
