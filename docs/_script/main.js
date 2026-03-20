@@ -485,10 +485,32 @@ var init_d_LSM_color_sketch = __esm({
 });
 
 // src/_script/input.ts
-function wrap(tagName, ...elelemts) {
+function createElement(tagName, children, options) {
   const wrapper = document.createElement(tagName);
-  for (const elem of elelemts) {
-    wrapper.appendChild(elem);
+  if (options?.id) {
+    wrapper.id = options.id;
+  }
+  if (options?.class) {
+    const classList = typeof options.class === "string" ? options.class.split(" ") : options.class;
+    for (const cls of classList) {
+      wrapper.classList.add(cls);
+    }
+  }
+  for (const elem of children) {
+    if (typeof elem === "string")
+      wrapper.appendChild(document.createTextNode(elem));
+    else
+      wrapper.appendChild(elem);
+  }
+  if (options?.attributes) {
+    for (const key in options.attributes) {
+      wrapper.setAttribute(key, options.attributes[key]);
+    }
+  }
+  if (options?.style) {
+    for (const key in options?.style) {
+      wrapper.style[key] = options?.style[key];
+    }
   }
   return wrapper;
 }
@@ -498,40 +520,57 @@ var init_input = __esm({
     "use strict";
     InputTable = class {
       constructor(parent) {
-        this.table = document.createElement("table");
-        this.table.style.borderCollapse = "separate";
-        this.table.style.borderSpacing = "8px 0px";
+        this.table = createElement("table", [], {
+          style: {
+            borderCollapse: "separate",
+            borderSpacing: "8px 0px"
+          }
+        });
         parent.appendChild(this.table);
       }
       createRangeInput(range) {
-        const label = document.createTextNode(range.label);
         if (range.step === void 0) {
           range.step = range.type === "int" ? 1 : 0.01;
         }
         if (range.value === void 0) {
           range.value = Math.round((range.min + range.max) / range.step / 2) * range.step;
         }
-        const slider = document.createElement("input");
-        slider.type = "range";
-        slider.min = range.min.toString();
-        slider.max = range.max.toString();
-        slider.style.width = `${range.width}px`;
-        slider.value = range.value.toString();
-        slider.step = range.step.toString();
-        slider.value = range.value.toString();
+        const slider = createElement(
+          "input",
+          [],
+          {
+            attributes: {
+              type: "range",
+              min: range.min.toString(),
+              max: range.max.toString(),
+              value: range.value.toString(),
+              step: range.step.toString()
+            },
+            style: {
+              width: `${range.width}px`
+            }
+          }
+        );
         if (range.hideFeedback) {
-          const dummy = document.createElement("span");
-          this.table.appendChild(wrap("tr", wrap("td", label), wrap("td", dummy), wrap("td", slider)));
-          label.parentElement.style.textAlign = "right";
+          this.table.appendChild(
+            createElement("tr", [
+              createElement("td", [range.label], { style: { textAlign: "right" } }),
+              createElement("td", [createElement("span", [])]),
+              createElement("td", [slider])
+            ])
+          );
         } else {
-          const feedback = document.createElement("span");
-          feedback.textContent = `${range.value}${range.unit ?? ""}`;
+          const feedback = createElement("span", [`${range.value}${range.unit ?? ""}`]);
           slider.addEventListener("input", () => {
             feedback.textContent = `${slider.value}${range.unit ?? ""}`;
           });
-          this.table.appendChild(wrap("tr", wrap("td", label), wrap("td", feedback), wrap("td", slider)));
-          label.parentElement.style.textAlign = "right";
-          feedback.parentElement.style.textAlign = "right";
+          this.table.appendChild(
+            createElement("tr", [
+              createElement("td", [range.label], { style: { textAlign: "right" } }),
+              createElement("td", [feedback], { style: { textAlign: "right" } }),
+              createElement("td", [slider])
+            ])
+          );
         }
         return slider;
       }
