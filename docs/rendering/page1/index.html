@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/_style/style.css">
+<title>レンダリング</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>レンダリング</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_人間は光で物を見る">人間は光で物を見る</a></li>
+<li><a href="#_光の直進性と光源の種類">光の直進性と光源の種類</a>
+<ul class="sectlevel2">
+<li><a href="#_点光源">点光源</a></li>
+<li><a href="#_平行光源">平行光源</a></li>
+<li><a href="#_大きさのある光源">大きさのある光源</a></li>
+</ul>
+</li>
+<li><a href="#_明るさの概念と単位">明るさの概念と単位</a></li>
+<li><a href="#_ランバートの余弦則">ランバートの余弦則</a>
+<ul class="sectlevel2">
+<li><a href="#_完全拡散反射面">完全拡散反射面</a></li>
+</ul>
+</li>
+<li><a href="#_凹凸面の完全拡散反射">凹凸面の完全拡散反射</a></li>
+<li><a href="#_鏡面反射">鏡面反射</a>
+<ul class="sectlevel2">
+<li><a href="#_拡散反射鏡面反射_は_乱反射正反射とは何が違うのか">拡散反射/鏡面反射 は 乱反射/正反射とは何が違うのか</a></li>
+</ul>
+</li>
+<li><a href="#_粗面の鏡面反射">粗面の鏡面反射</a></li>
+<li><a href="#_実在の反射">実在の反射</a></li>
+<li><a href="#_レンダリング方程式">レンダリング方程式</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_人間は光で物を見る">人間は光で物を見る</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>人間は光で物体を見ています。光源から放たれた光は、物体に当たって反射したり、物体を透過したりして、目に入ります。目はこの光を受け取ることで人間は物体の色や形、質感などの情報を受け取ることができるのです。</p>
+</div>
+<div class="paragraph">
+<p>では、光が光源から放たれてから目に入るまでに起きる現象を詳しく見ていきます。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_光の直進性と光源の種類">光の直進性と光源の種類</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>光は波ですが、エネルギーの流れとしても捉えることができます。空間中に矢印を描くようなイメージを持ってください。ここでは矢印の密度が光の強さを表し、矢印の向きが光の進む方向を表すとします（ここでは矢印の長さは意味を持ちません）。</p>
+</div>
+<div class="paragraph">
+<p>この矢印のことを「光束」と言います。単位面積を通過する光束の量を「光束密度」と呼びます（あまり一般的な呼称ではないです）。
+光束密度は、測定する面が光を受ける面の時は「照度」、光を発する面の時は「光束発散度」と言います。</p>
+</div>
+<div class="paragraph">
+<p>光束密度と言っても、どの方向からどれくらいの光が来ているかを考慮する必要があります。例えば、ある面に対して垂直な方向からの光束密度と、斜めからの光束密度の影響は単純に足せるものではありません。電場や磁場のように一つのベクトル量として表せるものでもありません。
+ある点が受けている光束を表すのには、天球図を書くのが便利です。天球図は、ある点を中心にして、そこから見える全ての方向を球面上に描いた図です。天球図上の明るさがその方向から来る光の量に相当します。</p>
+</div>
+<div class="paragraph">
+<p>人間の目やカメラはどの方向からどれくらいの光が来ているかを感じ取ることができます。これが、物体の形や位置を知るための重要な手がかりになります。</p>
+</div>
+<div class="paragraph">
+<p>光源は、生み出す矢印の分布によって、点光源、平行光源、面光源、スポットライトなどの種類に分けられます。</p>
+</div>
+<div class="sect2">
+<h3 id="_点光源">点光源</h3>
+<div class="paragraph">
+<p>一点から全方向に放射状に光が放たれる光源。
+光束は点光源から離れるほど密度が低くなります。点光源から距離rにある面積Sの断面を通過していた光束は、距離2rでは4Sの断面を通過することになるため、光束密度は距離の二乗に反比例して減少します。これを「逆二乗則」と言います。</p>
+</div>
+<div class="paragraph">
+<p>現実には電球やろうそくなどが点光源に近いものとして挙げられます。ただし、これらは多少の大きさがあるため、完全な点光源とは言えません。理想的な点光源は大きさを持たず、肉眼で見ると、きわめて小さな点としてしか見えないはずです。</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_平行光源">平行光源</h3>
+<div class="paragraph">
+<p>平行に光束が放たれる光源を平行光源と呼びます。</p>
+</div>
+<div class="paragraph">
+<p>平行光源は無限に遠くにある点光源を想定することで近似できます。
+点光源から遠ざかるにつれて、矢印はどんどん平行に近くなります。同時に光束密度も低くなってしまうので、その分光をどんどん強くしてみると、平行光源とみなせるようになります。</p>
+</div>
+<div class="paragraph">
+<p>平行光源は空間中を一様な密度、一様な向きの光束で満たします。逆二乗則は働かず、光源方向に近づけたり遠ざけたりしても光束密度は変化しません。平行光源は最も単純な光源のモデルになるので、これから話題にあがることが多くなると思います。</p>
+</div>
+<div class="paragraph">
+<p>太陽は地球から十分に遠いため、平行光源に近い振る舞いをします。しかし地球から見た太陽にもある程度の大きさ（ここでは直径というより見かけ上の大きさ、0.5°）があるので、これも完全な平行光線とは言えません。理想的な平行光源も、肉眼で見るときわめて小さな点としてしか見えないはずです。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+ここでいう「十分遠く」というのは、着目しているスケールに対しての問題です。地上で観測する限りでは、太陽に多少近づいたり遠ざかったり、左右に動いたりしても、それが太陽との距離や角度に及ぼす影響は誤差の範囲なので、一様とみなすことができます。しかし、例えば宇宙空間、太陽系全体を見るようなスケールでは、太陽との位置関係の違いが誤差とは言えなくなるので、太陽を平行光源とみなすことはできなくなります。
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_大きさのある光源">大きさのある光源</h3>
+<div class="paragraph">
+<p>実在の光源のほとんどは、ある程度の大きさを持っています。光源が無視できない大きさを持つ場合、光束をあらわす矢印は空間中でクロスするような分布になります。</p>
+</div>
+<div class="paragraph">
+<p>光源に大きさがある場合も、その距離によって点光源的に放射状に振舞うか、平行光源的に振舞うかが変わります。距離が十分に近い場合は点光源的に振舞い、距離が十分に遠い場合は平行光源的に振舞います。</p>
+</div>
+<div class="paragraph">
+<p>大きさのある光源が十分に遠くにある場合、光束は空間中でクロスしてはいるものの、その分布は空間中どこでも一様です。大きさを考慮した太陽はこのような振る舞いになります。</p>
+</div>
+<div class="paragraph">
+<p>大きさのある光源が近くにある場合、話は複雑になります。光源の形、大きさ、角度によって、空間中の光束の分布に複雑な偏りが生まれます。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_明るさの概念と単位">明るさの概念と単位</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>光源の種類によって生み出される光束の形が様々であるため、光の明るさを表すための様々な概念と単位が存在します。これらは、どのように矢印を数えたいかによって、また、光源の種類や状況などによって使い分けられます。</p>
+</div>
+<div class="paragraph">
+<p>|---      |   全方向で  | 方向あたりの密度(/steradian)
+|ある面全体で     |   光束 Φ lm    |   光度 I cd
+|面積当たりの密度(/m^2) |   光速密度 照度/光束発散度 E/M lm/m^2   |   輝度 L cd/m^2</p>
+</div>
+<div class="paragraph">
+<p>TODO: 人間は輝度を見ている</p>
+</div>
+<details>
+<summary class="title">幾何光学の仮定</summary>
+<div class="content">
+<div class="paragraph">
+<p>ここで扱うのは幾何光学という分野の話になります。
+光は物理的には波なので、実際には干渉など、波としての現象がが起きるため、検証が難しくなります。しかし、自然界にある光は位相がバラバラの状態で放たれています。そのため、ある程度以上のスケールではより簡単な振る舞いをしていると考えることができます。</p>
+</div>
+<div class="paragraph">
+<p>その近似とは以下のようなものです。</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>光が二つの経路を並列に通るとき、その二つの経路は互いに干渉せず、強度を足し合わせることができる。</p>
+</li>
+<li>
+<p>光が二つの経路を直列に通るとき、その二つの経路の影響を掛け合わせることができる。</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>「そんな近似をして現実から乖離してしまわないのか」と思うかもしれませんが、3DCGではほぼ必ずこのような近似をしているにもかかわらず、現実的な見た目を再現できているので、ほぼ問題にならないでしょう。</p>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ランバートの余弦則">ランバートの余弦則</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>光源から放たれた光がある面に当たるときの光束密度、つまり照度を考えます。</p>
+</div>
+<div class="paragraph">
+<p>一つの平行光源によって、空間中に一様な密度、一様な向きの光束が満たされている状況を考えます。この中に、光束に対して垂直に面を置く場合と、光束に対して斜めに面を置く場合を考えてみましょう。このとき、同じ面積の面を置いたとしても、その面に当たる矢印の本数は斜めに置いた場合のほうが少なくなっていることがわかります。従って、面に対して斜めから入射する光束密度は面に垂直な方向から入射する光束密度はより小さくなります。</p>
+</div>
+<div class="paragraph">
+<p>具体的にどれくらい小さくなるかを考えてみましょう。面に対して垂直な方向から入射する光束密度を \(E\) とします。面に対して斜めに入射する光束密度は、入射角を \(\theta\) とすると、 \(E\cos\theta\) になります。つまり、入射角の余弦に比例して減少することになります。これを、ランバートの余弦則と言います</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+面の法線（面に対して垂直な線）と入射する光束の方向とのなす角を入射角と呼びます。
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>ただし、\(cos\theta\) に比例すると言っても、例外があります。入射角が90°を超えると負の値になるので、入射角が90°を超える場合は、照度は0となります。これは自明なようですが、じつは後々重要になってきます。</p>
+</div>
+<div class="paragraph">
+<p>もう一つ例外として、何か不透明な物体の影になっているとき、照度は面の向きに関わらず0になります。平行光源が空間を一様な光束で満たすとは言っても、光束は不透明な物体を貫通出来ないので、物体があるとその後ろ側の領域は空間の光束密度が0になります。そのような領域では、どのような面を置いても光を受けることはありません。</p>
+</div>
+<div class="sect2">
+<h3 id="_完全拡散反射面">完全拡散反射面</h3>
+<div class="paragraph">
+<p>ランバートの余弦則がもっともわかりやすく表れるのは、拡散反射面を想定した時です。
+拡散反射面は、入射した光を全方向に同じ強さで反射する面のことです。この場合、反射光の輝度はその面の照度に比例します。</p>
+</div>
+<div class="paragraph">
+<p>|---        |   全方向  | 方向あたり(/steradian)
+|全体で     |   光束 Φ lm    |   光度 I cd
+|面積当たり |   光速密度 照度/光束発散度 E/M lm/m^2   |   輝度 L cd/m^2</p>
+</div>
+<div class="paragraph">
+<p>↑あってる？</p>
+</div>
+<details>
+<summary class="title">定量的な説明</summary>
+<div class="content">
+<div class="paragraph">
+<p>完全拡散反射面の輝度が照度に比例すると言いましたが、どれくらいの輝度になるのでしょうか。　平行光源からの光束密度を \(E\) 、入射角を \(\theta\) とすると、面の照度 \(M\) はランバートの余弦則により \(E\cos\theta\) となるのでした。そして完全拡散反射面の輝度 \(L\) は照度に比例するため、
+\(L \propto M\) つまり \(L \propto k E \cos \theta \) と表せます。この \(k\) を具体的に求めてみようという問題です。</p>
+</div>
+<div class="paragraph">
+<p>まずこれは、面の反射率 \(R\) に比例します。これは入射した光束の何%が反射されるかを表す値で、周波数ごとの定数となります。拡散反射の反射率なので拡散反射率と呼ばれたり、ラテン語で「白さ」を意味するアルベド(albedo)と呼ばれたりします。</p>
+</div>
+<div class="paragraph">
+<p>では、\(k=R\)として良いのでしょうか？　実は、それでは困ったことが起きてしまいます。\(R\) の定義に基づいて、入射する光束と反射する光束を比較することで、この問題を解くことができます。</p>
+</div>
+<div class="paragraph">
+<p>面積S、反射率Rの完全拡散反射面に対して、光束密度\(E\)の平行光線が入射角\(\theta\)で入射していたとします。このとき、面が受ける全光束\(\phi_{in}\)は</p>
+</div>
+<div class="paragraph">
+<p>\[ \phi_{in} = ES\cos\theta \]</p>
+</div>
+<div class="paragraph">
+<p>となります。</p>
+</div>
+<div class="paragraph">
+<p>次に、この面は受けた光に対して、面に対して下側を除く半球側の全方向に、 ある輝度 \(L\) で反射したとします。この面が放射している全光束 \(\phi\) を求めてみます。</p>
+</div>
+<div class="paragraph">
+<p>まず、全方向に均一な輝度、均一な光束密度とはいっても、ある方向から見た時の見かけの面積は観測角の余弦に比例して減少します。観測方向と面の法線がなす角を\(\theta\) とすると見かけの面積は \(S\cos\theta\) となるので、ある方向に向かって放たれる光束、つまり光度は</p>
+</div>
+<div class="paragraph">
+<p>\[ I=LS\cos\theta\]</p>
+</div>
+<div class="paragraph">
+<p>となります。全光束 \(\phi\) を求めるには、この面を囲むように半球を置いて、そこを貫く光束の量を合計すればいいです。光束は光束密度が一定であれば面積×光束密度で求まりますが、今回は不均一なので、半球面を細かく区切って合計してやる必要があります。　これは半球積分という操作になります。</p>
+</div>
+<div class="paragraph">
+<p>半径\(1\)の半球上で、\(\theta \sim \theta + \Delta\theta\)の範囲にある帯状の面積は、\(2\pi\sin\theta \Delta\theta\) の面積を持っています（半径 \(\sin\theta\) 、幅 \(\Delta\theta\) の円形の帯。向きはねじれているが、幅が引き延ばされるわけではないので考慮しなくてよい）。\(\Delta\theta\)が十分に小さければこの帯の範囲で光速密度は一定なので、この帯からを貫く光束は面積×光束密度で\(\left( LS\cos\theta \right) \left( 2\pi\sin\theta \Delta\theta \right) \)と表せます。これを、\(\theta=0 \sim \pi/2\)の範囲で合計したいのですが、\(\Delta\theta\)が十分に小さければこれは積分として計算できます。</p>
+</div>
+<div class="paragraph">
+<p>\[
+\begin{aligned}
+\phi_{out}&amp;=\int_0^{\pi/2} \left( L S \cos\theta \right) \left( 2\pi \sin\theta d\theta \right) \\
+&amp;= 2\pi L S \int_0^{\pi/2} \cos\theta \sin\theta d\theta \\
+&amp;= 2\pi L S \left[ \frac{1}{2} \sin^2\theta \right]_0^{\pi/2} \\
+&amp;= \pi L S
+\end{aligned}
+\]</p>
+</div>
+<div class="paragraph">
+<p>というわけで、面が反射する全光束は \(\phi_out=\pi L S\) と表せることがわかりました。</p>
+</div>
+<div class="paragraph">
+<p>このとき、\(R\) の定義に基づくと、\(\phi_{out} = R \phi_{in}\) となってほしいです。これをLについて解くと、</p>
+</div>
+<div class="paragraph">
+<p>\[
+\begin{aligned}
+\phi_{out} &amp;= R \phi_{in} \\
+\pi L S &amp;= R E S \cos \theta \\
+L &amp;= \frac{1}{\pi} R E \cos \theta \\
+\end{aligned}
+\]</p>
+</div>
+<div class="paragraph">
+<p>というわけで、完全拡散反射面の輝度は、入射する光束密度に入射角の余弦と反射率を掛けるだけでなく、\(\pi\)で割らなければいけないことが分かりました。
+もし、\(\pi\) で割らないと、\(R=1\) だったときに、反射した全光束が入射した全光束の\(\pi\)倍に増えてしまうので、エネルギー保存則に反してしまいます。このような処理を正規化と言います。</p>
+</div>
+<div class="paragraph">
+<p>ちなみに、\(\pi\)で割ってやることによって、\(R=1\)の時に入射する光と反射する光が一致しますが、\(R&lt;1 \)の時には一致しません。これは光が吸収されて熱などのエネルギーに変換されてしまうためです。</p>
+</div>
+</div>
+</details>
+<div class="paragraph">
+<p>平行光線による一様な照度の空間に、完全拡散反射する平面を置いた状況を想像してみましょう。この場合、どこでも入射角が同じなのでどこでも同じ照度になり、完全拡散反射面の輝度はどの方向から見ても一定で照度に比例するのみです。人間は輝度を見ているので、これは全体が単色に見えますし、見る向き（視点の位置）を変えても見える色は一切変化しないことを意味します。</p>
+</div>
+<div class="paragraph">
+<p>平行光線の中に凹凸のある物体を置くと、入射角に応じた陰影が生まれます。この場合も、光源と物体の位置関係を変えない限り、視点の位置を変えただけではで色が変わらないのは同じです。</p>
+</div>
+<div class="paragraph">
+<p>実際に、平行光源一つ、材質を完全拡散反射面と仮定して物体を描画すると以下のようになります。</p>
+</div>
+<div class="paragraph">
+<p>TODO: 図を入れる</p>
+</div>
+<div class="paragraph">
+<p>どうでしょうか。リアルに見えるでしょうか？　リアルに感じる人もいるかもしれませんし、人によっては古いゲームを見ているように感じるかもしれません。
+リアルに見えないとしたら、原因は主に二つあります。まず、物体に質感がないのは完全拡散反射面を仮定したからです。凹凸やつやのある材質については次回以降考えます。
+影の中が完全に真っ黒になっているのは、ランバートの余弦則が入射角が90°を超えると照度が0になることを反映しているからですが、現実の影は真っ黒にはならないですよね。これは、現実世界では光源が複数あったり、光が物体に当たって反射して別の物体を照らしたりする「二次反射」があったりするのに対して、今回は光源一つだけを仮定しているからです。これらについても後々考えましょう。</p>
+</div>
+<div class="paragraph">
+<p>しかし、完全拡散反射面＋単一平行光源という仮定は最もシンプルながらも、ある程度リアルな見た目を再現できるため、陰影を考える上では重要な基礎になります。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_凹凸面の完全拡散反射">凹凸面の完全拡散反射</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>完全拡散反射面に凹凸があった時に、その輝度がどのように見えるかを考えてみましょう。</p>
+</div>
+<div class="paragraph">
+<p>表面に小さな凸凹があると、法線ベクトルが場所によって異なります。場所xにおける凹凸を\(ε(x)\)とすると、巨視的な法線と光源がなす角を\(θ\)とし、法線を\(θ'=θ+ε(x)\)と考えましょう。</p>
+</div>
+<div class="paragraph">
+<p>完全拡散反射面の輝度は照度に比例するのでした。そしてその照度は、ランバートの余弦則により、入射角の余弦に比例するのでしたね。ただし、\(\cos\theta\)が負の値になるときは照度が0になることも重要でした。</p>
+</div>
+<div class="paragraph">
+<p>入射角に対して輝度を返す関数を</p>
+</div>
+<div class="paragraph">
+<p>\[
+L\left( \theta \right) = \begin{cases}
+\frac{1}{\pi} R E \cos \theta &amp; \text{if} \cos\theta &gt; 0 \\
+0 &amp; \text{otherwise}
+\end{cases}
+\]</p>
+</div>
+<div class="paragraph">
+<p>と定義しましょう。これを使うと場所xにおける法線が、\(\theta+\epsilon (x)\)であるとき、その輝度は\(L(\theta+\epsilon)\)と表せます。</p>
+</div>
+<div class="paragraph">
+<p>さて、この輝度が元の輝度からどれほど変化しているか、つまり \(L\left( \theta + \epsilon \right) - L\left( \theta \right)\) に興味があります。この変化は \(epsilon \) におおよそ比例していると考えられるので</p>
+</div>
+<div class="paragraph">
+<p>\[
+L\left( \theta + \epsilon \right) = L \left( \theta \right) + \epsilon \frac{L\left( \theta + \epsilon \right) - L\left( \theta \right)}{\epsilon}
+\]</p>
+</div>
+<div class="paragraph">
+<p>という形に整理してみます。このとき、\(\frac{L\left( \theta + \epsilon \right) - L\left( \theta \right)}{\epsilon}\)は、\(\epsilon\)が十分に小さいとき、\(L\)の\(\theta\)における微分\(L'(\theta)\)に近づくはずです。つまり、</p>
+</div>
+<div class="paragraph">
+<p>\[
+\begin{aligned}
+L( \theta + \epsilon )
+&amp;= L ( \theta ) + \epsilon \frac{L( \theta + \epsilon ) - L( \theta )}{\epsilon} \\
+&amp;\approx L ( \theta ) + \epsilon L'( \theta ) \\
+\end{aligned}
+\]</p>
+</div>
+<div class="paragraph">
+<p>と近似できるはずです。これは\(L\left( \theta + \epsilon \right)\)の\(\epsilon=0\)付近での振る舞いを、\(\epsilon\)の1次関数として近似していることになります。この近似は\(\epsilon\)が大きくなると崩れてしまいますが、\(\epsilon\)が十分に小さいときにはある程度正確な近似になります。そして、これは元の輝度と凹凸を考慮した輝度の差が \(L\left( \theta + \epsilon \right) - L\left( \theta \right) \approx \epsilon L' (\theta) \)で近似できることを教えてくれます。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+このように、ある関数のある点の近くでの振る舞いを関数の値と微分を使って一次関数として近似する方法を、テイラー展開と言います。
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>具体的に \( L'(\theta) \) を求めておきましょう。
+\[
+L'(\theta) = \begin{cases}
+-\frac{1}{\pi} R E \sin \theta &amp; \text{if } \cos\theta &gt; 0 \\
+0 &amp; \text{otherwise}
+\end{cases}
+\]</p>
+</div>
+<div class="paragraph">
+<p>符号には興味がないので絶対値を取ってしまってもいいかもしれませんね。
+これをグラフにプロットすると、\(\theta=90\degree\) のところに不連続点が生じます。
+ここでテクスチャが急に見えなくなることがわかります。これが、完全拡散反射面の凹凸が、入射角が90°を超えると見えなくなってしまう理由になります。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_鏡面反射">鏡面反射</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ここまでは完全拡散反射について考えました。もう一つ、分かりやすい反射のモデルとして、正反射があります。正反射は、入射した光を入射角と同じ角度で反射するモデルで、鏡のような振る舞いをします。完全鏡面反射と呼ぶことにしましょうか（あまり一般的な呼称ではないです）。</p>
+</div>
+<div class="paragraph">
+<p>完全鏡面反射面と平行光源一つからなる状況を考えてみましょう。鏡面反射面の法線をN、入射光のベクトルをEとしたとき、その反射光が視点を通るような位置が存在すれば、そこに小さな点が見えるのみです。それ以外の場所は真っ暗に見えます。そして、どこに光の点が見えるかは、光源と物体の位置関係が同じでも、視点の位置を変えただけでによって変化します。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+平行光源を直接見た時もただの光の点になっているのを思い出してください。真っ暗な中に光の点が一つあるというを鏡移しにしているだけです。
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>すこし非現実的すぎたでしょうか。もう少しリアルな状況として、周囲にいくつかの、大きさのある光源があることを考えてみます。ただし、近くにあると考えることがちょっとややこしくなるので、無限遠にあると仮定します。このような状況は、天球図を考えるのが一番わかりやすいです。光源が無限遠にあるので、空間内のどこでも天球図は均一になります（物体自身によって遮られる箇所もありますが、話をシンプルにするために、無視します）</p>
+</div>
+<div class="paragraph">
+<p>このとき、視点と光源の関係は対称性があります。実際には光源から来た光が正反射して目に入るのですが、そのような経路が存在しているとき、逆に目から正反射を経て光源に至る経路も存在しています。これを使うと、何が反射しているのかを比較的簡単に探すことができます。</p>
+</div>
+<div class="paragraph">
+<p>鏡面が平面であれば、反射している物体を探すのはもっと簡単です。鏡の奥に、その物体を鏡写しにした仮想の物体があると想定してそれを描けばいいのです。</p>
+</div>
+<div class="sect2">
+<h3 id="_拡散反射鏡面反射_は_乱反射正反射とは何が違うのか">拡散反射/鏡面反射 は 乱反射/正反射とは何が違うのか</h3>
+<div class="paragraph">
+<p>理科の授業では、光がある方向にのみ反射することを正反射、いろいろな方向に反射することを乱反射と呼ぶ、と習ったかもしれません。
+それを念頭に置くと、鏡面反射＝正反射、拡散反射＝乱反射ではないのか、と考えるかもしれません。しかし、この呼称はあまり厳密なものではないので、ここでは使いません。</p>
+</div>
+<div class="paragraph">
+<p>厳密に一方向だけに光を跳ね返す「正反射」は、現実にはまず存在しません。よほどきれいに磨かれた鏡面くらいです。その意味で、現実のほとんどの材質は、乱反射をしています。しかし、一口に「乱反射」と言ってしまうと、どのように「乱」なのか、どこにどれくらいの光が散らばるのかが様々で、曖昧です。そのような曖昧さをなくし、具体的に現象を解き明かすのがこのテキストの目的です。</p>
+</div>
+<div class="paragraph">
+<p>一方で、「鏡面反射」が指す現象は「正反射」よりもう少し広いです。次節では、表面に微細な凹凸のある場合の鏡面反射について考えます。これは鏡面反射ではあるが、正反射ではない例です。さらに、鏡面反射は拡散反射と鏡面反射が同時に起きることもあります。これは次々回に扱います。このような例は「正反射」か「乱反射」かといえば乱反射に分類されるものですが、</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_粗面の鏡面反射">粗面の鏡面反射</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_実在の反射">実在の反射</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>双方向散乱分布関数(BRDF)</p>
+</div>
+<div class="paragraph">
+<p>正反射と乱反射</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_レンダリング方程式">レンダリング方程式</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>\[ L_o = L_e + \int_\Omega f_r L_i (\omega_i \cdot n) d\omega_i \]</p>
+</div>
+</div>
+</div>
+</main>
+<script src="/_script/main.js"></script>
+</body>
+
+</html>
