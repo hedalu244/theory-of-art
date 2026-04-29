@@ -1,0 +1,30 @@
+---
+layout: base.njk
+title: 基本的な数学・物理
+---
+
+:stem: latexmath
+:toc: macro
+:toclevels: 3
+:toc-title: 目次
+toc::[]
+
+== 座標
+
+== 次元(数学)
+
+== 初等幾何
+
+== 関数
+
+== 三角関数
+
+== ベクトル
+
+== 微分
+
+== 積分
+
+== 次元(物理)
+
+== 自由度

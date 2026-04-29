@@ -1,8 +1,9 @@
 import type p5_ from "p5";
 declare const p5: typeof p5_;
+import { Sketch, createP5Sketch } from "../../_script/sketch-helper";
 
-export function create(el: HTMLDivElement) {
-    new p5((p: p5_) => {
+export function create(el: HTMLDivElement): Sketch {
+    return createP5Sketch(el, (p: p5_) => {
         p.setup = () => {
             p.createCanvas(800, 600);
         };
@@ -28,5 +29,5 @@ export function create(el: HTMLDivElement) {
             // y軸
             p.line(30, 0, 30, p.height);
         };
-    }, el);
+    });
 }

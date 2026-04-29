@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/_style/style.css">
+<title>投影法と遠近法</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>投影法と遠近法</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_遠近法">遠近法</a></li>
+<li><a href="#_投影法">投影法</a>
+<ul class="sectlevel2">
+<li><a href="#_透視図法">透視図法</a></li>
+</ul>
+</li>
+<li><a href="#_注意">注意</a></li>
+<li><a href="#_本章の構成">本章の構成</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_遠近法">遠近法</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>人間は二つの目を使い、その像の違いを脳で処理することで遠近感や立体感を認識しています。しかし、絵という平面のメディアでは（3Dメガネやレンチキュラー、立体視などの特殊な例を除き）、左右それぞれの目に異なる像を提供することはできません。
+画家たちはこの制約の中で、あの手この手を使って見た者に <strong>立体感を錯覚</strong> させる方法を考案してきました。これらの方法を総称するのが <strong>広義の</strong>「遠近法(perspective)」です。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_投影法">投影法</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ところで、空間中に存在する立体物を、立体のまま絵の中に閉じ込めることはできません。<strong>何らかの方法で立体から平面に変換する</strong> 必要があります。墨を塗って魚拓を取る、切り開いて展開図にする、三面図を書いて形を伝える……立体を平面に変換して記録する方法は様々ですが、その中でも特に、投影と呼ばれる幾何学的な規則に従って立体を平面に写し取る方法を「投影法(projection)」と呼びます。投影法にも、どのような規則で写し取るかによって、様々な投影法があります。</p>
+</div>
+<div class="paragraph">
+<p>一定の規則に従って立体を正確に平面に描くことは、遠近感を錯覚させる強力な手段の一つとなります。そのため、投影法は広義の遠近法の一部と位置付けることができます。一方で、空気遠近法に代表されるように、投影法とは関係のない遠近法もあるので、これを分けて考える必要があります。</p>
+</div>
+<div class="sect2">
+<h3 id="_透視図法">透視図法</h3>
+<div class="paragraph">
+<p><strong>狭義で</strong> 「遠近法」というときは、投影法のさらに一種である、<strong>透視図法</strong> を指すことが多いです。</p>
+</div>
+<div class="paragraph">
+<p>この透視図法は非常に重要な概念なので、様々な呼び方があります。例えば、<strong>遠近法 (perspectiveの訳)</strong>、<strong>透視図法 (perspectiveの訳)</strong>、<strong>線遠近法 (linear perspective の訳)</strong>、<strong>透視投影 (perspective projection の訳)</strong>、<strong>射影変換 (projective transformation の訳)</strong>、<strong>パース (perspectiveの日本における略語）</strong>、……などなど。</p>
+</div>
+<div class="paragraph">
+<p>透視図法以外の投影法、例えば平行投影が「遠近法」であるかについて、不毛な議論が生じることがあります。「狭義の遠近法ではない」という点を強調すれば「遠近法ではない」となるし、「投影法全体が広義の遠近法の一種」という点で見れば「遠近法である」という話になり、一見矛盾したように見てしまうのです。これは名前が同じであるから生じている問題で、本質的にはどちらも間違ったことは言っていません。</p>
+</div>
+<div class="paragraph">
+<p>このような混乱を避けるため、「狭義の遠近法」と「広義の遠近法」を明確に区別する必要があります。ここからは、狭義の遠近法を「透視図法」と呼び、広義の遠近法は単に「遠近法」と呼ぶことにします。</p>
+</div>
+<details>
+<summary class="title">補足：語源と訳語について</summary>
+<div class="content">
+<div class="paragraph">
+<p>perspective は語源に立ち返ると、 per-(通して) と specere(見る) に分けることができます。透視図法の創始であるブルネレスキがなぜこの概念に perspective (原著ではイタリア語で prospettiva ですが) と名付けたのかは推測するしかありませんが、透視図法の概念を学ぶとこれが透視図法を指すのに自然な命名であることがわかると思います。</p>
+</div>
+<div class="paragraph">
+<p>「透視図法」はおそらく明治期に日本に透視図法が持ち込まれた時に作られた訳語でしょう。調べた限り記録が残っていないのでこれも推測ですが、perspectiveを語源から per-(通して) と specere(見る) に分けて、それぞれを漢字に訳したのだろうと思われます。現在であれば、perspective は一語で「遠近法」と訳されてしまいます。日本語に「遠近法」と「透視図法」の二つの単語があって、本書で使い分けられるのは、訳された時代の差による偶然かもしれません。</p>
+</div>
+<div class="paragraph">
+<p>ちなみに、英語の perspective は多義語で、「遠近法」のほか「視点」「見通し」といった意味があります。逆に、日本語の「透かし見る」という意味では see through 、超能力的な意味での「透視」は clairvoyance などというのが適切で、perspective ではおそらく通じないでしょう。</p>
+</div>
+<div class="paragraph">
+<p>なお、 狭義の遠近法であることを強調するために、「線遠近法(linear parspective)」という呼び方がありますが、個人的にこの書き方はあまり好きではありません。なぜなら、ある意味で言えば透視図法以外の遠近法も線を使う（投影のための線を引く）し、ある意味で言えば透視図法が「線」を使うとは限らない（直線的でない立体を描く場合など）からです。もしかすると原義では幾何学ではなく代数的な意味での「線形(linear)」だったのかもしれませんが、それで言うなら一次変換で記述できる平行投影のほうが、よほど「線形」です。いずれにせよ、本質を表した名前ではないと思われます。</p>
+</div>
+</div>
+</details>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_注意">注意</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>この章では、特に投影法について言及しているときは、原則として数学的に厳密な用語の使い方をします。たとえば「直線」とは、幅がなく無限にまっすぐ伸びる数学的な直線を指し、「立方体」は6つの正方形を直角に組み合わせた立体を指します。</p>
+</div>
+<div class="paragraph">
+<p>このような話をすると、「そんなものは現実には存在しない、どんなものも多少は歪んでいる」「幾何学図形ではなく現実に存在するものを描きたいんだ」とか、あるいは「図法を学ぶと絵が固くなる」などといった批判を受けることがあります。しかし、いずれも適切ではありません。</p>
+</div>
+<div class="paragraph">
+<p>現実のモチーフは多かれ少なかれ幾何形状に似ています。ビルや箱が直方体に似ているというのは明らかですが、もう少し緩く考えると自動車やバスタブも直方体に似ているし、人間の手足は円柱に似ています。これらを描く時は下書きとして描いた幾何形状に歪みや凹凸を「肉付け」することで現実感を出します。いくら似ていると言っても幾何形状をそのまま描くわけではありません。</p>
+</div>
+<div class="paragraph">
+<p>肉付けの程度が大きくなるほど、投影法の重要度は下がりますが、歪みの少ないもの（規格化された工業製品や高度に文明化した都市など）を描く場面では、そういった肉付けによる要素が少ない分、作図技術が成果物の善し悪しを大きく左右するでしょう。</p>
+</div>
+<div class="paragraph">
+<p>「絵が固くなる」という批判は、幾何形状を下書きとして描いたあと、現実のわずかな歪みや凹凸を「肉付け」するステップをしなかったときに起こる問題であって、投影法そのものの欠陥ではありません。現実に存在する形状と幾何形状との違いも重要ですが、だからといって正確な幾何形状の描き方を学ぶことが、現実のものを描くことの妨げになるわけではありません。</p>
+</div>
+<div class="paragraph">
+<p>むしろ幾何学的なアプローチには積極的なメリットがあります。「歪み」「質感」といった複雑な要素をいったん排除して問題を単純化することで、数学的、幾何学的な方法論を適用することができ、より深く、正確な考察が可能になるのです。</p>
+</div>
+<div class="paragraph">
+<p>このやり方に慣れていない方はまず [リンク] を参照してください。また、ここで意図的に省いた要素については [リンク] で補足します。
+TODO: 現実と幾何学の接続</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_本章の構成">本章の構成</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>本章では遠近法を以下のように分類し、それぞれについて説明していきます。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>遠近法</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>投影法</p>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p>中心投影</p>
+<div class="olist upperalpha">
+<ol class="upperalpha" type="A">
+<li>
+<p>透視図法</p>
+</li>
+<li>
+<p>非平面投影</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>平行投影</p>
+<div class="olist upperalpha">
+<ol class="upperalpha" type="A">
+<li>
+<p>正投影</p>
+</li>
+<li>
+<p>斜投影</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>その他の遠近法</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>構成は以下のようにします。概ね頭から順に読むことを想定していますが、読むべき順というよりは、一般的なことから個別具体的なことへ進む順になっています。必要に応じて行き来してください。</p>
+</div>
+<div class="paragraph">
+<p>透視図法の基礎
+透視図法の図形</p>
+</div>
+</div>
+</div>
+</main>
+<script src="/_script/main.js"></script>
+</body>
+
+</html>

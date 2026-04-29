@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/_style/style.css">
+<title>「理想カメラ」の定義</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>「理想カメラ」の定義</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_理想カメラの定義">理想カメラの定義</a></li>
+<li><a href="#_像の定義">像の定義</a></li>
+<li><a href="#_幾何学だけを考える">幾何学だけを考える</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_理想カメラの定義">理想カメラの定義</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ここからは、「ガラス板になぞる方法」を幾何学的に扱うために、前回の話をシンプルな、幾何学的なものに置き換えていきます。</p>
+</div>
+<div class="paragraph">
+<p>「ガラス板になぞる方法」では、まずガラス板と視点を固定するのでした。幾何学的に言えば、ガラスは平面で、視点は（大きさを持たない数学的な意味での）点です。これを踏まえて、以下のように「理想カメラ」を定義します。なお、ここでいう「理想的」とは「最高の」とか「完全な」のような価値判断を含むものではなく、「想像上の」「もしそういうものがあったら話が簡単になってうれしいなぁ」程度の意味です。物理における「理想気体」と同じ「理想」と思ってください。</p>
+</div>
+<div class="openblock definition">
+<div class="title">定義（理想カメラ）</div>
+<div class="content">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>三次元空間中に平面を置き、投影面と呼ぶ。投影面上にない点を取って視点と呼ぶ。視点と投影面の組を「理想カメラ」と呼ぶ。</p>
+</li>
+<li>
+<p>視点から投影面に向かって下ろした垂線を視軸と呼ぶ。視軸と投影面との交点を視心と呼ぶ。また、視点と投影面の距離、つまり視点と視心の距離を視距離と呼ぶ。</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>1は視点とガラス板を固定するための定義で、視点と投影面が定まれば「理想カメラ」が一意に定まることを意味しています。2は「理想カメラ」に対して定まる部分に対して便宜上の名前を与えているだけです。<strong>図では便宜上、投影面を長方形で表していますが、実際は無限に広がる平面です。</strong></p>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="projection-and-perspective/sketches/ideal-camera1"></div>
+</div>
+<div class="paragraph">
+<p>なお、<strong>ここで使っている呼称や記号は、あくまでもここで採用しているだけなので注意してください</strong>。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_像の定義">像の定義</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>次に、なぞって浮かび上がる形について考えます。画家が視点を固定して対象上の点Pなぞっているとき、点Pは画家の目から見てペン先と重なって見えています。これは、<strong>光の直進性を考慮すれば</strong>、画家の目とペン先、点Pがこの順で一直線上にあるはずです。そのような範囲でペン先を動かした軌跡が、なぞって浮かび上がる形です。これを踏まえて、「像」の作り方を以下のように定めます。</p>
+</div>
+<div class="openblock definition">
+<div class="title">定義（像）</div>
+<div class="content">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>空間中の点Xに対して、視点Eから点X方向へ延びる半直線が投影面と交わる点があれば、それを「Xの像」と呼ぶ。</p>
+</li>
+<li>
+<p>空間中の図形Sに対して、S上にあって像が存在するすべての点の像を集めた投影面上の図形を「Sの像」と呼ぶ。</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="projection-and-perspective/sketches/ideal-camera2"></div>
+</div>
+<div class="paragraph">
+<p>この定義は、「ガラス板になぞる方法」の話を幾何学的に単純化したものです。これが「ガラス板になぞる方法」と <strong>よく対応している</strong> ことを確認してください。そして、この像を取る操作を「透視投影」と呼びます。規則的に立体を平面に変換する方法を、全般的に「投影法」と呼びます。「透視投影」は投影法の <strong>一種</strong> です。</p>
+</div>
+<div class="paragraph">
+<p>注意深く読んだ人は、なぜ線分ではなく半直線なのか？と疑問に思ったかもしれません。</p>
+</div>
+<div class="paragraph">
+<p>確かに、視点、ペン先、点Pの順に並んでいるのであれば、つまり視点Eと点Pの「間」にペン先を置くのであれば、半直線ではなく線分と投影面の交点を求めるのでも良さそうに思えます。しかし、ここを半直線にしたことで、視点、ペン先、点Pの順だけでなく、視点、点P、ペン先、の順で並んでいてもよいということになっています。つまり、投影面の手前にある点についても「像」を作れるように条件を緩くしています。</p>
+</div>
+<div class="paragraph">
+<p>現実にやろうとするとモチーフにペン先が隠れてしまって難しいかもしれませんが、そういうことは考えず、投影面より手前の点についても像が取れるということにした方が「話が簡単になる」のでこのようにしています。理想カメラの「理想」は「そういうものがあったら話が簡単になってうれしいなぁ」という意味でしたね。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_幾何学だけを考える">幾何学だけを考える</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>この対応関係を確認したことで、これからの興味は、「正確な形とは何か」「正しい見え方とは何か」<strong>ではなく</strong>、「理想カメラで様々な形の像を作るとどのような形になるのか」また、「その像をどのように作図することができるのか」という話題に移っていきます。問題をうまく単純化し幾何学的な話に話題をすり替えることで、より正確で複雑な議論ができるようになったわけです。</p>
+</div>
+<div class="paragraph">
+<p>重大な視点の変換があったので、ここまでの議論をまとめます。「ガラス板になぞる方法」では、主観の介入なく形を描けるということ、「形を再現」できるなどのメリットがある反面、別の視点から見た時には大きくゆがんだ形になってしまうというデメリットもありました。しかし、そのような「『正確な形』とは何か」「理想カメラが本当に『正確な形』を表しているのか」といった問題についていつまでも議論していくとキリがないので、<strong>一旦</strong> 目をつむって、理想カメラを使って得られる像の形を考えていきます。</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>== なぜこれが「カメラ」なのか。</p>
+</div>
+<div class="paragraph">
+<p>ところで、この幾何学的なセットアップを「カメラ」と呼ぶのには抵抗があると思います。なぜそのように呼ぶのでしょうか。</p>
+</div>
+<div class="paragraph">
+<p>実はこのセットアップが皆さんがよく知る「カメラ」に非常に似ているからです。「『正確な形』とは何か？」において、「現代では写真をトレースするという方法もあり得ると言及しました。この方向からも考えてみましょう。</p>
+</div>
+<div class="paragraph">
+<p>現実のカメラは、レンズを使って光を集めて像を結ぶものが一般的ですが、レンズには光の屈折を使った複雑なものであり、歪みやピントなどの問題もあるため、まじめに考えると非常に複雑なものになります。
+そこで、ここではレンズを使わないカメラ、つまりピンホールカメラについて考えます。ピンホールカメラは、光が通ることができる小さな穴を持つ箱で、箱の中に投影面があるものです。ピンホールカメラで得られる像は非常に暗いため実用的ではありませんが、レンズカメラと違い、ピンボケやレンズのゆがみなどの厄介な問題がないので、思考実験としては簡単に扱うことができます。</p>
+</div>
+<div class="paragraph">
+<p>これも「光の直進性」を考えて、図のように考えると、ピンホールカメラによって描かれる像は、ひっくり返っているだけで「ガラス板になぞる方法」で描いた形と全く同じものが描かれることがわかります。つまり、ピンホールカメラも「ガラス板になぞる方法」と同様に、対象の形を正確に再現することができるのです。この点で、ピンホールカメラは「理想カメラ」に非常に近い存在と言えるでしょう。</p>
+</div>
+<div class="paragraph">
+<p>TODO: 図を入れる</p>
+</div>
+<div class="paragraph">
+<p>現実のレンズカメラは、レンズの特性や構造によって、ピンホールカメラとは異なる像を結びますが、多くの場合、できるだけ「ピンホールカメラ」や「理想カメラ」に近い形の像が得られるように設計されています。レンズカメラと理想カメラの差異、つまりレンズカメラを単純化する際に無視した要素についても、後で補足します。</p>
+</div>
+<div class="paragraph">
+<p>TODO: 補足ページを作ってリンク</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script src="/_script/main.js"></script>
+</body>
+
+</html>

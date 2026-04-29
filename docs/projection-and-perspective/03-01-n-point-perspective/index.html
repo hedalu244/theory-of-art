@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/_style/style.css">
+<title>n点透視図法</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>n点透視図法</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_直方体を描くための準備">直方体を描くための準備</a></li>
+<li><a href="#_極めてよくある誤解">極めてよくある誤解</a>
+<ul class="sectlevel2">
+<li><a href="#_図法に由来する誤解">「～図法」に由来する誤解</a></li>
+<li><a href="#_1点2点3点に由来する誤解">「1点」「2点」「3点」に由来する誤解</a></li>
+<li><a href="#_水平や上下と関連しているという誤解">水平や上下と関連しているという誤解</a></li>
+<li><a href="#_4点5点に拡張されるという誤解">4点、5点に拡張されるという誤解</a></li>
+</ul>
+</li>
+<li><a href="#_直方体と立方体">直方体と立方体</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_直方体を描くための準備">直方体を描くための準備</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ここからは、より実用的な作図法として、直方体や立方体の作図について考えていきます。これらはいずれも12本の辺で構成されていて、それらを平行な関係でグループにまとめると、4本ずつ、3グループに分類できます。異なるグループに属する辺は、互いに直交しています。なので、このような「互いに直交する3グループ」を便利に扱うために「直交系」という概念を定義します。</p>
+</div>
+<div class="openblock definition">
+<div class="title">定義（直交系）</div>
+<div class="content">
+<div class="paragraph">
+<p>3つの直線 l,m,n があって、lとm,mとn、nとlが互いに直交しているとき、この(l,m,n)の組を「直交系」と呼ぶ。</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>そして、理想カメラに対する直交系の配置（理想カメラとの位置関係）を、以下のように分類します。</p>
+</div>
+<div class="openblock definition">
+<div class="title">定義(1～3点透視図法)</div>
+<div class="content">
+<div class="paragraph">
+<p>(l,m,n)を直交系とする。理想カメラに対する直交系の配置を以下のように分類する。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>l,m,nのうち、1つが消失点を持ち、2つが投影面に平行であるような <strong>配置</strong> を、「1点透視図法」と呼ぶ。</p>
+</li>
+<li>
+<p>l,m,nのうち、2つが消失点を持ち、1つが投影面に平行であるような <strong>配置</strong> を、「2点透視図法」と呼ぶ。</p>
+</li>
+<li>
+<p>l,m,nのうち、3つとも消失点を持つような <strong>配置</strong> を、「3点透視図法」と呼ぶ。</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+本によってはこれとは違った定義を書いていることもありますが、ここではこのように定義した方が圧倒的に「話が簡単になる」ので、この定義を設定しています。
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_極めてよくある誤解">極めてよくある誤解</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>1点透視図法、2点透視図法、3点透視図法という言葉から遠近法を習ったことがある人が多いと思います。しかし、<strong>透視図法に関してこれほど誤解されている単語もありません</strong>。これは本当に誤解を招きやすい名称が定着してしまっていて、残念極まりないです。例を以下に挙げます。いずれかに該当する誤解をしていた場合は、この機会に正しい理解に修正してください。</p>
+</div>
+<div class="sect2">
+<h3 id="_図法に由来する誤解">「～図法」に由来する誤解</h3>
+<div class="paragraph">
+<p>「～図法」というネーミングであることで、「1点透視図法」「2点透視図法」「3点透視図法」が、それぞれが別の「図法」である、つまり全く異なるアプローチであると勘違いしてしまうことがあります。実際は、上に定義したように「カメラと直交系の配置」についての分類です。1～3点透視図法は直交系との位置関係が違うだけで、どれも同じ透視図法で、同じ「理想カメラ」によって得られる像です。つまり、これらはすべて「視点から半直線を伸ばして投影面との交点を求める」という一つの統一規則によって作られる像なのです。。</p>
+</div>
+<div class="paragraph">
+<p>従って、これらが「互換性がない」わけではありません。向きの異なる複数の直交系が登場するような複雑な状況では（例えば向きの異なる複数の直方体が存在するなど）、一定の条件を守る限り、iつの投影面の中に1点透視と2点透視図法と3点透視が同時に共存することもあるのです。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+一方、平行投影に分類される等角図法や、キャビネット図、非球面投影で紹介する平射魚眼図法などは、透視図法とは異なる投影法なので、一般化して説明することができませんし、普通は一つの画面に収めることもありません。一つの画面に異なる投影法を混在させると、一貫性がないように見えて、違和感の原因となることがあります。
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_1点2点3点に由来する誤解">「1点」「2点」「3点」に由来する誤解</h3>
+<div class="paragraph">
+<p>これらが一つの絵に使用する消失点の <strong>総数</strong> を規定しているという誤解もよくあります。すでに確認した通り、消失点は直線の「方向」と対応づいているのでした。多数の方向の直線が登場するような状況では、それだけ多くの消失点が登場します。実際、本テキストで扱う作図法では、3点透視図法でも必要に応じて6つ以上の消失点を利用します。</p>
+</div>
+<div class="paragraph">
+<p>実際に描くような複雑な状況では、画面上に無数の消失点がある場合もあります。しかし、画面上で3つの消失点を使ったから3点だとか、5つの消失点があるから5点だとかいう数え方をしているわけではありません。しかし、 <strong>互いに直交する3直線の組み合わせそれぞれについて</strong>、そのうち、いくつが消失点を持つか、を数えているのです。</p>
+</div>
+<div class="paragraph">
+<p>さらにひどい誤解をされると、「3点透視図法を使ったらすべてをその3つの消失点で <strong>描かないといけない</strong>」と考えてしまう人もいます。3つの消失点を一度決めたらすべてをその3方向に「揃えて描かないといけない」、という誤解です。そのように誤解すると、すべての線が平行か垂直になってしまい、不自然なことになります。</p>
+</div>
+<div class="paragraph">
+<p>平行な線であれば消失点は揃いますが、<strong>わずかにでも方向が違えば消失点も違う</strong> ので、新しい方向を登場させるたびに新しい消失点を設定してよいのです。別に、3点透視図法を使ったからと言って4つ以上の方向を描いてはいけない、4つ以上の消失点を使ってはいけないわけではありません。</p>
+</div>
+<div class="paragraph">
+<p>作風によっては意図的に歪んだ建築物を描く場合があります。「建築物のゆがみを表現するために、消失点を意図的にずらす」というテクニックを、「消失円」や「消失面」などと銘打って紹介している例があります。これは結果的には自然な絵が得られるので悪くはないのですが、本質的には理解としては少々怪しいです。対象上の直線が厳密に平行でないからそれぞれが異なる消失点を持っているだけで、一つの消失点が広がりを持っていると考えるのは誤解を孕みやすいと思われます。</p>
+</div>
+<div class="paragraph">
+<p>TODO: 批判的な引用を入れる</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_水平や上下と関連しているという誤解">水平や上下と関連しているという誤解</h3>
+<div class="paragraph">
+<p>何点透視図法を使うべきかが、水平や上下、つまり重力方向と関連している、という誤解があります。「1点透視図法は真横を見ている」「1点透視図法や2点透視図法の消失点は地平線上にある」「見上げたり見下ろしたりすると3点透視図法になる」などという言及がいたるところで見受けられます。ここで使われている「真横」「地平線」「見上げ/見下ろし」はすべて重力方向によって決まる言葉ですが、重力方向と透視図法の分類は全く関係ないことに注意してください。透視図法の分類は、あくまでも「カメラと直交系の配置」によって決まるものであって、重力方向とは無関係です。</p>
+</div>
+<div class="paragraph">
+<p>現実世界には、地面に置かれた箱や建築物のように「直交系があって、そのうちの一つが 鉛直方向と一致している」ような状況が多いので、重力方向との関連を見出してしまうのも無理がないことですが、重力ととこの「1～3点透視図法」の分類は全く関係ないことに注意してください。このように理解してしまうと、「理想カメラの対称性」で述べた、カメラの回転対称性が損なわれてしまいます。つまり、視軸を中心にカメラを回しても像の形は変化しないので、重力方向で区別する意味がないのです。</p>
+</div>
+<div class="paragraph">
+<p>現実世界で重力と関係ない反例として、例えば「カメラが水平でも傾斜した箱は3点透視になる場合がある」「ビルを真上に見上げる方向にカメラを置くと1点透視になる」「通りの正面から見上げる方向にカメラを置くと2点透視になる」などが挙げられます。これらをいちいち区別していくと無数の場合分けが必要になるので、重力とは無関係に分類を定義します。</p>
+</div>
+<div class="paragraph">
+<p>TODO: 図または写真を入れる</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_4点5点に拡張されるという誤解">4点、5点に拡張されるという誤解</h3>
+<div class="paragraph">
+<p>巷には、直線を曲げて描くことで4つ目や5つ目の消失点が作れる、といって、それを「4点透視図法」や「5点透視図法」などと紹介している情報源があります。しかし、すでに確認したように、<strong>透視図法においては</strong> 直線の像が曲がることはないので、「4点 <strong>透視図法</strong>」と名付けるのは不適切です。直線を曲げて描くような投影法は非平面投影として扱いますが、これらは透視図法を拡張したもの、透視図法の延長にあるものではありません。</p>
+</div>
+<div class="paragraph">
+<p>TODO: 批判的な引用を入れる</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_直方体と立方体">直方体と立方体</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>次頁から具体的に、1点透視図法、2点透視図法、3点透視図法において、直方体や立方体をどのように描くことができるかを説明していきます。
+直方体は、3組の平行な辺を持つ立体で、立方体は、すべての辺が同じ長さの直方体です。つまり、立方体は長さを揃える必要があるという点で、直方体よりも本質的に難しいものとなっています。<strong>直方体は1～3つの消失点を定めることができれば</strong> 描けたも同然です。一方で立方体は、それに加えてどのように長さが同じことを保証するかという問題が付きまといます。</p>
+</div>
+<div class="paragraph">
+<p>ページ順としては、1点透視図法、2点透視図法、3点透視図法それぞれに直方体と立方体の作図法を置いていますが、これは必ずしも読むべき順番ではありません。おすすめの順番は以下の順です</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>1点透視図法の直方体</p>
+</li>
+<li>
+<p>2点透視図法の直方体</p>
+</li>
+<li>
+<p>3点透視図法の直方体</p>
+</li>
+<li>
+<p>1点透視図法の立方体</p>
+</li>
+<li>
+<p>3点透視図法の立方体</p>
+</li>
+<li>
+<p>2点透視図法の立方体</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</main>
+<script src="/_script/main.js"></script>
+</body>
+
+</html>

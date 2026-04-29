@@ -1,4 +1,5 @@
 import type p5_ from "p5";
+import { Sketch, createP5Sketch } from "../../_script/sketch-helper";
 import { colorGain, colorLerp, RGBColor, toP5Color } from "../../_script/color";
 import { InputTable } from "../../_script/input";
 declare const p5: typeof p5_;
@@ -10,7 +11,7 @@ function fmod(a: number, b: number): number {
 export function create(el: HTMLDivElement, options?: {
     color1?: [number, number, number],
     color2?: [number, number, number],
-}) {
+}): Sketch {
     const color1 = RGBColor(...(options?.color1 ?? [1, 0, 0]));
     const color2 = RGBColor(...(options?.color2 ?? [0, 0, 1]));
 
@@ -45,7 +46,7 @@ export function create(el: HTMLDivElement, options?: {
         type: "int",
         width: 200,
     });
-    new p5((p: p5_) => {
+    return createP5Sketch(el, (p: p5_) => {
         p.setup = () => {
             p.createCanvas(800, 600);
         };
@@ -84,5 +85,5 @@ export function create(el: HTMLDivElement, options?: {
                 p.rect(x, borderTop, width, borderBottom - borderTop);
             }
         }
-    }, el);
+    });
 }

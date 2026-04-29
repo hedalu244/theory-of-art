@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/_style/style.css">
+<title>画角</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>画角</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_画角と視距離画面サイズ">画角と視距離、画面サイズ</a></li>
+<li><a href="#_カメラを動かしながら画角を変える">カメラを動かしながら画角を変える</a></li>
+<li><a href="#_画角が大きい時どうなるか">画角が大きい時どうなるか</a></li>
+<li><a href="#_網膜との関係">網膜との関係</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_画角と視距離画面サイズ">画角と視距離、画面サイズ</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>無限に広がる平面としましたが、実際はそのうちの有限の領域を切りとることになります。
+用途によって例外はありますが、一般的には視中心を中心とする長方形の領域を切り取ることが多いでしょう。この領域を「画面」と呼びます。</p>
+</div>
+<div class="paragraph">
+<p>そして画面の両端と視点がなす角を「画角」と呼びます。「両端」と言っても、上下、左右、対角線、など、どの両端を指すかによって画角は変わります。必要があれば、幅によって定義した場合は「水平画角」、高さによって定義した場合は「垂直画角」、対角線によって定義した場合は「対角画角」と明示して呼ぶこともあります。</p>
+</div>
+<div class="paragraph">
+<p>画角、視距離、画面サイズは一定の関係にあります。画角を \(\theta\) 、視距離を \(d\) として、画面サイズを \(s\) とすると、その関係は以下の式で表せます。
+\[
+s = 2d \tan\left(\frac{\theta}{2}\right)
+\]
+これは、画角、視距離、画面サイズのうち、二つを決めればもう一つは自動的に決まることを意味しています。例えば、画角と画面サイズを決めれば、視距離は自動的に決まります。逆に、画角と画面サイズを変えずに視距離だけを変えることはできません。他の組み合わせについても同様です。</p>
+</div>
+<div class="paragraph">
+<p>定義（画角）
+現実には無限に続く投影面から有限の領域を切り出して絵や図や写真に収めることが多い。この領域の大きさを画角で表す。
+垂直画角、水平画角、対角線画角</p>
+</div>
+<div class="paragraph">
+<p>画面サイズ/2＝視距離×tan(画角/2)</p>
+</div>
+<div class="paragraph">
+<p>画角が一定の時、絵を拡大すると視距離は大きくなる。
+視距離が一定の時、画角を小さくすると絵は小さくなり、見える領域も狭くなる。
+絵の大きさが一定の時、画角を大きくすると視距離は小さくなる。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_カメラを動かしながら画角を変える">カメラを動かしながら画角を変える</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_画角が大きい時どうなるか">画角が大きい時どうなるか</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_網膜との関係">網膜との関係</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+</main>
+<script src="/_script/main.js"></script>
+</body>
+
+</html>

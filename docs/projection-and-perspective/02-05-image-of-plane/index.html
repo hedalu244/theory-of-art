@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/_style/style.css">
+<title>平面の像</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>平面の像</h1>
+<main>
+<!-- toc disabled -->
+<div class="paragraph">
+<p>線分、直線の像を考えたので、今回は平面の像を考えます。</p>
+</div>
+<div class="paragraph">
+<p>無限に広がる平面についても、直線における消失点に対応する「消失線」というのを定義できます。</p>
+</div>
+<div class="openblock definition">
+<div class="title">定義（消失線）</div>
+<div class="content">
+<div class="paragraph">
+<p>投影面と平行でない平面αについて、視点Eを通りα//α&#8217;なる平面α’を一意に取ることができる。このα&#8217;と投影面が交差する線をαの「消失線」と呼ぶ。</p>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（平面の像）</div>
+<div class="content">
+<div class="paragraph">
+<p>(1) 視点を通らず、投影面と平行でない平面αの像は、投影面上でαの消失線を端とする半平面になる。
+(2) 視点を通り、投影面と平行でない平面αの像は、αの消失線となる
+(3) 投影面と平行な平面αの像は、αが臨界面より投影面側にある時にのみ存在し、投影面全体となる。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="title">証明</div>
+<div class="content">
+<div class="paragraph">
+<p>TODO: 埋める</p>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（消失線の一致）</div>
+<div class="content">
+<div class="paragraph">
+<p>投影面と平行でない平面α1と、α1と平行なα2があるとき、それらの消失線は一致する。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="content">
+<div class="paragraph">
+<p>定義（消失線）と平行の推移性より明らか。</p>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（消失線と消失点）</div>
+<div class="content">
+<div class="paragraph">
+<p>(1) αと平行な任意の直線が消失点を持つならば、消失点はαの消失線上にある。
+(2) αと平行な任意の直線が消失点を持たないならば、その像はαの消失線と平行。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="title">証明</div>
+<div class="content">
+<div class="paragraph">
+<p>視点をEとする。
+αと平行で投影面と平行でない任意の直線をlとし、lの消失点をV、αの消失線をhとする。
+Eとhで定まる平面をα&#8217;とすると、定義（消失線）よりα&#8217;はαと平行。
+定義（消失点）より直線EVはlと平行。
+EVとα&#8217;はともにαに平行でともにEを含むので、EVはα&#8217;上にある。
+EVと投影面が交わるとき、その交点は投影面とα&#8217;の共有線上にあるから、h上にある &#8230;&#8203;■(1)
+EVと投影面が交わらないとき、h//EV//lよりh//lで、定理（投影面に平行な直線の像）よりhはlの像と平行。&#8230;&#8203;■(2)</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>定理（平面図形の像）</p>
+</div>
+<div class="paragraph">
+<p>ここまで扱ってきた数学的三次元空間には上下の概念がありませんでしたが、有名な定理を示すために一時的に重力の概念を導入します。
+これでもなお <strong>カメラには回転対称性がある</strong> つまり図形的性質は画面の向きに関わらず成立することを忘れないようにしてください。</p>
+</div>
+<div class="openblock definition">
+<div class="title">定義（地面、水平、鉛直、地平線,高さ）</div>
+<div class="content">
+<div class="paragraph">
+<p>重力に対して垂直な平面を「地面」と呼ぶ。
+地面に対して平行であることを、水平という。
+地面に対して垂直であることを、鉛直という。
+地面の消失線を地平線と呼ぶ。
+地面から重力と反対方向に測った距離を「高さ」と呼ぶ。</p>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+垂直と鉛直は異なる概念なので注意すること。
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>現実で「地面」と呼ぶ時には、土地の起伏があったり地球の丸みがあったりしますが、ここで「地面」と呼んでいるのは無限に広がる平面であり、そういったものは無視していることに注意してください。
+別に平面地球論者でなくても、地球の丸みが問題にならないスケールで考えれば現実世界からそこまでひどく乖離するものではありません。そして、地面を平面と定めたことで、地平線が定義できました。
+また、「高さ」もここで定義しています。これは地面から鉛直に測った標高のようなものです。地面より「下」にある場合には符号をマイナスにすることにしましょう。</p>
+</div>
+<div class="paragraph">
+<p>このように定義することで、広く知られた以下の二つの主張が示せます。</p>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（水平な線の消失点）</div>
+<div class="content">
+<div class="paragraph">
+<p>水平な直線の消失点は地平線上に来る。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="content">
+<div class="paragraph">
+<p>定理（消失線と消失点）から明らか。■</p>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（アイレベル）</div>
+<div class="content">
+<div class="paragraph">
+<p>視点と同じ高さにある点の像は、地平線と重なる。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="content">
+<div class="paragraph">
+<p>視点と同じ高さの点Pはすべて、地平線に平行な平面α上にある。
+平面αは視点を通るので、定理（平面の像）より、点Pの像はすべて地平線上に来る。■</p>
+</div>
+</div>
+</div>
+</main>
+<script src="/_script/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/_style/style.css">
+<title>2点透視図法の作図法</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>2点透視図法の作図法</h1>
+<main>
+<!-- toc disabled -->
+<div class="paragraph">
+<p>測点について書く！！</p>
+</div>
+<div class="paragraph">
+<p>定理（二点透視図法の消失点）
+互いに垂直な直線L₁L₂L₃があり、L₁L₂は投影面と平行でなく、L₃は投影面と平行であるとき、L₁,L₂の消失点をそれぞれV₁,V₂とする。このとき、
+(1)  直線V₁V₂はL₃の像l₃に垂直である。
+（∵L₁⊥L₃、L₁//EV₁、L₃//l₃より、EV₁⊥l₃である。
+同様にL₂⊥L₃、L₂//EV₂、L₃//l₃より、EV₂⊥l₃である。
+EV₁⊥l₃、EV₂⊥l₃より、V₁V₂⊥l₃である。　■）</p>
+</div>
+<div class="paragraph">
+<p>(2)  視心O、V₁、V₂は同一直線上にある。
+（∵EO⊥投影面であり、l₃は投影面上の直線であるため、EO⊥l₃である。
+EO⊥l₃、EV₁⊥l₃より、OV₁⊥l₃である。
+V₁V₂⊥l₃と合わせるとOV₁//V₁V₂である。
+V₁を通りOV₁に平行な直線はただ一つであるためOV₁=V₁V₂　■）</p>
+</div>
+<div class="paragraph">
+<p>(3)  V₁とV₂は視心Oに対して反対側にあり、|OV₁|×|OV₂|=d²となる。
+（∵EV₁⊥EV₂、V₁V₂⊥OEなので、△EOV₁∽△V₂OE（∵∠EOV₁=∠V₂OE=90°、∠EV₁O=90°-∠OEV₁=∠V₂EO）。
+  |OV₁|:|EO|=|EO|:|OV₂|であるから、|OV₁|×|OV₂|=|EO|²=d²　■）</p>
+</div>
+</main>
+<script src="/_script/main.js"></script>
+</body>
+
+</html>

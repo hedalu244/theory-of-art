@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/_style/style.css">
+<title>3点透視図法の作図法</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>3点透視図法の作図法</h1>
+<main>
+<!-- toc disabled -->
+<div class="paragraph">
+<p>定理（三点透視図法の消失点）
+互いに垂直な直線L₁L₂L₃があり、いずれも投影面と平行でないとき、これらの消失点をそれぞれV₁,V₂,V₃とする。このとき、
+(1) OV₁⊥V₂V₃が成り立つ。
+（∵消失点の定義とL₁L₂L₃の条件より、EV₁とEV₂とEV₃はたがいに垂直である。
+EV₂⊥EV₁かつEV₃⊥EV₁より、V₂V₃⊥EV₁…①
+EO⊥投影面で、V₂V₃は投影面上の直線なので、V₂V₃⊥EO…②
+①②より、OV₁⊥V₂V₃　■）
+（注：V₂V₃が地平線だとすると、V₁はOの真下にある、と考えるのが直感的だろうか）</p>
+</div>
+<div class="paragraph">
+<p>(2)視心Oは△V₁V₂V₃の垂心となる。
+（∵対称性より、OV₂⊥V₃V₁、OV₃⊥V₁V₂も成り立つので、Oは△V₁V₂V₃の垂心　■）</p>
+</div>
+<div class="paragraph">
+<p>(3) V₂V₃とOV₁の交点をP、V₃V₁とOV₂の交点をQ、V₁V₂とOV₃の交点をRとすると、|OV₁|×|OP|=|OV₂|×|OQ|=|OV₃|×|OR|=d²が成り立つ。
+（∵Pは(平面EV₂V₃)上の点であり、(平面EV₂V₃)⊥EV₁であるから、EP⊥EV₁。
+△EOV₁∽△POE（∵∠EOV₁=∠POE=90°、∠EV₁O=90°-∠OEV₁=∠PEO）より|OV₁|:|EO|=|EO|:|OP|であるから、|OV₁|×|OP|=|EO|²=d²。
+対称性より|OV₁|×|OP|=|OV₂|×|OQ|=|OV₃|×|OR|=d²　■）</p>
+</div>
+</main>
+<script src="/_script/main.js"></script>
+</body>
+
+</html>

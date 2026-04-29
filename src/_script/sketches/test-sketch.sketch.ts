@@ -1,7 +1,7 @@
 import type p5_ from "p5";
-declare const p5: typeof p5_;
+import { Sketch, createP5Sketch } from "../sketch-helper";
 
-export function create(el: HTMLDivElement) {
+export function create(el: HTMLDivElement, option: {id: string}): Sketch {
     const input = document.createElement("input");
     input.type = "range";
     input.min = "0";
@@ -10,7 +10,7 @@ export function create(el: HTMLDivElement) {
     el.appendChild(input);
     el.appendChild(document.createElement("br"));
     
-    new p5((p: p5_) => {
+    return createP5Sketch(el, (p: p5_) => {
         p.setup = () => {
             p.createCanvas(400, 300, p.WEBGL);
         };
@@ -19,6 +19,7 @@ export function create(el: HTMLDivElement) {
             p.background(230);
             p.rotateY(input.valueAsNumber * p.PI / 180);
             p.box(100);
+            console.log("rendered", option.id)
         };
-    }, el);
+    });
 }

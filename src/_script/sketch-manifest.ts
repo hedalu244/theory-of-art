@@ -6,4 +6,8 @@ export const sketchManifest: Record<string, { loader: () => Promise<unknown> }> 
   "color-and-light/sketches/metamerism": { loader: () => import("../color-and-light/sketches/metamerism.sketch.ts") },
   "color-and-light/sketches/photometry": { loader: () => import("../color-and-light/sketches/photometry.sketch.ts") },
   "color-and-light/sketches/sine-wave": { loader: () => import("../color-and-light/sketches/sine-wave.sketch.ts") },
+  "projection-and-perspective/sketches/ideal-camera-test": { loader: () => import("../projection-and-perspective/sketches/ideal-camera-test.sketch.ts") },
+  "projection-and-perspective/sketches/ideal-camera1": { loader: () => import("../projection-and-perspective/sketches/ideal-camera1.sketch.ts") },
+  "projection-and-perspective/sketches/ideal-camera2": { loader: () => import("../projection-and-perspective/sketches/ideal-camera2.sketch.ts") },
+  "projection-and-perspective/sketches/symmetry-of-camera": { loader: () => import("../projection-and-perspective/sketches/symmetry-of-camera.sketch.ts") },
 }

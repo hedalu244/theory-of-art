@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/_style/style.css">
+<title>理想カメラの対称性</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>理想カメラの対称性</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_いつ形が変化しいつしないのか">いつ形が変化し、いつしないのか</a></li>
+<li><a href="#_視点と投影面と対象の位置関係">視点と投影面と対象の位置関係</a></li>
+<li><a href="#_視軸に対する回転対称性がある">視軸に対する回転対称性がある</a></li>
+<li><a href="#_並進対称性がない">並進対称性がない</a></li>
+<li><a href="#_球対称性もない">球対称性もない</a></li>
+<li><a href="#_重なり方は視点のみによって決まる">重なり方は視点のみによって決まる</a></li>
+<li><a href="#_投影面の前後移動">投影面の前後移動</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_いつ形が変化しいつしないのか">いつ形が変化し、いつしないのか</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>具体的な操作に入る前に、理想カメラにおいて「どのような時に形が変化し、どのような時にしないのか」を知っておくと便利です。</p>
+</div>
+<div class="paragraph">
+<p>中でも特筆すべきこととして、 <strong>視軸に対する回転対称性がある</strong> ことが挙げられます。この事実は後に説明する、回転体の像や三点透視図法を理解する際に非常に役立ちます。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_視点と投影面と対象の位置関係">視点と投影面と対象の位置関係</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>順を追って説明しましょう。まず、簡単に理解できることとして、<strong>カメラと対象の位置関係を固定した状態であれば</strong> 、それらを空間中でどのように動かしても、像の形は変わりません。これは当たり前ですね。いまは純粋に幾何学的なことを考えているので、背景とか重力のような、カメラの向きを特定する要素は何もないことに注意してください。<strong>像の形は視点と投影面と対象の位置関係だけで決まる</strong> ので、カメラと対象を一緒に動かしても、像の形は変わらないのです。</p>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="projection-and-perspective/sketches/symmetry-of-camera" data-options="{&quot;mode&quot;:&quot;random&quot;, &quot;whatToMove&quot;:&quot;both&quot;}"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_視軸に対する回転対称性がある">視軸に対する回転対称性がある</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ここからは、カメラとモチーフを別々に動かすことを考えていましょう。</p>
+</div>
+<div class="paragraph">
+<p>まずはモチーフを固定して <strong>視軸を中心に</strong> カメラを回転させてみます。が、こうしても、カメラを決定するのに必要な要素、つまり視点と投影面は何も変わっていませんね。なので、像の形は変わらないはずです。便宜上長方形の領域を定めて、それを切り出して描いているだけで、実際は無限に広がる平面であったことに注意してください。</p>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="projection-and-perspective/sketches/symmetry-of-camera" data-options="{&quot;mode&quot;:&quot;roll&quot;, &quot;whatToMove&quot;:&quot;camera&quot;}"></div>
+</div>
+<div class="paragraph">
+<p>同じことの見方を変えます。カメラを固定し、<strong>対象を、視軸を中心に対象を回転させた時、その像は視中心を中心に回転するだけで、それ以外の変化は起きません</strong>。これを「回転対称性がある」と表現します。この対称性は、透視図法を考える上で非常に便利な性質です。考えるのが難しい問題も、回すことで簡単な問題になるのなら <strong>分かりやすい向きに回転させて像の形を求めたうえで、元の向きに戻せばよい</strong> のです。</p>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="projection-and-perspective/sketches/symmetry-of-camera" data-options="{&quot;mode&quot;:&quot;roll&quot;, &quot;whatToMove&quot;:&quot;objects&quot;}"></div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+本テキストで単に回転対称といった時には、任意の角度で回転させても重なることを指します。つまり、2回対称や3回対称ではなく、無限回対称のことを指します。
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_並進対称性がない">並進対称性がない</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>一方で、<strong>並進対称性がない</strong> ことには注意が必要です。対象を固定してカメラを前後や左右に移動させると、あるいはカメラを固定して対象を前後や左右に移動すると、対象と視点との位置関係が必ず変化します。なので、像の形も変化すると考えるのが自然です（そして実際に変化します）。左右に移動した時はもちろん、前後に移動した時にもわずかに変化していることに注目してください。</p>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="projection-and-perspective/sketches/symmetry-of-camera" data-options="{&quot;mode&quot;:&quot;parallel&quot;, &quot;whatToMove&quot;:&quot;camera&quot;}"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_球対称性もない">球対称性もない</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>また、<strong>視点に対する回転対称性（球対称性）もない</strong> ことに注意してください。カメラを固定し、視点を中心に対象を回転させるように動かした場合、あるいは、対象を固定し、視点を中心にカメラの向きを変えた場合、対象と投影面の位置関係が変化します。なので、像の形は変化します。少々分かりにくいですが、注意深く見るとただの平行移動ではなく、変形を伴っています。</p>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="projection-and-perspective/sketches/symmetry-of-camera" data-options="{&quot;mode&quot;:&quot;pan-tilt&quot;, &quot;whatToMove&quot;:&quot;camera&quot;}"></div>
+</div>
+<div class="paragraph">
+<p>TODO: やや分かりにくいので図を入れたい</p>
+</div>
+<div class="paragraph">
+<p>このような話をすると、「カメラの向きを変えただけで像が変わるのはおかしい」「球対称性があるはずだ」などと考え、「球面に投影されていると考えるのが自然だ」とか、果ては「網膜は球体に歪んででいるから……」とか言う人がたくさんいます。しかし、今はそのような話はしていません。先ほど定義したような「理想カメラ」を動かしたときに何が起きるか、を考えているのです。そして、「理想カメラ」の定義と「ガラス板になぞる方法」や「ピンホールカメラ」との間に「良い対応」があること、そう定義することで「再生」ができるというメリットはすでに述べたとおりです。</p>
+</div>
+<div class="paragraph">
+<p>まだ疑わしい人は、手元のスマホやカメラを起動して、レンズを中心に向きを変えてみてください。スマホのカメラは理想カメラではありませんが、ある程度理想カメラを近似した近いものになっているはずです。なので、像が平行移動するだけでなく形が変わることを確認できるはずです。</p>
+</div>
+<div class="paragraph">
+<p>ちなみに、球面の投影面などを考えれば球対称にできるのではないか、と考える人もいますが、残念ながらそれは不可能です。球面のキャンバスを用意してその内側に絵を描くのであればまあ可能ですが、最終的に平面に描く以上は、カメラの回転を平面上の平行移動に対応させることはできません。「地球儀を平面の世界地図にすることができない」のと同じ話で、平面に描く以上は、どこかに必ず歪みが出るのです。詳細は、非平面投影のページで扱います。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_重なり方は視点のみによって決まる">重なり方は視点のみによって決まる</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ところで、視点を中心にカメラを回した場合の像の形についてもう少し観察すると、実は形が歪んでいるだけで、重なり方は変化していないことが分かります。隠れていたものが現れたり、見えていたものが隠れたりはしていませんね。これは、二点の像が重なるか否かは視点と対象の位置関係のみによって決まるため、投影面は関係なく、視点を動かさない限り、重なり方は変わらないからです。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_投影面の前後移動">投影面の前後移動</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>視点と対象を固定したまま投影面を平行移動すると、つまり視点と視軸を動かさずに視距離だけ変えた場合、像は変化しますが、そのとき形は変わらず、視距離に比例して大きさだけが変わります。
+図を書いてみると相似変形になっていることがわかるはずです。</p>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="projection-and-perspective/sketches/symmetry-of-camera" data-options="{&quot;mode&quot;:&quot;zoom&quot;, &quot;whatToMove&quot;:&quot;camera&quot;}"></div>
+</div>
+<div class="paragraph">
+<p>像を求めるために線分ではなく半直線を用いたのは、実はこのメリットのためでした。視点Eとして、点Pの像を「<strong>線分</strong> EPと投影面の交点」と定義してしまうと、投影面より視点側にPがある時に交点が存在しなくなってしまいます。別の見方をすると、投影面を奥に動かすと図形の像が手前から削り取られるように変化してしまうわけです。一方、「<strong>半直線</strong> EPと投影面の交点」と定義すれば、Pが投影面より奥にあろうと手前にあろうと交点が存在するため、投影面を前後に動かしても相似に変形するだけです。この方がシンプルですね。</p>
+</div>
+<details>
+<summary class="title">投影面の無次元化</summary>
+<div class="content">
+<div class="paragraph">
+<p>こう考えると、視距離の違いというのはさほど本質的でない問題であるといえそうです。このとき、投影面上の像の大きさは、長さの次元を持たない無次元量となります。このように考えると話が簡単になる部分もあるのですが、長さの次元がある平面とない平面が一つの図に同時に存在するというのは慣れないとかえって難しい部分があるので、ここでは視距離を固定せずに話を進めます。</p>
+</div>
+</div>
+</details>
+</div>
+</div>
+</main>
+<script src="/_script/main.js"></script>
+</body>
+
+</html>

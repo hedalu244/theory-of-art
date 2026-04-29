@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/_style/style.css">
+<title>1点透視図法の作図法</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>1点透視図法の作図法</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_直方体">直方体</a></li>
+<li><a href="#_立方体">立方体</a></li>
+</ul>
+</div>
+<div class="paragraph">
+<p>ここでは1点透視図法における直方体と立方体の描き方を扱います。</p>
+</div>
+<div class="sect1">
+<h2 id="_直方体">直方体</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>直方体は消失点の場所さえわかれば、あとは、「直線の像」で紹介した作図法に従って線を繋ぐだけです。</p>
+</div>
+<div class="paragraph">
+<p>まず、定義に立ち返るところから始めましょう。</p>
+</div>
+<div class="openblock definition">
+<div class="title">定義（1～3点透視図法）</div>
+<div class="content">
+<div class="paragraph">
+<p>(l,m,n)を直交系とする。理想カメラに対する直交系の配置を以下のように分類する。
+. l,m,nのうち、1つが消失点を持ち、2つが投影面に平行であるような <strong>配置</strong> を、「1点透視図法」と呼ぶ。</p>
+</div>
+</div>
+</div>
+<div class="openblock definition">
+<div class="title">定義（消失点）</div>
+<div class="content">
+
+</div>
+</div>
+<div class="paragraph">
+<p>一点透視図法の直交系においては、2つの直線は投影面に平行で、残りの1つの直線はそれらと直角に交わるような配置になっています。従って、その1本は、投影面に対してかならず垂直です。
+投影面に垂直な直線の消失点は簡単にわかるのでした。</p>
+</div>
+<div class="paragraph">
+<p>定理（一点透視図法の消失点）
+互いに垂直な直線L₁L₂L₃があり、L₁は投影面と平行でなく、L₂L₃が投影面と平行であるとき、L₁の消失点をVとする。このとき、O=Vが成り立つ。
+（∵L₁⊥L₂//投影面、L₁⊥L₃//投影面より、L₁⊥投影面であり、L₁//EVであるから、EV⊥投影面。
+また視心の定義より、EO⊥投影面であるからEV//EOである。
+Eを通りEOに平行な直線はEOただ一つしか存在しないため、EV=EOである。
+直線EOと投影面の交点はただ一つしか存在しないためV=O　■）
+（注：直方体の向きが混在していても、一点透視図法の消失点は必ず視心にある。）</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_立方体">立方体</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+</main>
+<script src="/_script/main.js"></script>
+</body>
+
+</html>

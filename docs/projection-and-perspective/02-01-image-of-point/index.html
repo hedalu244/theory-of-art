@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/_style/style.css">
+<title>点の像</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>点の像</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_点の像">点の像</a></li>
+<li><a href="#_像の定義域">像の定義域</a></li>
+<li><a href="#_自明な例投影面上の点の像">自明な例：投影面上の点の像</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_点の像">点の像</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>点の像の定義を再確認します。</p>
+</div>
+<div class="openblock definition">
+<div class="title">定義 （点の像）</div>
+<div class="content">
+<div class="paragraph">
+<p>空間中の点Xに対して、視点から点X方向へ延びる半直線が投影面と交わる点があれば、それを「Xの像」と呼ぶ。</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_像の定義域">像の定義域</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>交わる点が <strong>あれば</strong> という留保がついています。実際、どのような時に点の像が存在するのでしょうか。</p>
+</div>
+<div class="paragraph">
+<p>以下、視点から投影面方向を「前」、その反対方向を「後ろ」と呼ぶことにします。</p>
+</div>
+<div class="paragraph">
+<p>まず、点が投影面より前にある場合、これは視点と点の間に投影面があるので、半直線は必ず投影面と交わり、点の像が存在します。</p>
+</div>
+<div class="paragraph">
+<p>点が投影面より後ろある場合は、注意が必要です。視点から点に向かって伸ばした半直線が、投影面に近づいていくのか、平行なのか、遠ざかっていくのかで区別する必要があります。投影面に近づいていく場合は、半直線を伸ばしていけばいずれ投影面と交わるので、点の像が存在します。平行な場合と遠ざかっていく場合は、いくら半直線を伸ばしても投影面と交わらないので、点の像は存在しません。</p>
+</div>
+<div class="paragraph">
+<p>まとめると、「投影面に平行で視点を通る平面」が像が存在するか否かの境界になっていることが分かります。この面上より前側に点があれば点の像が存在し、この面上やこの面より後ろ側に点があれば、点の像は存在しない、ということになります。この「点の像が存在する範囲」を、投影の「定義域」と言います。</p>
+</div>
+<div class="paragraph">
+<p>この「投影面に平行で、視点を通る平面」は、定義域とそうでない領域の境界になる需要な概念なので、本テキストでは「臨界面」と呼ぶことにします。</p>
+</div>
+<div class="openblock definition">
+<div class="title">定義 （臨界面）</div>
+<div class="content">
+<div class="paragraph">
+<p>理想カメラにおいて、投影面に平行で視点を通る平面を「臨界面」と呼ぶ。</p>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（点の像の存在条件）</div>
+<div class="content">
+<div class="paragraph">
+<p>臨界面に対して、視心と点Pが同じ側にあれば、またその時に限り、点Pの像が存在する。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="title">厳密な証明</div>
+<div class="content">
+
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（点の像の一意性）</div>
+<div class="content">
+<div class="paragraph">
+<p>点Pの像が存在するとき、その像は一意である。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="title">証明</div>
+<div class="content">
+<div class="paragraph">
+<p>定義（点の像）より、点Pの像は、視点から点P方向へ延びる半直線と投影面との交点である。半直線と平面が交わる点は高々一つしかないので、点Pの像は一意である。</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_自明な例投影面上の点の像">自明な例：投影面上の点の像</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>一般的に、点の像を求めるためには視点から点に伸びる半直線を考え、それと投影面の交点を求める必要があります。これは結構大変で、それを簡単にするための様々な定理と作図法をこれから学んでいきます。</p>
+</div>
+<div class="paragraph">
+<p>しかし、点が投影面上にある場合は、非常に話が簡単です。なぜなら、視点から投影面上の点に伸びる半直線と投影面との交点は、その点自身になるからです。つまり、点の像はその点自身になります。</p>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（投影面上の点の像）</div>
+<div class="content">
+<div class="paragraph">
+<p>点Pが投影面上にある場合、その点の像P&#8217;はP自身である。</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>図形の像についても定義を確認します</p>
+</div>
+<div class="openblock definition">
+<div class="title">定義（図形の像）</div>
+<div class="content">
+<div class="paragraph">
+<p>空間中の図形Sに対して、S上にあって像が存在するすべての点の像を集めた投影面上の図形を「Sの像」と呼ぶ。</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>これはガラス板上でペン先を動かす例に対応しているのでしたね。しかし、「すべての点」というのが厄介です。無数の点がある図形に対して、この方法をいちいち適用していくことはできません。</p>
+</div>
+<div class="paragraph">
+<p>実際に図形の像を求めるためには、その像に含まれる必要十分条件を示すことで、像を特定することができます。</p>
+</div>
+<div class="paragraph">
+<p>空間中の図形Sと、投影面上の図形S&#8217;について、以下の二つをともに満たす時、S&#8217;はSの像となります。
+. S上の任意の点Pについて、その像pが存在するならば、それはS&#8217;上にある。
+. S&#8217;上の任意の点pについて、その点を像とする点PがS上に存在する。</p>
+</div>
+<div class="openblock proof">
+<div class="title">厳密な証明</div>
+<div class="content">
+<div class="paragraph">
+<p>定義に従った、Sの像をS''とする。つまり、S''は「S上にあって像が存在するすべての点の像を集めた図形」である。
+S上の任意の点Pについて、その像pが存在するならば、S&#8217;上にあるならば、S''⊆S&#8217;である。
+S&#8217;上の任意の点pについて、その点を像とする点PがS上に存在するならば、S'⊆S''である。
+S''⊆S&#8217;かつS'⊆S''より、S''=S&#8217;である。■</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>ここに点の像の定義を代入して書き下すと、以下の定理を得ます。</p>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（図形の像の必要十分条件）</div>
+<div class="content">
+<div class="paragraph">
+<p>視点をEとする。空間中の図形Sと、投影面上の図形S&#8217;について、以下の二つをともに満たす時、S&#8217;はSの像となる。
+. S上の任意の点Pについて、半直線EPと投影面との交点が存在するとき、それはS&#8217;上にある。
+. S&#8217;上の任意の点pについて、半直線EpとSとの交点が存在する。</p>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（部分集合の像）</div>
+<div class="content">
+<div class="paragraph">
+<p>S₁とS₂を空間中の図形とする。S₁がS₂の部分集合であるとき、S₁の像はS₂の像の部分集合である。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="title">証明</div>
+<div class="content">
+<div class="paragraph">
+<p>S₁の像をS₁'、S₂の像をS₂'とする。S₁がS₂の部分集合であるとき、S₁上の任意の点Pについて、PはS₂上の点でもある。定義（図形の像）より、Pの像pはS₁'上にあると同時にS₂'上にもある。したがって、S₁'はS₂'の部分集合である。■</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script src="/_script/main.js"></script>
+</body>
+
+</html>

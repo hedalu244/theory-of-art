@@ -1,39 +1,4 @@
-type vector3 = [number, number, number];
-type matrix3 = [vector3, vector3, vector3];
-
-function applyMatrix3(v: vector3, m: matrix3): vector3 {
-    return [
-        m[0][0] * v[0] + m[0][1] * v[1] + m[0][2] * v[2],
-        m[1][0] * v[0] + m[1][1] * v[1] + m[1][2] * v[2],
-        m[2][0] * v[0] + m[2][1] * v[1] + m[2][2] * v[2],
-    ];
-}
-function determinant(m: matrix3): number {
-    return m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
-        - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0])
-        + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
-}
-// 余因子行列を用いた逆行列
-function inverseMatrix3(m: matrix3): matrix3 {
-    const det = determinant(m);
-    if (det === 0) throw new Error("Matrix is singular and cannot be inverted.");
-    const invDet = 1 / det;
-    return [
-        [
-            (m[1][1] * m[2][2] - m[1][2] * m[2][1]) * invDet,
-            (m[0][2] * m[2][1] - m[0][1] * m[2][2]) * invDet,
-            (m[0][1] * m[1][2] - m[0][2] * m[1][1]) * invDet
-        ], [
-            (m[1][2] * m[2][0] - m[1][0] * m[2][2]) * invDet,
-            (m[0][0] * m[2][2] - m[0][2] * m[2][0]) * invDet,
-            (m[0][2] * m[1][0] - m[0][0] * m[1][2]) * invDet
-        ], [
-            (m[1][0] * m[2][1] - m[1][1] * m[2][0]) * invDet,
-            (m[0][1] * m[2][0] - m[0][0] * m[2][1]) * invDet,
-            (m[0][0] * m[1][1] - m[0][1] * m[1][0]) * invDet]
-        ,
-    ];
-}
+import { vector3, matrix3, applyMatrix3, inverseMatrix3 } from "./linearalgebra";
 
 export interface sRGBColor { mode: "sRGB"; data: vector3 } // 0 ~ 255
 export interface RGBColor { mode: "RGB"; data: vector3 } // 0 ~ 1

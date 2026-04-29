@@ -1,0 +1,24 @@
+---
+layout: base.njk
+title: スケッチテスト
+---
+
+{% sketch "test-sketch", {"id": "test1"} %}
+
+{% sketch "test-sketch", {"id": "test2"} %}
+
+{% sketch "test-sketch", {"id": "test3"} %}
+
+{% sketch "test-sketch", {"id": "test4"} %}
+
+{% sketch "test-sketch", {"id": "test5"} %}
+
+{% sketch "test-sketch", {"id": "test6"} %}
+
+{% sketch "test-sketch", {"id": "test7"} %}
+
+{% sketch "test-sketch", {"id": "test8"} %}
+
+{% sketch "test-sketch", {"id": "test9"} %}
+
+{% sketch "test-sketch", {"id": "test10"} %}

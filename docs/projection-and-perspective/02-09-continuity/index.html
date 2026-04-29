@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/_style/style.css">
+<title>平面の像</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>平面の像</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_連続性">連続性</a></li>
+<li><a href="#_一般の曲面に関する定理">一般の曲面に関する定理</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_連続性">連続性</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ここでもヒルベルト公理から脱却し、微分幾何学の概念が必要になります。</p>
+</div>
+<div class="openblock definition">
+<div class="title">定義（曲線）</div>
+<div class="content">
+<div class="paragraph">
+<p>実数xに対して、点f(x)が連続に変化するとき、点f(x)の集合を「曲線」と呼ぶ。</p>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+直感的には、曲線は「繋がった線」のことです。この定義に従うと、円や直線、線分はすべて曲線です。「曲」という字が入りますが、直線や線分、折れ線などを除外するわけではないことに注意してください。
+</td>
+</tr>
+</table>
+</div>
+<div class="openblock definition">
+<div class="title">定義（接線）</div>
+<div class="content">
+<div class="paragraph">
+<p>曲線C上の点Pに対して、点QをC上で動かしてPに限りなく近づけていったとき、Qをどちらから近づけても同じ直線lに限りなく近づくとき、lを「曲線Cの点Pにおける接線」と呼ぶ。</p>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+曲線が折れ曲がっているような場所では接線が定義できない。
+</td>
+</tr>
+</table>
+</div>
+<div class="openblock definition">
+<div class="title">定義（接線連続）</div>
+<div class="content">
+<div class="paragraph">
+<p>曲線上のある区間において、端点を除く区間中のすべての点において接線が定義できることを接線連続と呼ぶ。</p>
+</div>
+</div>
+</div>
+<div class="openblock definition">
+<div class="title">定義（接する）</div>
+<div class="content">
+<div class="paragraph">
+<p>点Pにおいて曲線CとDが同じ接線を持つとき、曲線CとDは点Pにおいて「接する」と呼ぶ。</p>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+直感的には曲線に角がなく、滑らかであることを表す概念です。
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>これを踏まえると、以下のような定理が成り立ちます。</p>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（接線の保存）</div>
+<div class="content">
+<div class="paragraph">
+<p>視点Eを通らない直線lが曲線Cに点Pで接しているとき、直線lの像は曲線Cの像に点Pの像で接する。</p>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（連続性の保存）</div>
+<div class="content">
+<div class="paragraph">
+<p>接線連続な曲線Cについて、Cのすべての接線が視点を通らないとき、Cの像も接線連続となる。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="content">
+<div class="paragraph">
+<p>定理（接線の保存）より、曲線Cの各点における接線の像は曲線Cの像の接線となる。したがって、接線連続性が保たれる。</p>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+直感的には、滑らかな曲線は滑らかな像を与えるという主張です。ただし接線が視点を通る場合を除外していることに注意してください。そのような点においては、像に角が生まれる場合があります。
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_一般の曲面に関する定理">一般の曲面に関する定理</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>さらに、曲面について考えると、応用範囲が広がります。滑らかな曲面は球や円柱だけでなく、例えば、コップの表面や人間の肌などいたるところで見ることができます。これらの曲面に対して、以下のような定理が成り立ちます。</p>
+</div>
+<div class="openblock definition">
+<div class="title">定義（曲面）</div>
+<div class="content">
+
+</div>
+</div>
+<div class="openblock definition">
+<div class="title">定義（接面）</div>
+<div class="content">
+
+</div>
+</div>
+<div class="openblock definition">
+<div class="title">定義（回り込み）</div>
+<div class="content">
+<div class="paragraph">
+<p>視点をEとする。
+曲面S上の点Pに対して、直線EPがSの接線となるとき、「（Eから見て）曲面Sは点Pにおいて回り込む」と呼ぶ。
+曲面SがEから見て点Pにおいて回り込むような点Pの集合を「（Eから見て）曲面Sが回り込む輪郭」と呼ぶ。</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>物体の輪郭には回り込む輪郭と回り込まない輪郭があります。回り込まない輪郭は曲面が接面連続でない、つまり面が折れて辺が生じている場所にできます。
+例えば、球の輪郭はすべて回り込む輪郭になりますが、円柱は側面部分のみが回り込む輪郭で、断面部分に生じる輪郭は回り込まない輪郭です。</p>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（回り込む輪郭の滑らかさ）</div>
+<div class="content">
+<div class="paragraph">
+<p>曲面Sが滑らかな時、Sが回り込む輪郭は、いくつかの滑らかな曲線となる</p>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理</div>
+<div class="content">
+<div class="paragraph">
+<p>ガウス曲率が0の滑らかな曲面の回り込む輪郭は直線となる。
+TODO: 特定の例外を除く。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="content">
+
+</div>
+</div>
+<div class="paragraph">
+<p>円柱面や、円錐面、折れていない紙面などの回り込む輪郭は、必ず直線であると言えます。</p>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（曲面上の曲線と輪郭が接する）</div>
+<div class="content">
+<div class="paragraph">
+<p>滑らかな曲面S上に滑らかな曲線Cがあり、曲線C上に点Pがある。
+点Pにおける曲線Cの接線が視点を通らず、曲面Sが点Pにおいて回り込むとき、曲線Cの像は点Pの像において曲面Sが回り込む輪郭の像と接する。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="content">
+<div class="paragraph">
+<p>点Pにおける曲線Cの接線をlとする。lは点Pにおける曲面Sの接線のひとつである。仮定よりlは視点Eを通らない。
+曲面Sは点Pにおいて回り込むので、直線EPは点Pにおける曲面Sの接線のひとつである。したがって、lとEPから点PにおけるSの接面αが一意に定まる。</p>
+</div>
+<div class="paragraph">
+<p>一方、Pは滑らかな輪郭上の点である。定理（回り込む輪郭の滑らかさ）より、Pにおける回り込む輪郭の接線mが一意に定まる。
+回り込む輪郭はS上の滑らかな曲線なので、接線mは接面α上にある。</p>
+</div>
+<div class="paragraph">
+<p>接面αはEを通る平面なので、定理（平面の像）より、αの像はαと投影面の交線であり、lの像、mの像もその交線上にある。■</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>この定理から、例えば、「回転体の断面の像は回転体の輪郭に接する」「円柱の輪郭は（回り込まない輪郭もふくめて）接線連続である」などの主張が導けます。</p>
+</div>
+</div>
+</div>
+</main>
+<script src="/_script/main.js"></script>
+</body>
+
+</html>

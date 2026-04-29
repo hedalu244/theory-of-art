@@ -1,5 +1,6 @@
 import type p5_ from "p5";
 declare const p5: typeof p5_;
+import { Sketch, createP5Sketch } from "../../_script/sketch-helper";
 import { isInGamut, LMSColor, toP5Color } from "../../_script/color";
 
 function plot(color: LMSColor): [number, number, number] {
@@ -9,8 +10,8 @@ function plot(color: LMSColor): [number, number, number] {
     return [x, y, z];
 }
 
-export function create(el: HTMLDivElement) {
-    new p5((p: p5_) => {
+export function create(el: HTMLDivElement): Sketch {
+    return createP5Sketch(el, (p: p5_) => {
         const pointtoplot: LMSColor[] = Array.from({ length: 500 }).map(() => LMSColor(Math.random(), Math.random(), Math.random()));
 
         p.setup = () => {
@@ -67,5 +68,5 @@ export function create(el: HTMLDivElement) {
                 }
             }*/
         };
-    }, el);
+    });
 }

@@ -1,5 +1,6 @@
 import type p5_ from "p5";
 declare const p5: typeof p5_;
+import { Sketch, createP5Sketch } from "../../_script/sketch-helper";
 import { LMSColor, monochromaticity, monochromaticityData, toLMS, toP5Color, colorLerp } from "../../_script/color";
 import { InputTable } from "../../_script/input";
 
@@ -11,7 +12,7 @@ function plot(lms: LMSColor, x = 200, y = 10, scale = 500): [number, number] {
     ];
 }
 
-export function create(el: HTMLDivElement) {
+export function create(el: HTMLDivElement): Sketch {
     const inputTable = new InputTable(el);
 
     const wl1Slider = inputTable.createRangeInput({
@@ -43,7 +44,7 @@ export function create(el: HTMLDivElement) {
         unit: "%",
     });
 
-    new p5((p: p5_) => {
+    return createP5Sketch(el, (p: p5_) => {
         p.setup = () => {
             p.createCanvas(800, 600);
         };
@@ -101,5 +102,5 @@ export function create(el: HTMLDivElement) {
             p.fill(toP5Color(p, color3));
             p.circle(...color3Pos, 20);
         };
-    }, el);
+    });
 }

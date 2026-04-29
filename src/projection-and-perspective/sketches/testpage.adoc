@@ -1,0 +1,13 @@
+---
+layout: base.njk
+title: スケッチテスト
+---
+
+{% sketch "ideal-camera-test" %}
+
+
+////
+{% sketch "ideal-camera1" %}
+
+{% sketch "symmetry-of-camera", {"mode":"random", "whatToMove":"both"} %}
+////

@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!-- p5.js -->
-<script src="https://cdn.jsdelivr.net/npm/p5/lib/p5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
 </head>
 
 <body>
@@ -46,7 +46,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><a href="#_強調テキスト">強調テキスト</a></li>
 <li><a href="#_リスト">リスト</a></li>
 <li><a href="#_数式">数式</a></li>
+<li><a href="#_定理と定義">定理と定義</a></li>
 <li><a href="#_補足ブロック">補足ブロック</a></li>
+<li><a href="#_表">表</a></li>
+<li><a href="#_リンク">リンク</a></li>
 <li><a href="#_画像">画像</a></li>
 <li><a href="#_スケッチ">スケッチ</a></li>
 <li><a href="#_クイズ">クイズ</a></li>
@@ -196,8 +199,36 @@ e^{i\pi} + 1 = 0
 </div>
 </div>
 <div class="sect1">
+<h2 id="_定理と定義">定理と定義</h2>
+<div class="sectionbody">
+<div class="openblock definition">
+<div class="title">定義（定理名）</div>
+<div class="content">
+<div class="paragraph">
+<p>主張</p>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（定理名）</div>
+<div class="content">
+<div class="paragraph">
+<p>主張</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_補足ブロック">補足ブロック</h2>
 <div class="sectionbody">
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>これはサイドバーです。</p>
+</div>
+</div>
+</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -205,7 +236,7 @@ e^{i\pi} + 1 = 0
 <div class="title">Note</div>
 </td>
 <td class="content">
-これは補足アドモニションです。
+これはノートアドモニションです。
 </td>
 </tr>
 </table>
@@ -257,6 +288,44 @@ e^{i\pi} + 1 = 0
 </td>
 </tr>
 </table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_表">表</h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">見出し1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">見出し2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">見出し3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">セル1-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">セル1-2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">セル1-3</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">セル2-1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">セル2-2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">セル2-3</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_リンク">リンク</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>これは外部リンク <a href="https://www.google.com/" class="bare">https://www.google.com/</a> です。
+<a href="https://www.google.com/">これは外部リンク</a> です。</p>
 </div>
 </div>
 </div>
@@ -342,14 +411,6 @@ e^{i\pi} + 1 = 0
 <div class="paragraph">
 <p>ここは畳まれるはず</p>
 </div>
-<details>
-<summary class="title">さらに折りたたみ</summary>
-<div class="content">
-<div class="paragraph">
-<p>ネストされた折り畳み</p>
-</div>
-</div>
-</details>
 </div>
 </details>
 </div>

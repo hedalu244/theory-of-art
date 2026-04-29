@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/_style/style.css">
+<title>円の像　その3</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>円の像　その3</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_円の像は楕円になるについて">「円の像は楕円になる」について</a></li>
+</ul>
+</div>
+<div class="paragraph">
+<p>その1で提示した「近似」をはじめとするいくつかの主張についてどこまでが正しく、どこから間違っていて、どのような反例が作れるのかを、分析していきます。</p>
+</div>
+<div class="paragraph">
+<p>ここでは二次曲線について考えるため、座標幾何を利用します。</p>
+</div>
+<div class="sect1">
+<h2 id="_円の像は楕円になるについて">「円の像は楕円になる」について</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>始めに強い定理を示してしまいます。</p>
+</div>
+<div class="openblock theorem">
+<div class="content">
+<div class="paragraph">
+<p>N次曲線の像はN次曲線の一部になる。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="content">
+<div class="paragraph">
+<p>カメラの対称性より、視点Eを原点(0, 0, 0)、視心を(0, 0, 1)とする場合に固定する。</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>既に幾何的に示した事実ですが、直線は1次曲線で一次曲線は直線なので、この定理は直線の像が直線の一部になることも含意しています。</p>
+</div>
+<div class="paragraph">
+<p>これを利用すると、円の像が二次曲線になることがすぐに分かります。</p>
+</div>
+<div class="openblock theorem">
+<div class="content">
+<div class="paragraph">
+<p>(1) 円の像は一般に二次曲線になる。
+(2) 円の全体が像を持つとき、円の像は楕円になる
+(3) 円が臨界面に接しているときは、円の像は放物線になる、
+(4) 円が臨界面と交差しているとき、円の像は双曲線の枝の片方となる</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="content">
+<div class="paragraph">
+<p>(1) 円は二次曲線なので円の像も二次曲線である。
+(2) 連続写像であり、円と同相な二次曲線は楕円のみであるから、円の像は楕円になる。
+TODO: 埋める</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>前回は円の全体が像を持つ場合に限って、(1)のケースだけを紹介しましたが、円の全体が像を持たないときは放物線や双曲線にもなります。これは円錐が切り方によっては楕円ではなく双曲線や放物線になることに対応しています。</p>
+</div>
+<div class="paragraph">
+<p>日常目にする円の像は、(2)のケースが多いでしょう。例えば、正面から見たときのコインの像は円ですが、斜めから見たときのコインの像は楕円になります。双曲線になるのは、例えば大きなフラフープや円形の広場の中に立った場合など、十分に大きな円があってその中に視点が入っているような場合です。双曲線は二つの部分（枝と呼びます）に分かれていますが、片方は虚像となるため見えません。</p>
+</div>
+<div class="paragraph">
+<p>放物線になるのは臨界面と円が接する場合です。視点が円周の付近にある時、投影面の方向を調整することで見ることができます。正確には臨界面と円との関係によるので、円がどんな大きさでも視点がどこにあっても、投影面の向きを変えることで放物線にも双曲線にもできるのですが、小さい円では画角が不足して観測できないことが多いと思います。</p>
+</div>
+<div class="paragraph">
+<p>手元にスマホやタブレットがあれば、面白い実験ができます。（スマホのカメラは理想カメラではないですが、理想カメラに近いものと言えるでしょう）。スマホカメラにおいて臨界面はちょうどスマホの背面で近似できます。これを身近な円、例えば時計などの縁にくっつけた時、像は放物線となります。フラフープや洗面器のような大きくて中空の円があれば、その中にスマホを入れると双曲線になるはずです。</p>
+</div>
+</div>
+</div>
+</main>
+<script src="/_script/main.js"></script>
+</body>
+
+</html>

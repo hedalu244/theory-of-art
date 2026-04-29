@@ -4,16 +4,56 @@ var __esm = (fn, res) => function __init() {
   return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
 };
 var __export = (target, all) => {
-  for (var name2 in all)
-    __defProp(target, name2, { get: all[name2], enumerable: true });
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
 };
+
+// src/_script/sketch-helper.ts
+function normalizeSketch(el, rawControl) {
+  if (!rawControl || typeof rawControl !== "object")
+    rawControl = {};
+  const candidate = rawControl;
+  return {
+    el,
+    start: typeof candidate.start === "function" ? candidate.start : () => {
+    },
+    stop: typeof candidate.stop === "function" ? candidate.stop : () => {
+    },
+    destroy: typeof candidate.destroy === "function" ? candidate.destroy : () => {
+    }
+  };
+}
+function createP5Sketch(el, sketch) {
+  const instance = new p5(sketch, el);
+  let running = true;
+  return {
+    el,
+    start: () => {
+      instance.loop();
+      running = true;
+    },
+    stop: () => {
+      instance.noLoop();
+      running = false;
+    },
+    destroy: () => {
+      instance.remove();
+      running = false;
+    }
+  };
+}
+var init_sketch_helper = __esm({
+  "src/_script/sketch-helper.ts"() {
+    "use strict";
+  }
+});
 
 // src/_script/sketches/test-sketch.sketch.ts
 var test_sketch_sketch_exports = {};
 __export(test_sketch_sketch_exports, {
   create: () => create
 });
-function create(el) {
+function create(el, option) {
   const input = document.createElement("input");
   input.type = "range";
   input.min = "0";
@@ -21,7 +61,7 @@ function create(el) {
   input.value = "45";
   el.appendChild(input);
   el.appendChild(document.createElement("br"));
-  new p5((p) => {
+  return createP5Sketch(el, (p) => {
     p.setup = () => {
       p.createCanvas(400, 300, p.WEBGL);
     };
@@ -29,16 +69,45 @@ function create(el) {
       p.background(230);
       p.rotateY(input.valueAsNumber * p.PI / 180);
       p.box(100);
+      console.log("rendered", option.id);
     };
-  }, el);
+  });
 }
 var init_test_sketch_sketch = __esm({
   "src/_script/sketches/test-sketch.sketch.ts"() {
     "use strict";
+    init_sketch_helper();
   }
 });
 
-// src/_script/color.ts
+// src/_script/linearalgebra.ts
+function cross(a, b) {
+  return [
+    a[1] * b[2] - a[2] * b[1],
+    a[2] * b[0] - a[0] * b[2],
+    a[0] * b[1] - a[1] * b[0]
+  ];
+}
+function add(a, b) {
+  return [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
+}
+function sub(a, b) {
+  return [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+}
+function dot(a, b) {
+  return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+}
+function scale(a, s) {
+  return [a[0] * s, a[1] * s, a[2] * s];
+}
+function mag(a) {
+  return Math.sqrt(dot(a, a));
+}
+function normalize(a) {
+  const length = mag(a);
+  if (length === 0) throw new Error("Cannot normalize a zero-length vector.");
+  return scale(a, 1 / length);
+}
 function applyMatrix3(v, m) {
   return [
     m[0][0] * v[0] + m[0][1] * v[1] + m[0][2] * v[2],
@@ -71,6 +140,13 @@ function inverseMatrix3(m) {
     ]
   ];
 }
+var init_linearalgebra = __esm({
+  "src/_script/linearalgebra.ts"() {
+    "use strict";
+  }
+});
+
+// src/_script/color.ts
 function RGBColor(r, g, b) {
   return { mode: "RGB", data: [r, g, b] };
 }
@@ -255,6 +331,7 @@ var m_RGBtoXYZ, m_XYZtoRGB, m_XYZtoLMS, m_LMStoXYZ, m_LMStoLAB, m_LABtoLMS, mono
 var init_color = __esm({
   "src/_script/color.ts"() {
     "use strict";
+    init_linearalgebra();
     m_RGBtoXYZ = [
       [0.412391, 0.357584, 0.180481],
       [0.212639, 0.715169, 0.072192],
@@ -379,14 +456,14 @@ var d_gamut_test_sketch_exports = {};
 __export(d_gamut_test_sketch_exports, {
   create: () => create2
 });
-function plot(xyz, x = 200, y = 10, scale = 500) {
+function plot(xyz, x = 200, y = 10, scale2 = 500) {
   return [
-    xyz.data[0] * scale + x,
-    (1 - xyz.data[1]) * scale + y
+    xyz.data[0] * scale2 + x,
+    (1 - xyz.data[1]) * scale2 + y
   ];
 }
 function create2(el) {
-  new p5((p) => {
+  return createP5Sketch(el, (p) => {
     p.setup = () => {
       p.createCanvas(800, 600);
     };
@@ -424,11 +501,12 @@ function create2(el) {
         }
       }
     };
-  }, el);
+  });
 }
 var init_d_gamut_test_sketch = __esm({
   "src/color-and-light/sketches/2d-gamut-test.sketch.ts"() {
     "use strict";
+    init_sketch_helper();
     init_color();
   }
 });
@@ -445,7 +523,7 @@ function plot2(color) {
   return [x, y, z];
 }
 function create3(el) {
-  new p5((p) => {
+  return createP5Sketch(el, (p) => {
     const pointtoplot = Array.from({ length: 500 }).map(() => LMSColor(Math.random(), Math.random(), Math.random()));
     p.setup = () => {
       p.createCanvas(600, 600, p.WEBGL);
@@ -475,11 +553,12 @@ function create3(el) {
         }
       }
     };
-  }, el);
+  });
 }
 var init_d_LSM_color_sketch = __esm({
   "src/color-and-light/sketches/3d-LSM-color.sketch.ts"() {
     "use strict";
+    init_sketch_helper();
     init_color();
   }
 });
@@ -583,10 +662,10 @@ var gamut_convex_hull_sketch_exports = {};
 __export(gamut_convex_hull_sketch_exports, {
   create: () => create4
 });
-function plot3(lms, x = 200, y = 10, scale = 500) {
+function plot3(lms, x = 200, y = 10, scale2 = 500) {
   return [
-    lms.data[0] * scale + x,
-    (1 - lms.data[1]) * scale + y
+    lms.data[0] * scale2 + x,
+    (1 - lms.data[1]) * scale2 + y
   ];
 }
 function create4(el) {
@@ -617,7 +696,7 @@ function create4(el) {
     width: 200,
     unit: "%"
   });
-  new p5((p) => {
+  return createP5Sketch(el, (p) => {
     p.setup = () => {
       p.createCanvas(800, 600);
     };
@@ -663,11 +742,12 @@ function create4(el) {
       p.fill(toP5Color(p, color3));
       p.circle(...color3Pos, 20);
     };
-  }, el);
+  });
 }
 var init_gamut_convex_hull_sketch = __esm({
   "src/color-and-light/sketches/gamut-convex-hull.sketch.ts"() {
     "use strict";
+    init_sketch_helper();
     init_color();
     init_input();
   }
@@ -678,7 +758,7 @@ var metamerism_sketch_exports = {};
 __export(metamerism_sketch_exports, {
   create: () => create5
 });
-function plot4(lms, x = 200, y = 10, scale = 500) {
+function plot4(lms, x = 200, y = 10, scale2 = 500) {
   const sum = lms.data[0] + lms.data[1] + lms.data[2];
   const normalzed = sum != 0 ? [
     lms.data[0] / sum,
@@ -686,8 +766,8 @@ function plot4(lms, x = 200, y = 10, scale = 500) {
     lms.data[2] / sum
   ] : [1 / 3, 1 / 3, 1 / 3];
   return [
-    normalzed[0] * scale + x,
-    (1 - normalzed[1]) * scale + y
+    normalzed[0] * scale2 + x,
+    (1 - normalzed[1]) * scale2 + y
   ];
 }
 function drawGamut(p, plotParam, options) {
@@ -752,7 +832,7 @@ function create5(el, options) {
   const colorR = RGBColor(1, 0, 0);
   const colorG = RGBColor(0, 1, 0);
   const colorB = RGBColor(0, 0, 1);
-  new p5((p) => {
+  return createP5Sketch(el, (p) => {
     p.setup = () => {
       p.createCanvas(800, 600);
     };
@@ -873,11 +953,12 @@ function create5(el, options) {
       p.triangle(...wallLeft2, ...wallCenter, ...lightPosTarget);
       p.filter(p.INVERT);
     };
-  }, el);
+  });
 }
 var init_metamerism_sketch = __esm({
   "src/color-and-light/sketches/metamerism.sketch.ts"() {
     "use strict";
+    init_sketch_helper();
     init_color();
     init_input();
   }
@@ -922,7 +1003,7 @@ function create6(el, options) {
     type: "int",
     width: 200
   });
-  new p5((p) => {
+  return createP5Sketch(el, (p) => {
     p.setup = () => {
       p.createCanvas(800, 600);
     };
@@ -953,11 +1034,12 @@ function create6(el, options) {
         p.rect(x, borderTop, width, borderBottom - borderTop);
       }
     };
-  }, el);
+  });
 }
 var init_photometry_sketch = __esm({
   "src/color-and-light/sketches/photometry.sketch.ts"() {
     "use strict";
+    init_sketch_helper();
     init_color();
     init_input();
   }
@@ -969,7 +1051,7 @@ __export(sine_wave_sketch_exports, {
   create: () => create7
 });
 function create7(el) {
-  new p5((p) => {
+  return createP5Sketch(el, (p) => {
     p.setup = () => {
       p.createCanvas(800, 600);
     };
@@ -989,11 +1071,649 @@ function create7(el) {
       p.line(0, p.height / 2, p.width, p.height / 2);
       p.line(30, 0, 30, p.height);
     };
-  }, el);
+  });
 }
 var init_sine_wave_sketch = __esm({
   "src/color-and-light/sketches/sine-wave.sketch.ts"() {
     "use strict";
+    init_sketch_helper();
+  }
+});
+
+// src/projection-and-perspective/sketches/objects.ts
+var Point, Line, Label, Box;
+var init_objects = __esm({
+  "src/projection-and-perspective/sketches/objects.ts"() {
+    "use strict";
+    init_linearalgebra();
+    Point = class _Point {
+      constructor(center, color = [0, 0, 0]) {
+        this.center = center;
+        this.color = color;
+      }
+      render(p) {
+        _Point.render(p, this.center, this.color);
+      }
+      static render(p, center, color = [0, 0, 0]) {
+        p.push();
+        p.translate(...center);
+        p.fill(...color);
+        p.noStroke();
+        p.sphere(2, 8, 8);
+        p.pop();
+      }
+    };
+    Line = class _Line {
+      constructor(start, end, color = [0, 0, 0]) {
+        this.start = start;
+        this.end = end;
+        this.color = color;
+      }
+      render(p) {
+        _Line.render(p, this.start, this.end, this.color);
+      }
+      static render(p, start, end, color) {
+        p.push();
+        p.stroke(...color);
+        p.line(...start, ...end);
+        p.pop();
+      }
+    };
+    Label = class _Label {
+      static {
+        this.font = null;
+      }
+      static loadFont(p) {
+        if (!_Label.font) {
+          _Label.font = p.loadFont("/_assets/MPLUS1p-Regular.ttf");
+        }
+      }
+      constructor(position, text, color = [0, 0, 0], up, right) {
+        this.position = position;
+        this.text = text;
+        this.color = color;
+        this.up = up ? normalize(up) : void 0;
+        this.right = right ? normalize(right) : void 0;
+      }
+      render(p) {
+        _Label.render(p, this.position, this.text, this.color, this.up, this.right);
+      }
+      static render(p, position, text, color, up_, right_) {
+        if (!_Label.font) {
+          return;
+        }
+        const up = up_ ? normalize(up_) : void 0;
+        const right = right_ ? normalize(right_) : void 0;
+        p.push();
+        const gl = p._renderer.GL;
+        gl.disable(gl.DEPTH_TEST);
+        p.fill(...color);
+        p.noStroke();
+        p.textFont(_Label.font);
+        if (up && right) {
+          const forward = normalize(cross(right, up));
+          p.applyMatrix(
+            right[0],
+            right[1],
+            right[2],
+            0,
+            up[0],
+            up[1],
+            up[2],
+            0,
+            forward[0],
+            forward[1],
+            forward[2],
+            0,
+            ...position,
+            1
+          );
+          p.text(text, 5, 10);
+        } else {
+          const cam = p._renderer._curCamera;
+          const eye = [cam.eyeX, cam.eyeY, cam.eyeZ];
+          const center = [cam.centerX, cam.centerY, cam.centerZ];
+          const up2 = [cam.upX, cam.upY, cam.upZ];
+          const forward = normalize(sub(center, eye));
+          const right2 = normalize(cross(forward, up2));
+          const trueUp = cross(right2, forward);
+          p.applyMatrix(
+            right2[0],
+            right2[1],
+            right2[2],
+            0,
+            trueUp[0],
+            trueUp[1],
+            trueUp[2],
+            0,
+            -forward[0],
+            -forward[1],
+            -forward[2],
+            0,
+            ...position,
+            1
+          );
+          p.text(text, 5, 10);
+        }
+        gl.enable(gl.DEPTH_TEST);
+        p.pop();
+      }
+    };
+    Box = class _Box {
+      constructor(center, size, rotation = [0, 0, 0], color = [0, 0, 0]) {
+        this.center = center;
+        this.size = size;
+        this.rotation = rotation;
+        this.color = color;
+      }
+      render(p) {
+        _Box.render(p, this.center, this.size, this.rotation, this.color);
+      }
+      static render(p, center, size, rotation = [0, 0, 0], color = [0, 0, 0]) {
+        p.push();
+        p.translate(...center);
+        p.rotateX(rotation[0]);
+        p.rotateY(rotation[1]);
+        p.rotateZ(rotation[2]);
+        p.stroke(...color);
+        p.noFill();
+        p.box(...size);
+        p.pop();
+      }
+    };
+  }
+});
+
+// src/projection-and-perspective/sketches/idealCamera.ts
+function resetAs2D(p) {
+  p.resetMatrix();
+  p.ortho(-p.width / 2, p.width / 2, -p.height / 2, p.height / 2, 0, 1e3);
+  p.camera(p.width / 2, p.height / 2, 500, p.width / 2, p.height / 2, 0, 0, 1, 0);
+}
+var IdealCamera;
+var init_idealCamera = __esm({
+  "src/projection-and-perspective/sketches/idealCamera.ts"() {
+    "use strict";
+    init_linearalgebra();
+    init_objects();
+    IdealCamera = class {
+      constructor(eye, target, width, height, p) {
+        this.up = [0, -1, 0];
+        this.history = /* @__PURE__ */ new Map();
+        this.historyLifespan = 3e3;
+        this.eye = eye;
+        this.target = target;
+        this.width = width;
+        this.height = height;
+        this.eyeLabel = new Label(this.eye, "\u8996\u70B9 E");
+        this.targetLabel = new Label(this.target, "\u8996\u5FC3 O");
+        const forward = normalize(sub(this.target, this.eye));
+        const right = normalize(cross(forward, this.up));
+        const trueUp = normalize(cross(right, forward));
+        const cornerPos = add(add(this.target, scale(right, -width / 2)), scale(trueUp, -height / 2 + 5));
+        this.planeLabel = new Label(cornerPos, "\u6295\u5F71\u9762", [0, 0, 0], trueUp, right);
+        this.axisLabel = new Label(add(scale(trueUp, -14), scale(add(this.eye, this.target), 0.5)), "\u8996\u8EF8", [0, 0, 0], trueUp, forward);
+        if (p) this.innerCanvas = p.createGraphics(width, height, p.WEBGL);
+      }
+      solve(point) {
+        const dir = normalize(sub(point, this.eye));
+        const axis = sub(this.target, this.eye);
+        const t = dot(axis, axis) / dot(axis, dir);
+        if (t < 0) return void 0;
+        return add(this.eye, scale(dir, t));
+      }
+      solve_virtual(point) {
+        const dir = normalize(sub(point, this.eye));
+        const axis = sub(this.target, this.eye);
+        const t = dot(axis, axis) / dot(axis, dir);
+        if (t > 0) return void 0;
+        return add(this.eye, scale(dir, t));
+      }
+      innerSetCamera() {
+        if (!this.innerCanvas) return;
+        this.innerCanvas.camera(...this.eye, ...this.target, ...this.up);
+        const distance = mag(sub(this.target, this.eye));
+        const fovy = 2 * Math.atan(this.height / 2 / distance);
+        this.innerCanvas.perspective(fovy);
+      }
+      innerRender(objects) {
+        if (!this.innerCanvas) return;
+        this.innerSetCamera();
+        for (const obj of objects) {
+          obj.render(this.innerCanvas);
+        }
+      }
+      canvasRender(p) {
+        if (!this.innerCanvas) return;
+        const screenPos = [20, 20];
+        p.push();
+        resetAs2D(p);
+        p.image(this.innerCanvas, ...screenPos);
+        p.noFill();
+        p.stroke(0, 0, 0);
+        p.rect(...screenPos, this.width, this.height);
+        p.pop();
+        this.innerCanvas.background(255);
+      }
+      outerRender(p, options = {}) {
+        if (options.target === void 0) options.target = true;
+        if (options.axis === void 0) options.axis = true;
+        if (options.axislabel === void 0) options.axislabel = false;
+        Point.render(p, this.eye, [0, 0, 0]);
+        if (options.target) {
+          Point.render(p, this.target, [0, 0, 0]);
+        }
+        if (options.axis) {
+          Line.render(p, this.eye, this.target, [0, 0, 0]);
+        }
+        const right = normalize(cross(this.up, sub(this.target, this.eye)));
+        const up = normalize(cross(sub(this.target, this.eye), right));
+        const halfWidth = this.width / 2;
+        const halfHeight = this.height / 2;
+        p.push();
+        p.translate(...this.target);
+        p.stroke(0, 0, 0);
+        p.fill(255, 255, 255, 150);
+        p.beginShape();
+        p.vertex(...add(scale(right, -halfWidth), scale(up, -halfHeight)));
+        p.vertex(...add(scale(right, halfWidth), scale(up, -halfHeight)));
+        p.vertex(...add(scale(right, halfWidth), scale(up, halfHeight)));
+        p.vertex(...add(scale(right, -halfWidth), scale(up, halfHeight)));
+        p.endShape(p.CLOSE);
+        p.pop();
+        this.eyeLabel.render(p);
+        if (options.target) {
+          this.targetLabel.render(p);
+        }
+        if (options.axis) {
+          this.axisLabel.render(p);
+        }
+        this.planeLabel.render(p);
+      }
+      // ms
+      renderTrace(p, point, id = 0, options = {}) {
+        const pointColor = [0, 0, 0];
+        const imageColor = [255, 0, 0];
+        const virtualImageColor = [0, 0, 255];
+        const renderVirtual = options.renderVirtual ?? false;
+        const renderInner = options.renderInner ?? false;
+        const renderImageLocus = options.renderImageLocus ?? false;
+        const renderPointLocus = options.renderPointLocus ?? false;
+        const renderInnerLocus = options.renderInnerLocus ?? false;
+        const image = this.solve(point);
+        const vImage = this.solve_virtual(point);
+        const history = this.history.get(id) || [];
+        history.push([p.millis(), point, image, vImage]);
+        while (history.length > 0 && p.millis() - history[0][0] > this.historyLifespan) {
+          history.shift();
+        }
+        this.history.set(id, history);
+        Point.render(p, point, pointColor);
+        if (image) {
+          const point_extended = add(point, scale(normalize(sub(point, this.eye)), 10));
+          const image_extended = add(image, scale(normalize(sub(image, this.eye)), 10));
+          Point.render(p, image, imageColor);
+          Line.render(p, this.eye, point_extended, imageColor);
+          Line.render(p, this.eye, image_extended, imageColor);
+        }
+        if (vImage && renderVirtual) {
+          const point_extended = add(point, scale(normalize(sub(point, this.eye)), 10));
+          const image_extended = add(vImage, scale(normalize(sub(vImage, this.eye)), 10));
+          Point.render(p, vImage, virtualImageColor);
+          Line.render(p, this.eye, point_extended, virtualImageColor);
+          Line.render(p, this.eye, image_extended, virtualImageColor);
+        }
+        if (renderPointLocus) {
+          for (let i = 0; i < history.length - 1; i++) {
+            const p1 = history[i][1];
+            const p2 = history[i + 1][1];
+            const alpha = (i + 1) / history.length;
+            p.push();
+            p.strokeWeight(alpha);
+            Line.render(p, p1, p2, pointColor);
+            p.pop();
+          }
+        }
+        if (renderImageLocus) {
+          for (let i = 0; i < history.length - 1; i++) {
+            const p1 = history[i][2];
+            const p2 = history[i + 1][2];
+            if (!p1 || !p2) continue;
+            const alpha = (i + 1) / history.length;
+            p.push();
+            p.strokeWeight(alpha);
+            Line.render(p, p1, p2, imageColor);
+            p.pop();
+          }
+        }
+        if (renderImageLocus && renderVirtual) {
+          for (let i = 0; i < history.length - 1; i++) {
+            const p1 = history[i][3];
+            const p2 = history[i + 1][3];
+            if (!p1 || !p2) continue;
+            const alpha = (i + 1) / history.length;
+            p.push();
+            p.strokeWeight(alpha);
+            Line.render(p, p1, p2, virtualImageColor);
+            p.pop();
+          }
+        }
+        if (this.innerCanvas && renderInner) {
+          this.innerSetCamera();
+          if (image) Point.render(this.innerCanvas, image, imageColor);
+          if (vImage && renderVirtual) Point.render(this.innerCanvas, vImage, virtualImageColor);
+          if (renderInnerLocus) {
+            for (let i = 0; i < history.length - 1; i++) {
+              const p1 = history[i][2];
+              const p2 = history[i + 1][2];
+              if (!p1 || !p2) continue;
+              const alpha = (i + 1) / history.length;
+              this.innerCanvas.push();
+              this.innerCanvas.strokeWeight(alpha);
+              Line.render(this.innerCanvas, p1, p2, imageColor);
+              this.innerCanvas.pop();
+            }
+          }
+          if (renderInnerLocus && renderVirtual) {
+            for (let i = 0; i < history.length - 1; i++) {
+              const p1 = history[i][3];
+              const p2 = history[i + 1][3];
+              if (!p1 || !p2) continue;
+              const alpha = (i + 1) / history.length;
+              this.innerCanvas.push();
+              this.innerCanvas.strokeWeight(alpha);
+              Line.render(this.innerCanvas, p1, p2, virtualImageColor);
+              this.innerCanvas.pop();
+            }
+          }
+        }
+      }
+    };
+  }
+});
+
+// src/projection-and-perspective/sketches/ideal-camera-test.sketch.ts
+var ideal_camera_test_sketch_exports = {};
+__export(ideal_camera_test_sketch_exports, {
+  create: () => create8
+});
+function create8(el) {
+  return createP5Sketch(el, (p) => {
+    let scene = [];
+    let labels = [];
+    let camera;
+    p.preload = () => {
+      Label.loadFont(p);
+    };
+    p.setup = () => {
+      p.createCanvas(640, 480, p.WEBGL);
+      p.frameRate(30);
+      camera = new IdealCamera([200, 0, 0], [-30, 0, 0], 200, 150, p);
+      scene.push(new Box([-100, -20, -60], [80, 60, 80], [0, 0.4, 0]));
+      scene.push(new Box([-100, 10, 60], [60, 120, 60], [0, -0.3, 0]));
+      const posA = [-100, 20, -60];
+      const solved = camera.solve(posA);
+      scene.push(new Line(posA, [200, 0, 0], [0, 0, 0]));
+      scene.push(new Point(solved, [0, 0, 0]));
+      p.camera(500, 500, 500, 0, 0, 0, 0, -1, 0);
+    };
+    p.draw = () => {
+      p.background(255);
+      p.orbitControl();
+      scene.forEach((obj) => obj.render(p));
+      const t = p.millis() / 1e3;
+      const point = [100 * Math.cos(t) + 130, 100, 100 * Math.sin(t)];
+      camera.renderTrace(p, point, 0, {
+        renderPointLocus: true,
+        renderImageLocus: true,
+        renderVirtual: true,
+        renderInner: true,
+        renderInnerLocus: true
+      });
+      camera.outerRender(p);
+      labels.forEach((label) => label.render(p));
+      camera.innerRender(scene);
+      camera.canvasRender(p);
+    };
+  });
+}
+var init_ideal_camera_test_sketch = __esm({
+  "src/projection-and-perspective/sketches/ideal-camera-test.sketch.ts"() {
+    "use strict";
+    init_sketch_helper();
+    init_objects();
+    init_idealCamera();
+  }
+});
+
+// src/projection-and-perspective/sketches/ideal-camera1.sketch.ts
+var ideal_camera1_sketch_exports = {};
+__export(ideal_camera1_sketch_exports, {
+  create: () => create9
+});
+function create9(el) {
+  return createP5Sketch(el, (p) => {
+    let scene = [];
+    let labels = [];
+    let camera;
+    p.preload = () => {
+      Label.loadFont(p);
+    };
+    p.setup = () => {
+      p.createCanvas(640, 480, p.WEBGL);
+      camera = new IdealCamera([200, 0, 0], [-30, 0, 0], 200, 150, p);
+      p.camera(500, 500, 500, 0, 0, 0, 0, -1, 0);
+    };
+    p.draw = () => {
+      p.background(255);
+      p.orbitControl();
+      scene.forEach((obj) => obj.render(p));
+      camera.outerRender(p);
+      labels.forEach((label) => label.render(p));
+    };
+  });
+}
+var init_ideal_camera1_sketch = __esm({
+  "src/projection-and-perspective/sketches/ideal-camera1.sketch.ts"() {
+    "use strict";
+    init_sketch_helper();
+    init_objects();
+    init_idealCamera();
+  }
+});
+
+// src/projection-and-perspective/sketches/ideal-camera2.sketch.ts
+var ideal_camera2_sketch_exports = {};
+__export(ideal_camera2_sketch_exports, {
+  create: () => create10
+});
+function create10(el) {
+  return createP5Sketch(el, (p) => {
+    let scene = [];
+    let labels = [];
+    let camera;
+    p.preload = () => {
+      Label.loadFont(p);
+    };
+    p.setup = () => {
+      p.createCanvas(640, 480, p.WEBGL);
+      camera = new IdealCamera([200, 0, 0], [30, 0, 0], 200, 150, p);
+      p.camera(500, 500, 500, 0, 0, 0, 0, -1, 0);
+    };
+    p.draw = () => {
+      p.background(255);
+      p.orbitControl();
+      const t = p.millis() / 1e3;
+      const point = [Math.sin(t) * 50 - 100, Math.sin(t * 2) * 50, Math.sin(t * 3) * 50];
+      camera.renderTrace(p, point, 0, {
+        renderInner: true,
+        renderImageLocus: true,
+        renderPointLocus: true,
+        renderInnerLocus: true
+      });
+      camera.outerRender(p, { target: false, axis: false, axislabel: false });
+      labels.forEach((label) => label.render(p));
+      camera.canvasRender(p);
+    };
+  });
+}
+var init_ideal_camera2_sketch = __esm({
+  "src/projection-and-perspective/sketches/ideal-camera2.sketch.ts"() {
+    "use strict";
+    init_sketch_helper();
+    init_objects();
+    init_idealCamera();
+  }
+});
+
+// src/projection-and-perspective/sketches/symmetry-of-camera.sketch.ts
+var symmetry_of_camera_sketch_exports = {};
+__export(symmetry_of_camera_sketch_exports, {
+  create: () => create11
+});
+function create11(el, options) {
+  return createP5Sketch(el, (p) => {
+    let objects = [];
+    let grid = [];
+    let camera;
+    p.preload = () => {
+      Label.loadFont(p);
+    };
+    p.setup = () => {
+      p.createCanvas(640, 480, p.WEBGL);
+      camera = new IdealCamera([100, 0, 0], [-30, 0, 0], 200, 150, p);
+      objects.push(new Box([-80, -20, -60], [80, 60, 80], [0, 0.4, 0]));
+      objects.push(new Box([-130, 10, 60], [60, 120, 60], [0, -0.1, 0]));
+      objects.push(new Box([-10, -50, 20], [30, 20, 30], [0, -0.6, 0]));
+      const gridY = -30;
+      for (let x = -200; x <= 200; x += 50) {
+        grid.push(new Line([x, gridY, -200], [x, gridY, 200], [200, 200, 200]));
+        grid.push(new Line([-200, gridY, x], [200, gridY, x], [200, 200, 200]));
+      }
+      p.camera(500, 500, -500, 0, 0, 0, 0, -1, 0);
+      p.noiseDetail(2, 0.5);
+    };
+    p.draw = () => {
+      const phase = p.millis() / 6e3 % 1;
+      const mode = options.mode || "roll";
+      const whatToMove = options.whatToMove || "camera";
+      const rollAngle = phase * 2 * Math.PI;
+      const panAngle = Math.sin(phase * 2 * Math.PI) * 0.2;
+      const tiltAngle = Math.sin(phase * 4 * Math.PI) * 0.2;
+      const offsetAmount = 40 - Math.cos(4 * Math.PI * phase) * 40;
+      const pallalelOffset = phase < 0.5 ? [offsetAmount, 0, 0] : [0, 0, offsetAmount];
+      const t = p.millis() / 1e3 * 0.5;
+      const randomOffset = [
+        p.noise(t, 0) * 2 - 1,
+        p.noise(0, t) * 2 - 1,
+        p.noise(t, t) * 2 - 1
+      ].map((x) => x * 50);
+      const randomRotation = [
+        p.noise(t + 100, 0) * 2 - 1,
+        p.noise(0, t + 100) * 2 - 1,
+        p.noise(t + 100, t + 100) * 2 - 1
+      ].map((x) => x * Math.PI * 0.3);
+      p.background(255);
+      p.orbitControl();
+      p.push();
+      if (whatToMove == "objects" || whatToMove == "both") {
+        if (mode == "roll") {
+          p.rotateX(rollAngle);
+        }
+        if (mode == "pan-tilt") {
+          p.translate(...camera.eye);
+          p.rotateZ(tiltAngle);
+          p.rotateY(panAngle);
+          p.translate(...scale(camera.eye, -1));
+        }
+        if (mode == "parallel") {
+          p.translate(...pallalelOffset);
+        }
+        if (mode == "random") {
+          p.rotateX(randomRotation[0]);
+          p.rotateY(randomRotation[1]);
+          p.rotateZ(randomRotation[2]);
+          p.translate(...randomOffset);
+        }
+      }
+      objects.forEach((obj) => obj.render(p));
+      p.pop();
+      p.push();
+      if (whatToMove == "camera" || whatToMove == "both") {
+        if (mode == "roll") {
+          p.rotateX(rollAngle);
+        }
+        if (mode == "pan-tilt") {
+          p.translate(...camera.eye);
+          p.rotateZ(tiltAngle);
+          p.rotateY(panAngle);
+          p.translate(...scale(camera.eye, -1));
+        }
+        if (mode == "parallel") {
+          p.translate(...pallalelOffset);
+        }
+        if (mode == "random") {
+          p.rotateX(randomRotation[0]);
+          p.rotateY(randomRotation[1]);
+          p.rotateZ(randomRotation[2]);
+          p.translate(...randomOffset);
+        }
+      }
+      camera.outerRender(p);
+      p.pop();
+      if (whatToMove == "camera" || whatToMove == "both") {
+        if (mode == "roll") {
+          camera.innerCanvas.rotateX(-rollAngle);
+        }
+        if (mode == "pan-tilt") {
+          camera.innerCanvas.translate(...camera.eye);
+          camera.innerCanvas.rotateY(-panAngle);
+          camera.innerCanvas.rotateZ(-tiltAngle);
+          camera.innerCanvas.translate(...scale(camera.eye, -1));
+        }
+        if (mode == "parallel") {
+          camera.innerCanvas.translate(...scale(pallalelOffset, -1));
+        }
+        if (mode == "random") {
+          camera.innerCanvas.translate(...scale(randomOffset, -1));
+          camera.innerCanvas.rotateZ(-randomRotation[2]);
+          camera.innerCanvas.rotateY(-randomRotation[1]);
+          camera.innerCanvas.rotateX(-randomRotation[0]);
+        }
+      }
+      if (whatToMove == "objects" || whatToMove == "both") {
+        if (mode == "roll") {
+          camera.innerCanvas.rotateX(rollAngle);
+        }
+        if (mode == "pan-tilt") {
+          camera.innerCanvas.translate(...camera.eye);
+          camera.innerCanvas.rotateZ(tiltAngle);
+          camera.innerCanvas.rotateY(panAngle);
+          camera.innerCanvas.translate(...scale(camera.eye, -1));
+        }
+        if (mode == "parallel") {
+          camera.innerCanvas.translate(...pallalelOffset);
+        }
+        if (mode == "random") {
+          camera.innerCanvas.rotateX(randomRotation[0]);
+          camera.innerCanvas.rotateY(randomRotation[1]);
+          camera.innerCanvas.rotateZ(randomRotation[2]);
+          camera.innerCanvas.translate(...randomOffset);
+        }
+      }
+      camera.innerRender(objects);
+      camera.innerCanvas.resetMatrix();
+      camera.canvasRender(p);
+    };
+  });
+}
+var init_symmetry_of_camera_sketch = __esm({
+  "src/projection-and-perspective/sketches/symmetry-of-camera.sketch.ts"() {
+    "use strict";
+    init_sketch_helper();
+    init_objects();
+    init_idealCamera();
+    init_linearalgebra();
   }
 });
 
@@ -1005,40 +1725,112 @@ var sketchManifest = {
   "color-and-light/sketches/gamut-convex-hull": { loader: () => Promise.resolve().then(() => (init_gamut_convex_hull_sketch(), gamut_convex_hull_sketch_exports)) },
   "color-and-light/sketches/metamerism": { loader: () => Promise.resolve().then(() => (init_metamerism_sketch(), metamerism_sketch_exports)) },
   "color-and-light/sketches/photometry": { loader: () => Promise.resolve().then(() => (init_photometry_sketch(), photometry_sketch_exports)) },
-  "color-and-light/sketches/sine-wave": { loader: () => Promise.resolve().then(() => (init_sine_wave_sketch(), sine_wave_sketch_exports)) }
+  "color-and-light/sketches/sine-wave": { loader: () => Promise.resolve().then(() => (init_sine_wave_sketch(), sine_wave_sketch_exports)) },
+  "projection-and-perspective/sketches/ideal-camera-test": { loader: () => Promise.resolve().then(() => (init_ideal_camera_test_sketch(), ideal_camera_test_sketch_exports)) },
+  "projection-and-perspective/sketches/ideal-camera1": { loader: () => Promise.resolve().then(() => (init_ideal_camera1_sketch(), ideal_camera1_sketch_exports)) },
+  "projection-and-perspective/sketches/ideal-camera2": { loader: () => Promise.resolve().then(() => (init_ideal_camera2_sketch(), ideal_camera2_sketch_exports)) },
+  "projection-and-perspective/sketches/symmetry-of-camera": { loader: () => Promise.resolve().then(() => (init_symmetry_of_camera_sketch(), symmetry_of_camera_sketch_exports)) }
 };
 
 // src/_script/sketches.ts
+init_sketch_helper();
+var sketchStates = /* @__PURE__ */ new WeakMap();
 function searchLoader(path) {
   if (path in sketchManifest) {
     return sketchManifest[path].loader;
   }
   return null;
 }
+function parseSketchOptions(el) {
+  const rawOptions = el.getAttribute("data-options");
+  try {
+    return JSON.parse(rawOptions ?? "{}");
+  } catch (error) {
+    console.error("[sketch] failed to parse data-options", error, "raw:", rawOptions);
+    return {};
+  }
+}
+function applyVisibilityPolicy(state) {
+  if (!state.visible || document.hidden) {
+    state.sketch.stop();
+    return;
+  }
+  state.sketch.start();
+}
 async function mountSketch(el) {
   const path = el.getAttribute("data-path");
-  if (!path) return;
-  const options = JSON.parse(el.getAttribute("data-options") ?? "{}");
+  if (!path) return null;
+  const options = parseSketchOptions(el);
   try {
     const loader = searchLoader(path);
     if (!loader) {
       console.error(`[sketch] sketch not found, path: ${path}`);
-      return;
+      return null;
     }
     const module = await loader();
     if (typeof module.create !== "function") {
-      console.error(`[sketch] create() is not exported: ${name}`);
-      return;
+      console.error(`[sketch] create() is not exported: ${path}`);
+      return null;
     }
-    await module.create(el, options);
+    const rawSketch = await module.create(el, options) || {};
+    const sketch = normalizeSketch(el, rawSketch);
+    const state = {
+      sketch,
+      path,
+      options,
+      visible: false
+    };
+    applyVisibilityPolicy(state);
+    return state;
   } catch (error) {
-    console.error(`[sketch] failed to load: ${name}`, error);
+    console.error(`[sketch] failed to load: ${path}`, error);
+    return null;
+  }
+}
+function handleIntersection(entries) {
+  for (const entry of entries) {
+    const target = entry.target;
+    const state = sketchStates.get(target);
+    if (!state) continue;
+    state.visible = entry.isIntersecting;
+    applyVisibilityPolicy(state);
+  }
+}
+function setupVisibilityChangeHandler(states) {
+  document.addEventListener("visibilitychange", () => {
+    for (const state of states) {
+      applyVisibilityPolicy(state);
+    }
+  });
+}
+function observeSketches(states) {
+  if (states.length === 0) return;
+  if (!("IntersectionObserver" in window)) {
+    states.forEach((state) => {
+      state.visible = true;
+      applyVisibilityPolicy(state);
+    });
+    return;
+  }
+  const observer = new IntersectionObserver(handleIntersection, {
+    threshold: 0.01
+  });
+  for (const state of states) {
+    sketchStates.set(state.sketch.el, state);
+    observer.observe(state.sketch.el);
   }
 }
 function initSketches() {
-  document.querySelectorAll(".sketch").forEach((el) => {
-    void mountSketch(el);
-  });
+  const elements = Array.from(document.querySelectorAll(".sketch"));
+  void (async () => {
+    const mounted = await Promise.all(elements.map((node) => {
+      const el = node;
+      return mountSketch(el);
+    }));
+    const states = mounted.filter((state) => state !== null);
+    setupVisibilityChangeHandler(states);
+    observeSketches(states);
+  })();
 }
 
 // src/_script/quizzes.ts

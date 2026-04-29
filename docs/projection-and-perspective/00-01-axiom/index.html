@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/_style/style.css">
+<title>ヒルベルトの公理</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>ヒルベルトの公理</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_ヒルベルト幾何学">ヒルベルト幾何学</a></li>
+<li><a href="#_追加の定義と定理">追加の定義と定理</a></li>
+<li><a href="#_ヒルベルト幾何学の20の公理">ヒルベルト幾何学の20の公理</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_ヒルベルト幾何学">ヒルベルト幾何学</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>参考文献 : <a href="https://ja.wikibooks.org/wiki/%E5%B9%BE%E4%BD%95%E5%AD%A6%E5%9F%BA%E7%A4%8E%E8%AB%96/%E5%85%AC%E7%90%86" class="bare">https://ja.wikibooks.org/wiki/%E5%B9%BE%E4%BD%95%E5%AD%A6%E5%9F%BA%E7%A4%8E%E8%AB%96/%E5%85%AC%E7%90%86</a></p>
+</div>
+<div class="paragraph">
+<p>点、直線、平面の三種類の存在と、帰属、中間、合同という三種類の関係を合わせた六つの原子概念を認める。</p>
+</div>
+<div class="paragraph">
+<p>・点は、直線や平面に属することができる。「点Aは直線l上にある」「点Aは平面π上にある」などと表現する。
+・点は図形に属することができる。「点Aは図形G上にある」などと表現する。
+・図形上のすべての点が別の図形に属すとき、</p>
+</div>
+<div class="paragraph">
+<p>以下断りのない限り、点は異なるものとする。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_追加の定義と定理">追加の定義と定理</h2>
+<div class="sectionbody">
+<div class="openblock definition">
+<div class="title">定義（図形）</div>
+<div class="content">
+<div class="paragraph">
+<p>点の集まりを図形と呼ぶ。
+点は図形に属することができる。「点Aは図形G上にある」などと表現する。
+点が図形に属する必要十分条件を定めることで、図形の定義を定めることができる。</p>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+直線や平面は原子概念ですが、図形としても捉えることができます。
+</td>
+</tr>
+</table>
+</div>
+<div class="openblock definition">
+<div class="title">定義（交差）</div>
+<div class="content">
+<div class="paragraph">
+<p>二つの図形が交差するとは、両方の図形に属する点が存在することをいう。</p>
+</div>
+</div>
+</div>
+<div class="openblock definition">
+<div class="title">定義（線分）</div>
+<div class="content">
+<div class="paragraph">
+<p>点A,B,Pが同一直線上にあり、PがAとBの中間にあることを、「点Pが線分AB上にある」という。
+つまり、異なる2点A,Bについて、直線ABのうちAとBの間にある図形を「線分AB」と呼ぶ。</p>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+ここでは点A、B自身は線分ABに属さないものとしています。
+</td>
+</tr>
+</table>
+</div>
+<div class="openblock definition">
+<div class="title">定義（直線上の同じ側、反対側）</div>
+<div class="content">
+<div class="paragraph">
+<p>直線l上に点Pと、Pと異なる点A,Bがあって、Pが線分AB上にある時、「直線l上で点Pに対してAとBが反対側にある」という。
+AとBが同一点であるか、Pが線分AB上にない時、「直線l上で点Pに対してAとBが同じ側にある」などという。</p>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+AとBが共にPと異なる場合のみ定義しています。AまたはBがPに重なる時には、同じ側とも反対側ともいえないことに注意してください。
+</td>
+</tr>
+</table>
+</div>
+<div class="openblock definition">
+<div class="title">定義（平面上の同じ側、反対側）</div>
+<div class="content">
+<div class="paragraph">
+<p>平面π上に直線lと、l上にない点A,Bがあって、lと線分ABが交差するとき、「平面π上で直線lに対してAとBが反対側にある」という。
+AとBが同一であるか、lと線分ABが交差しないとき、「平面π上で直線lに対してAとBが同じ側にある」などという。</p>
+</div>
+</div>
+</div>
+<div class="openblock definition">
+<div class="title">定義（空間上の同じ側、反対側）</div>
+<div class="content">
+<div class="paragraph">
+<p>平面πとπ上にない点A,Bについて、πと線分ABが交差するとき、「平面πに対して点AとBが反対側にある」という。
+AとBが同一であるか、πと線分ABが交差しないとき、「平面πに対して点AとBが同じ側にある」などという。</p>
+</div>
+</div>
+</div>
+<div class="openblock definition">
+<div class="title">定義（半直線）</div>
+<div class="content">
+<div class="paragraph">
+<p>直線l上の異なる2点A,Bについて、l上でAに対してBとPが同じ側にあるような点Pが属する図形を「半直線AB」「AからBに伸びる半直線」「Aを端点とする直線AB上の半直線」などと呼ぶ。</p>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+直線ABと直線BA、線分ABと線分BAは同じものですが、半直線ABと半直線BAは明確に異なるので注意してください。
+</td>
+</tr>
+</table>
+</div>
+<div class="openblock definition">
+<div class="title">定義（半平面）</div>
+<div class="content">
+<div class="paragraph">
+<p>平面π上の直線lとl上にない点Aについて、π上でlに対してAとPが同じ側にあるような点Pが属する図形を「平面π上でlに対してA側の半平面」と呼ぶ。</p>
+</div>
+</div>
+</div>
+<div class="openblock definition">
+<div class="title">定義（半空間）</div>
+<div class="content">
+<div class="paragraph">
+<p>平面πとπ上にない点Aについて、πに対してAとPが同じ側にあるような点Pが属する図形を「πに対してA側の半空間」と呼ぶ。</p>
+</div>
+</div>
+</div>
+<div class="openblock definition">
+<div class="title">定義（角）</div>
+<div class="content">
+<div class="paragraph">
+<p>平面 α 上に同一直線上にない3点 ABCがあるとき、半直線AB、半直線ACの組を角といい、∠BACと表す。またこの時、半直線AB、半直線ACをこの角の辺、点Aをこの角の頂点という。
+直線ABに対してCと同じ側にある半平面と、直線ACに対してBと同じ側にある半平面との共通部分をこの角の内部といい、角の内部にも両半直線上にもない点の全体をこの角の外部という。</p>
+</div>
+</div>
+</div>
+<div class="openblock definition">
+<div class="title">定義（平行）</div>
+<div class="content">
+<div class="paragraph">
+<p>直線l と 直線m が同一平面にあってかつ交点を持たないとき、もしくはlとmが同一である場合、これを「lとmは平行」「l//m」などと表す。
+平面πと 平面σ が交点を持たないとき、もしくはπとσが同一である場合、これを「πとσは平行」「π//σ」などと表す。
+直線l と 平面π が交点を持たないとき、もしくはlがπ上にある時、これを「lとπは平行」「lとπは平行」「l//π」「π//l」などと表す。</p>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+同じ記号を使っていますが、直線同士の平行、平面同士の平行、直線と平面の平行は、似て非なる概念であり、性質も異なることに注意してください。
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+本書では、例外的に、直線とそれ自身、平面とそれ自身、平面とその平面上の直線は、共有点があるにもかかわらず平行であるとします。こうしないと推移律を満たさなくなるからです。
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ヒルベルト幾何学の20の公理">ヒルベルト幾何学の20の公理</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>これらの原子概念の性質を以下の20の公理のみによって定める。</p>
+</div>
+<div class="paragraph">
+<p>結合の公理1
+任意の2点 A, B に対して、それらを通る直線 l が少なくともひとつ存在する。</p>
+</div>
+<div class="paragraph">
+<p>結合の公理2
+異なる2点 A, B に対して、それらを通る直線 l はただひとつ存在する。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+そのような直線を直線ABと書くことがある。
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>結合の公理3
+一直線上にある異なる点が少なくとも2つ存在する。一直線上にない少なくとも3つの点が存在する。</p>
+</div>
+<div class="paragraph">
+<p>結合の公理4
+同一直線上にない3点 A, B, C を含む平面 α が存在する。平面上には少なくとも1点が存在する。</p>
+</div>
+<div class="paragraph">
+<p>結合の公理5
+同一直線上にない3点 A, B, C を含む平面はただひとつ存在する。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+そのような平面を平面ABCと書くことがある。
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>結合の公理6
+直線 l 上の異なる2点 A, B が平面 α 上にあるならば、直線 l は平面 α 上にある。</p>
+</div>
+<div class="paragraph">
+<p>結合の公理7
+点 A が平面 α, β 上に存在するならば、点 A とは異なり、平面 α, β 上にある 点 B が少なくとも一つは存在する。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+これは幾何学を3次元に縛っている。
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>結合の公理8
+同一平面上にない少なくとも4点が存在する。</p>
+</div>
+<div class="paragraph">
+<p>順序の公理1
+点 B が A, C の間にあれば、A, B, C は一直線上の相違なる3点であり、かつ点 B は点 C と A の間にある。</p>
+</div>
+<div class="paragraph">
+<p>順序の公理2
+任意の相異なる点 A, C に対し、 点 A と B の間に点 C があるような点 B が存在する。</p>
+</div>
+<div class="paragraph">
+<p>順序の公理3
+相異なる点 A, B, C が同一直線上にあるとき、AがBとCの間にあるか、BがCとAの間にあるか、CがAとBの間にあるかのいずれかである。</p>
+</div>
+<div class="paragraph">
+<p>順序の公理4（パシェの公理）
+A, B, C を同一直線上にない3点とし、平面 ABC上にあって、点 A, B, C をどれも通らない直線 l を定める。このとき、直線 l が 線分 AB と交差するならば、直線 l は 線分 BC と交差するか、または線分 AC と交差する。</p>
+</div>
+<div class="paragraph">
+<p>合同の公理1（線分の合同）
+直線 l 上にある異なる点 A, B があり、直線 l' 上にある点を A' とする。直線 l' 上に、点 A' に関して一方の側に点 B' が存在して、AB ≡ A&#8217;B' （線分AB と 線分A' B' は合同）とすることができる。</p>
+</div>
+<div class="paragraph">
+<p>合同の公理2（合同の推移性）
+AB≡CD ∧ CD≡EF ⇒ AB≡EF</p>
+</div>
+<div class="paragraph">
+<p>合同の公理3（線分の加法）
+直線 l 上に 点 A, B, C があり、点 B が 点 A, C の間にある、かつ直線 m 上に 点 P, Q, R があり、点 Q が 点 P, R の間にある、かつ AB ≡ PQ, BC ≡ QR ならば AC ≡ PR</p>
+</div>
+<div class="paragraph">
+<p>合同の公理4（角の合同）
+同一直線上にない3点 ABCを取る。また、点Pと点Q を相異なる2点とし、直線PQ上にない任意の点Sを取る。このとき、平面PQS上で直線PQに対してSと同じ側にある点Rを取って∠ABC≡∠PQRとすることができ、かつそのような半直線QRはただひとつに決まる。また、任意の角はそれ自身に合同である。記号で、∠ABC≡∠ABC.</p>
+</div>
+<div class="paragraph">
+<p>合同の公理5（二辺挟角相当）
+点 A, B, C が同一直線上にない3点で、かつ 点 A', B', C' が同一直線上にない3点であるとし、AB ≡ A&#8217;B', AC ≡ A&#8217;C', ∠BAC ≡ ∠B&#8217;A&#8217;C' ならば ∠ABC ≡ ∠A&#8217;B&#8217;C'</p>
+</div>
+<div class="paragraph">
+<p>平行線公理1（プレイフェアの公理）
+任意の直線 l と、直線 l 上にない任意の点 A に対して、直線 l と 点 A によって決まる平面 α 上にあり、点 A を通り直線 l と交わらない直線は高々ひとつ存在する。</p>
+</div>
+<div class="paragraph">
+<p>連続性公理1（アルキメデスの公理）
+任意の線分 AB, CD について、半直線AB 上に有限個の点 A1, A2, A3, &#8230;&#8203; , An-1, An, が存在して、線分 AA1, A1A2, A2A3, &#8230;&#8203; An-1An のそれぞれが線分 CD に合同かつ B が A と An の間にあるようにすることができる。</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+線分CDの長さの間隔で、AからB方向に目盛りを振って長さを測ることができる。
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>連続性公理2（一次元の完全性公理）
+一直線上にある点は、順序の公理1, 2、また合同の公理1、アルキメデスの公理を保存する限り、それ以上拡大不能である。すなわち、直線に幾つかの点を加えて上記全ての公理を満たすことはできない。なおここでいう「保存」は、公理が元通り成立することである。</p>
+</div>
+</div>
+</div>
+</main>
+<script src="/_script/main.js"></script>
+</body>
+
+</html>

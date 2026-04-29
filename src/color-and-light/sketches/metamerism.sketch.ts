@@ -1,5 +1,6 @@
 import type p5_ from "p5";
 declare const p5: typeof p5_;
+import { Sketch, createP5Sketch } from "../../_script/sketch-helper";
 import { LMSColor, monochromaticity, monochromaticityData, toLMS, RGBColor, toRGB, colorGain, colorAdd, toP5Color } from "../../_script/color";
 import { InputTable } from "../../_script/input";
 
@@ -59,7 +60,7 @@ function drawGamut(p: p5_, plotParam: [number, number, number], options: {
 export function create(el: HTMLDivElement, options: {
     allowNegative?: boolean,
     targetWavelength?: number
-}) {
+}): Sketch {
     const inputTable = new InputTable(el);
     const gainRSlider = inputTable.createRangeInput({
         label: "Gain R",
@@ -96,7 +97,7 @@ export function create(el: HTMLDivElement, options: {
     const colorG = RGBColor(0, 1, 0);
     const colorB = RGBColor(0, 0, 1);
 
-    new p5((p: p5_) => {
+    return createP5Sketch(el, (p: p5_) => {
         p.setup = () => {
             p.createCanvas(800, 600);
         };
@@ -243,5 +244,5 @@ export function create(el: HTMLDivElement, options: {
             p.triangle(...wallLeft2, ...wallCenter, ...lightPosTarget);
             p.filter(p.INVERT);
         }
-    }, el);
+    });
 }

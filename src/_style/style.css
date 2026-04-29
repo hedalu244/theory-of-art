@@ -116,7 +116,7 @@ h4 {
 }
 
 p {
-  margin-bottom: var(--spacing-md);
+  margin: 1em 0;
 }
 
 strong {
@@ -151,7 +151,7 @@ mark {
 }
 
 .paragraph {
-  margin-bottom: var(--spacing-md);
+  /*margin-bottom: var(--spacing-md);*/
 }
 
 .ulist,
@@ -195,6 +195,37 @@ mark {
 
   &.lowerroman > ol {
     list-style-type: lower-roman;
+  }
+}
+
+div.sidebarblock {
+  font-size: 0.9em;
+  margin: var(--spacing-lg) 0;
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  background-color: var(--color-code-bg);
+}
+
+/* ===== テーブル ===== */
+table.tableblock {
+  width: 100%;
+  margin: var(--spacing-lg) 0;
+  border-collapse: collapse;
+
+  & th.tableblock,
+  & td.tableblock {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--color-border);
+  }
+
+  & th.tableblock {
+    background-color: var(--color-code-bg);
+    font-weight: 600;
+  }
+
+  & p.tableblock:last-child {
+    margin-bottom: 0;
   }
 }
 
@@ -502,6 +533,50 @@ main {
     color: var(--color-accent);
     display: block;
     margin-bottom: var(--spacing-sm);
+  }
+}
+
+/* ===== 定理・定義ブロック ===== */
+:root {
+  --color-theorem: #4a6fa5;
+  --color-theorem-bg: #eef2f9;
+  --color-definition: #27ae60;
+  --color-definition-bg: #eafaf1;
+}
+
+.openblock.theorem,
+.openblock.definition {
+  margin: var(--spacing-lg) 0;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius);
+  border-left: 4px solid;
+
+  & > .title {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  & .content > .paragraph:last-child > p {
+    margin-bottom: 0;
+  }
+}
+
+.openblock.theorem {
+  background-color: var(--color-theorem-bg);
+  border-color: var(--color-theorem);
+
+  & > .title {
+    color: var(--color-theorem);
+  }
+}
+
+.openblock.definition {
+  background-color: var(--color-definition-bg);
+  border-color: var(--color-definition);
+
+  & > .title {
+    color: var(--color-definition);
   }
 }
 

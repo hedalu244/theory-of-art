@@ -1,0 +1,293 @@
+<div class="sect1">
+<h2 id="_結合に関する諸定理">結合に関する諸定理</h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_順序に関する諸定理">順序に関する諸定理</h2>
+<div class="sectionbody">
+<div class="openblock theorem">
+<div class="title">パッシュの定理</div>
+<div class="content">
+<div class="paragraph">
+<p>(A,B,C)∧(B,C,D)⇒(A,B,D)</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="content">
+<div class="paragraph">
+<p>順序の公理1よりABCDは同一直線上の点である。この直線をlとする。</p>
+</div>
+<div class="paragraph">
+<p>l上にない点Pを取る。Bを通り、線分CPと交わるような直線を一つとり、mとする。（線分CP上に適当な点を取り、その点とBから定まる直線をmとすればよい。線分CPはl上にないため、これはlとは異なる直線となる）</p>
+</div>
+<div class="paragraph">
+<p>三角形PCAとmに注目する。線分CPとmは交わっている。B∈mかつ(A,B,C)より、線分ACとmは点Bで交わる。よって、パッシュの公理よりmは線分APと交わらない。</p>
+</div>
+<div class="paragraph">
+<p>三角形PCDとmに注目する。線分CPとmは交わっている。lとmの交点はBのみであるが、(B,C,D)と順序の公理3より(C,B,D)ではないから、線分CDとmは交わらない。よって、パッシュの公理よりmは線分DPと交わる。</p>
+</div>
+<div class="paragraph">
+<p>三角形PADとmに注目する。mは線分APと交わらず、線分DPと交わるので、パッシュの公理より、mは線分ADと交わる。lとmの交点はBのみであり、線分ADはl上にあるから、mと線分ADの交点はBである。したがって、(A,B,D)。■</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>パッシュの定理を用いて(A,B,C)かつ(B,C,D)⇒(A,C,D)を示してみましょう。</p>
+</div>
+<div class="paragraph">
+<p>パッシュの定理より、
+(A,B,C)∧(B,C,D)⇒(A,B,D)
+順序の公理1より(C,B,A)⇒(A,B,C)、(D,C,B)⇒(B,C,D)、(A,B,D)⇒(D,B,A)なので、
+(D,C,B)∧(C,B,A)⇒(D,B,A)
+D→A、C→B、B→C、A→Dと置き換えると、
+(A,B,C)∧(B,C,D)⇒(A,C,D) ■</p>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（パッシュの定理の逆)</div>
+<div class="content">
+<div class="paragraph">
+<p>(A,B,C)∧(A,C,D)⇒(B,C,D)</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="content">
+<div class="paragraph">
+<p>順序の公理1よりABCDは同一直線上の点である。この直線をlとする。</p>
+</div>
+<div class="paragraph">
+<p>l上にない点Pを取る。Cを通り、線分APと交わるような直線を一つ取り、mとする。(線分AP上に適当な点を取り、その点とCから定まる直線をmとすればよい。線分APはl上にないため、これはlとは異なる直線となる）</p>
+</div>
+<div class="paragraph">
+<p>三角形PADとmに注目する。線分APとmは交わっている。C∈mかつ(A,C,D)より、mは線分ADとCで交わる。よって、パッシュの公理より、mは線分DPとは交わらない。</p>
+</div>
+<div class="paragraph">
+<p>三角形PABとmに注目する。線分APとmは交わっている。lとmの交点はCのみであるが、(A,B,C)と順序の公理3より(A,C,B)ではないから、mと線分ABは交わらない。よって、パッシュの公理よりmは線分BPと交わる。</p>
+</div>
+<div class="paragraph">
+<p>三角形PBDとmに注目する。mは線分DPとは交わらず、線分BPと交わるので、パッシュの公理より、mは線分BDと交わる。lとmの交点はCのみであり、線分BDはl上にあるから、mと線分BDの交点はCである。したがって、(B,C,D)。■</p>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（中間の推移性）</div>
+<div class="content">
+<div class="paragraph">
+<p>CがAとDの間にあり、かつBがAとCの間にあるとき、BはAとDの間にある。
+(A,B,C)∧(A,C,D)⇒(A,B,D)</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="content">
+<div class="paragraph">
+<p>パッシュの定理の逆より、(A,B,C)∧(A,C,D)⇒(B,C,D)。パッシュの定理より、(A,B,C)∧(B,C,D)⇒(A,B,D)。■</p>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（線分の包含）</div>
+<div class="content">
+<div class="paragraph">
+<p>CがAとBの間にある時、線分ABは線分ACと線分CBを包含する。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="content">
+<div class="paragraph">
+<p>線分AC上の任意の点Pが線分AB上にあることを示す。
+定義（線分）より、(A,P,C)。
+(A,C,B)かつ(A,P,C)なので、定理（中間の推移性）より(A,P,B)。定義（線分）より、Pは線分AB上にある。線分CBについても同様に示せる。■</p>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（点による直線の分割）</div>
+<div class="content">
+<div class="paragraph">
+<p>直線上に(A,B,C)なる三点と、ABCどれとも異なる点Pがあったとき、PはBに対してAの反対側にあるか、Cの反対側にあるかのいずれかである。
+(A,B,C)⇒(A,B,P)∨(P,B,C)</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="content">
+<div class="paragraph">
+<p>ABPについて、順序の公理3より、(A,B,P),(B,P,A),(P,A,B)のいずれか一つが成り立つ。</p>
+</div>
+<div class="paragraph">
+<p>(A,B,P)のとき、（∨-導入規則により）自明に(A,B,P)∨(P,B,C)が成り立つ。</p>
+</div>
+<div class="paragraph">
+<p>(B,P,A)のとき、順序の公理1より(A,P,B)が成り立つ。(A,P,B)かつ(A,B,C)なので、パッシュの定理の逆より(P,B,C)。∨-導入規則により(A,B,P)∨(P,B,C)が成り立つ。</p>
+</div>
+<div class="paragraph">
+<p>(P,A,B)のとき、(P,A,B)かつ(A,B,C)なので、パッシュの定理より、(P,B,C)。∨-導入規則により(A,B,P)∨(P,B,C)が成り立つ。■</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_同じ側反対側に関する諸定理">同じ側、反対側に関する諸定理</h2>
+<div class="sectionbody">
+<div class="openblock theorem">
+<div class="title">定理（直線上での同じ側の推移性）</div>
+<div class="content">
+<div class="paragraph">
+<p>点P,A,B,Cが同一直線上にあって、Pに対してAとBが同じ側にあり、かつ、Pに対してBとCが同じ側にあるとき、Pに対してAとCも同じ側にある。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="title">証明</div>
+<div class="content">
+<div class="paragraph">
+<p>AとBが同一点である場合、Pに対してBとCが同じ側であることから、Pに対してAとCは同じ側にある。
+AとCが同一点である場合も同様であるから、それ以外の場合について調べる。</p>
+</div>
+<div class="paragraph">
+<p>定理（点による直線の分割）より、(A,P,C)⇒(A,P,B)∨(B,P,C)が成り立つ。
+対偶を取ると、￢(A,P,B)∧￢(B,P,C)⇒￢(A,P,C)。■</p>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（半直線から半平面への拡大）</div>
+<div class="content">
+<div class="paragraph">
+<p>平面π上において、点Pが直線m上にあり、点Aが直線m上にないとき、半直線PA上にBがあるならば、平面π上で直線mに対してもAとBが同じ側にある。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="content">
+<div class="paragraph">
+<p>AとBが同一点である場合は定義（平面上の同じ側、反対側）より成り立つ。</p>
+</div>
+<div class="paragraph">
+<p>同一点でない場合、l上でAとBが同じ側にあるということは、線分AB上に点Pがないことを意味する。lとmの交点はPのみであるから、線分ABはmと交わらない。定義（平面上の同じ側、反対側）より、π上でmに対してAとBが同じ側にある。■</p>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（半平面から半空間への拡大）</div>
+<div class="content">
+<div class="paragraph">
+<p>平面πと平面σが直線lで交わっている。平面π上で点AとBがlに対して同じ側にあるとき、平面σに対して点AとBが同じ側にある。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="content">
+<div class="paragraph">
+<p>AとBが同一点である場合は定義（空間上の同じ側、反対側）より成り立つ。</p>
+</div>
+<div class="paragraph">
+<p>同一点でない場合、π上で点AとBがlに対して同じ側にあるということは、線分ABとlが交わらないことを意味する。線分ABとσとの交点がもしあれば、それはl上にあるはずであるから、線分ABはσと交わらない。定義（空間上の同じ側、反対側）より、平面σに対して点AとBが同じ側にある。■</p>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（平面上での同じ側の推移性）</div>
+<div class="content">
+<div class="paragraph">
+<p>直線lと点A,B,Cが同一平面上にあって、lに対してAとBが同じ側にあり、かつ、lに対してBとCが同じ側にあるとき、lに対してAとCも同じ側にある。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="content">
+<div class="paragraph">
+<p>A,B,Cが同一直線上にない場合、AとBが同じ側にあることから、線分ABはlと交わらない。BとCが同じ側にあることから、線分BCもlと交わらない。したがって、パッシュの公理より、線分ACもlと交わらない。■</p>
+</div>
+<div class="paragraph">
+<p>A,B,Cが同一直線上にある場合、その直線をmとする。mとlが平行である場合、m上にある線分ACはlと交わらないので、AとCは同じ側にある。</p>
+</div>
+<div class="paragraph">
+<p>mとlが平行でない場合、その交点をpとすると、定理（直線上での同じ側の推移性）より、pに対してAとCは同じ側にある。</p>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（空間中での同じ側の推移性）</div>
+<div class="content">
+<div class="paragraph">
+<p>平面πに対してAとBが同じ側にあり、BとCが同じ側にある時、AとBと同じ側にある。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="content">
+<div class="paragraph">
+<p>AとB,BとC,CとAのいずれか1組以上が同一点であれば。自明に成り立つ。
+A,B,Cが同一直線上になく、平面ABCと平面πが平行である場合、</p>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（半直線の凸性）</div>
+<div class="content">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>直線l上の点Pに対して、点AとBが同じ側にあるとき、AとBを結ぶ線分AB上の任意の点もAと同じ側にある。</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（半平面の凸性）</div>
+<div class="content">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>平面π上の直線lに対して、点AとBが同じ側にあるとき、AとBを結ぶ線分AB上の任意の点もAと同じ側にある。</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（半空間の凸性）</div>
+<div class="content">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>平面πに対して、点AとBが同じ側にあるとき、AとBを結ぶ線分AB上の任意の点もAと同じ側にある。</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="openblock definition">
+<div class="title">定義（延長）</div>
+<div class="content">
+<div class="paragraph">
+<p>線分や半直線が乗っている直線のことをその「延長」と呼ぶ。直線の延長はその直線自身とする。</p>
+</div>
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（延長の一意性）</div>
+<div class="content">
+<div class="paragraph">
+<p>直線、半直線、線分に対して延長はただ一つに定まる。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="title">証明</div>
+<div class="content">
+<div class="paragraph">
+<p>線分、半直線、直線上に異なる二点を取ることができる。</p>
+</div>
+</div>
+</div>
+</div>
+</div>

@@ -1,5 +1,6 @@
 import type p5_ from "p5";
 declare const p5: typeof p5_;
+import { Sketch, createP5Sketch } from "../../_script/sketch-helper";
 import { monochromaticityData, toP5Color, XYZColor, isInGamut } from "../../_script/color";
 
 function plot(xyz: XYZColor, x = 200, y = 10, scale = 500): [number, number] {
@@ -10,8 +11,8 @@ function plot(xyz: XYZColor, x = 200, y = 10, scale = 500): [number, number] {
     ];
 }
 
-export function create(el: HTMLDivElement) {
-    new p5((p: p5_) => {
+export function create(el: HTMLDivElement): Sketch {
+    return createP5Sketch(el, (p: p5_) => {
         p.setup = () => {
             p.createCanvas(800, 600);
         };
@@ -60,5 +61,5 @@ export function create(el: HTMLDivElement) {
                 }
             }
         };
-    }, el);
+    });
 }
