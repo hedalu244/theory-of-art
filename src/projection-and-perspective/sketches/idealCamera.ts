@@ -1,6 +1,7 @@
 import type p5_ from "p5";
 import { vector3, cross, scale, normalize, sub, add, mag, dot } from "../../_script/linearalgebra";
 import { Renderable, Point, Line, Label } from "./objects"
+import { toP5Color } from "../../_script/color";
 declare const p5: typeof p5_;
 
 function resetAs2D(p: p5_) {
@@ -60,7 +61,7 @@ export class IdealCamera {
         this.innerCanvas.camera(...this.eye, ...this.target, ...this.up);
         const distance = mag(sub(this.target, this.eye));
         const fovy = 2 * Math.atan(this.height / 2 / distance);
-        this.innerCanvas.perspective(fovy);
+        this.innerCanvas.perspective(fovy, this.width / this.height, 0.1, 1000);
     }
 
     innerRender(objects: Renderable[]) {
@@ -71,7 +72,6 @@ export class IdealCamera {
         for (const obj of objects) {
             obj.render(this.innerCanvas);
         }
-
     }
 
     canvasRender(p: p5_) {
@@ -115,8 +115,9 @@ export class IdealCamera {
             Line.render(p, this.eye, this.target, "#000");
         }
 
-        const right = normalize(cross(sub(this.target, this.eye), this.up));
-        const up = normalize(cross(right, sub(this.target, this.eye)));
+        const forward = normalize(sub(this.target, this.eye));
+        const right = normalize(cross(this.up, forward));
+        const up = normalize(cross(right, forward));
 
         const halfWidth = this.width / 2;
         const halfHeight = this.height / 2;
@@ -152,28 +153,22 @@ export class IdealCamera {
         }
 
 
-        const forward = normalize(sub(this.target, this.eye));
+        //const forward = normalize(sub(this.target, this.eye));
         //const right = normalize(cross(forward, this.up));
         //const up = normalize(cross(right, forward));
-        const planeLabelPos = add(add(this.target, scale(right, -halfWidth)), scale(up, -halfHeight + 5));
-        const criticalLabelPos = add(add(this.eye, scale(right, -halfWidth)), scale(up, -halfHeight + 5));
+        const planeLabelPos = add(add(this.target, scale(right, halfWidth)), scale(up, halfHeight - 5));
+        const criticalLabelPos = add(add(this.eye, scale(right, halfWidth)), scale(up, halfHeight - 5));
 
-        const eyeLabel = new Label(this.eye, "視点 E");
-        const targetLabel = new Label(this.target, "視心 O");
-        const planeLabel = new Label(planeLabelPos, "投影面", "#000", up, right);
-        const criticalLabel = new Label(criticalLabelPos, "臨界面", "#f00", up, right);
-        const axisLabel = new Label(add(scale(up, -14), scale(add(this.eye, this.target), 0.5)), "視軸", "#000", up, forward);
-
-        eyeLabel.render(p);
+        Label.render(p, this.eye, "視点 E");
         if (options.target) {
-            targetLabel.render(p);
+            Label.render(p, this.target, "視心 O");
         }
         if (options.axis) {
-            axisLabel.render(p);
+            Label.render(p, add(scale(up, -14), scale(add(this.eye, this.target), 0.5)), "視軸", "#000", up, forward);
         }
-        planeLabel.render(p);
+        Label.render(p, planeLabelPos, "投影面", "#000", up, scale(right, -1));
         if (options.critical) {
-            criticalLabel.render(p);
+            Label.render(p, criticalLabelPos, "臨界面", "#f00", up, scale(right, -1));
         }
     }
 
@@ -181,22 +176,22 @@ export class IdealCamera {
     history = new Map<number, [number, vector3, vector3 | undefined, vector3 | undefined][]>();
     historyLifespan = 3000; // ms
 
-    renderTrace(p: p5_, point: vector3, id = 0, options: {
-        renderVirtual?: boolean
+    renderTrace(p: p5_, point: vector3, id = 0, 
+    pointColor = "#000",
+    imageColor = "#f00",
+    virtualImageColor?: string,    
+    options: {
         renderInner?: boolean
         renderImageLocus?: boolean
         renderPointLocus?: boolean
         renderInnerLocus?: boolean
+        extension?: number
     } = {}) {
-        const pointColor = "#000";
-        const imageColor = "#f00";
-        const virtualImageColor = "#00f";
-
-        const renderVirtual = options.renderVirtual ?? false;
         const renderInner = options.renderInner ?? false;
         const renderImageLocus = options.renderImageLocus ?? false;
         const renderPointLocus = options.renderPointLocus ?? false;
         const renderInnerLocus = options.renderInnerLocus ?? false;
+        const extension = options.extension ?? 10;
 
         const image = this.solve(point);
         const vImage = this.solve_virtual(point);
@@ -211,8 +206,8 @@ export class IdealCamera {
         Point.render(p, point, pointColor);
 
         if (image) {
-            const point_extended = add(point, scale(normalize(sub(point, this.eye)), 10));
-            const image_extended = add(image, scale(normalize(sub(image, this.eye)), 10));
+            const point_extended = add(point, scale(normalize(sub(point, this.eye)), extension));
+            const image_extended = add(image, scale(normalize(sub(image, this.eye)), extension));
 
             Point.render(p, image, imageColor);
 
@@ -220,9 +215,9 @@ export class IdealCamera {
             Line.render(p, this.eye, image_extended, imageColor);
         }
 
-        if (vImage && renderVirtual) {
-            const point_extended = add(point, scale(normalize(sub(point, this.eye)), 10));
-            const image_extended = add(vImage, scale(normalize(sub(vImage, this.eye)), 10));
+        if (vImage && virtualImageColor) {
+            const point_extended = add(point, scale(normalize(sub(point, this.eye)), extension));
+            const image_extended = add(vImage, scale(normalize(sub(vImage, this.eye)), extension));
 
             Point.render(p, vImage, virtualImageColor);
 
@@ -260,7 +255,7 @@ export class IdealCamera {
             }
         }
 
-        if (renderImageLocus && renderVirtual) {
+        if (renderImageLocus && virtualImageColor) {
             for (let i = 0; i < history.length - 1; i++) {
                 const p1 = history[i][3];
                 const p2 = history[i + 1][3];
@@ -281,7 +276,7 @@ export class IdealCamera {
 
             if (image) Point.render(this.innerCanvas, image, imageColor);
 
-            if (vImage && renderVirtual) Point.render(this.innerCanvas, vImage, virtualImageColor);
+            if (vImage && virtualImageColor) Point.render(this.innerCanvas, vImage, virtualImageColor);
 
             if (renderInnerLocus) {
                 for (let i = 0; i < history.length - 1; i++) {
@@ -299,7 +294,7 @@ export class IdealCamera {
                 }
             }
 
-            if (renderInnerLocus && renderVirtual) {
+            if (renderInnerLocus && virtualImageColor) {
                 for (let i = 0; i < history.length - 1; i++) {
                     const p1 = history[i][3];
                     const p2 = history[i + 1][3];

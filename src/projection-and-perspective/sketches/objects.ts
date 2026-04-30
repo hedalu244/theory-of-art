@@ -49,7 +49,7 @@ export class Line implements Renderable {
         Line.render(p, this.start, this.end, this.color);
     }
     
-    static render(p: p5_ | p5_.Graphics, start: vector3, end: vector3, color: string): void {
+    static render(p: p5_ | p5_.Graphics, start: vector3, end: vector3, color: string = "#000"): void {
         p.push();
         setStyle(p, color, undefined);
         p.line(...start, ...end);
@@ -83,7 +83,7 @@ export class Label implements Renderable {
         Label.render(p, this.position, this.text, this.color, this.up, this.right);
     }
 
-    static render(p: p5_ | p5_.Graphics, position: vector3, text: string, color: string, up_?: vector3, right_?: vector3): void {
+    static render(p: p5_ | p5_.Graphics, position: vector3, text: string, color: string = "#000", up_?: vector3, right_?: vector3): void {
         if(!Label.font) {
             return;
         }
@@ -99,10 +99,10 @@ export class Label implements Renderable {
         p.textFont(Label.font);
 
         if (up && right) {
-            const forward = normalize(cross(right, up));
+            const forward = normalize(cross(up, right));
             p.applyMatrix(
                 right[0], right[1], right[2], 0,
-                up[0], up[1], up[2], 0,
+                -up[0], -up[1], -up[2], 0,
                 forward[0], forward[1], forward[2], 0,
                 ...position, 1
             );

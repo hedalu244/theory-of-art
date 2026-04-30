@@ -2,10 +2,10 @@ import type p5_ from "p5";
 declare const p5: typeof p5_;
 import { Sketch, createP5Sketch } from "../../_script/sketch-helper";
 import { Renderable, Label, Line, Box, Sphere, Point } from "./objects.ts";
-import { IdealCamera } from "./idealCamera.ts"
+import { IdealCamera } from "./idealCamera.ts";
 import { vector3, add, scale, sub } from "../../_script/linearalgebra.ts";
 
-type Mode = "roll" | "pan-tilt" | "random" | "parallel" | "zoom";
+type Mode = "roll" | "pan-tilt" | "random" | "parallel" | "zoom" | "dolly-zoom";
 type WhatToMove = "camera" | "objects" | "both";
 
 export function create(el: HTMLDivElement, options: {
@@ -19,12 +19,11 @@ export function create(el: HTMLDivElement, options: {
 
         p.preload = () => {
             Label.loadFont(p);
-        }
+        };
 
         p.setup = () => {
             p.createCanvas(640, 480, p.WEBGL);
 
-            camera = new IdealCamera([100, 0, 0], [-30, 0, 0], 200, 150, p);
             objects.push(new Box([-80, -20, -60], [80, 60, 80], [0, 0.4, 0]));
             objects.push(new Box([-130, 10, 60], [60, 120, 60], [0, -0.1, 0]));
             objects.push(new Box([-10, -50, 20], [30, 20, 30], [0, -0.6, 0]));
@@ -35,6 +34,7 @@ export function create(el: HTMLDivElement, options: {
                 grid.push(new Line([-200, gridY, x], [200, gridY, x], "#ccc"));
             }
 
+            camera = new IdealCamera([100, 0, 0], [-30, 0, 0], 200, 150, p);
             // outercamera
             p.camera(500, 500, -500, 0, 0, 0, 0, -1, 0); // Position, LookAt, Up
 
@@ -47,9 +47,15 @@ export function create(el: HTMLDivElement, options: {
             const mode = options.mode || "roll";
             const whatToMove = options.whatToMove || "camera";
 
-            const distance = mode == "zoom" ? Math.sin(phase) * 50 + 130 : 130;
-            camera.target[0] = camera.eye[0] - distance;
-
+            if (options.mode == "zoom" || options.mode == "dolly-zoom") {
+                const distance = Math.sin(phase) * 50 + 130;
+                if (options.mode == "dolly-zoom") {
+                    camera.eye[0] = camera.target[0] + distance;
+                }
+                if (options.mode == "zoom") {
+                    camera.target[0] = camera.eye[0] - distance;
+                }
+            }
             const rollAngle = phase;
             const panAngle = Math.sin(phase) * 0.2;
             const tiltAngle = Math.sin(phase * 2) * 0.2;

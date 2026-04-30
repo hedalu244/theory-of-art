@@ -34,60 +34,185 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="toc" class="toc">
 <div id="toctitle" class="title">目次</div>
 <ul class="sectlevel1">
-<li><a href="#_画角と視距離画面サイズ">画角と視距離、画面サイズ</a></li>
-<li><a href="#_カメラを動かしながら画角を変える">カメラを動かしながら画角を変える</a></li>
+<li><a href="#_画角と視距離画面サイズ">画角と視距離、画面サイズ</a>
+<ul class="sectlevel2">
+<li><a href="#_レンズカメラとの対応">レンズカメラとの対応</a></li>
+</ul>
+</li>
+<li><a href="#_画角を変化させるとどうなるか">画角を変化させるとどうなるか</a>
+<ul class="sectlevel2">
+<li><a href="#_投影面の前後移動">投影面の前後移動</a></li>
+<li><a href="#_視点の前後移動">視点の前後移動</a></li>
+</ul>
+</li>
 <li><a href="#_画角が大きい時どうなるか">画角が大きい時どうなるか</a></li>
-<li><a href="#_網膜との関係">網膜との関係</a></li>
+<li><a href="#_視円錐網膜との関係">視円錐、網膜との関係</a></li>
 </ul>
 </div>
 <div class="sect1">
 <h2 id="_画角と視距離画面サイズ">画角と視距離、画面サイズ</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>無限に広がる平面としましたが、実際はそのうちの有限の領域を切りとることになります。
-用途によって例外はありますが、一般的には視中心を中心とする長方形の領域を切り取ることが多いでしょう。この領域を「画面」と呼びます。</p>
+<p>投影面は無限に広がる平面としていました。しかし、絵を描くときにせよ製図をするときにせよ、実際はそのうちの有限の領域を切りとることになります。用途によって例外はありますが、一般的には視中心を中心とする長方形の領域を切り取ることが多いでしょう。この領域を「画面」と呼ぶことにします。</p>
 </div>
 <div class="paragraph">
 <p>そして画面の両端と視点がなす角を「画角」と呼びます。「両端」と言っても、上下、左右、対角線、など、どの両端を指すかによって画角は変わります。必要があれば、幅によって定義した場合は「水平画角」、高さによって定義した場合は「垂直画角」、対角線によって定義した場合は「対角画角」と明示して呼ぶこともあります。</p>
 </div>
 <div class="paragraph">
-<p>画角、視距離、画面サイズは一定の関係にあります。画角を \(\theta\) 、視距離を \(d\) として、画面サイズを \(s\) とすると、その関係は以下の式で表せます。
-\[
-s = 2d \tan\left(\frac{\theta}{2}\right)
-\]
-これは、画角、視距離、画面サイズのうち、二つを決めればもう一つは自動的に決まることを意味しています。例えば、画角と画面サイズを決めれば、視距離は自動的に決まります。逆に、画角と画面サイズを変えずに視距離だけを変えることはできません。他の組み合わせについても同様です。</p>
+<p>そして、視点と投影面の距離を視距離と呼ぶのでした。画角、視距離、画面サイズは一定の関係にあります。画角を \(\theta\) 、視距離を \(d\) として、画面サイズを \(s\) とすると、その関係は以下の式で表せます。</p>
 </div>
 <div class="paragraph">
-<p>定義（画角）
-現実には無限に続く投影面から有限の領域を切り出して絵や図や写真に収めることが多い。この領域の大きさを画角で表す。
-垂直画角、水平画角、対角線画角</p>
+<p>\[
+s = 2d \tan\left(\frac{\theta}{2}\right) \\
+\theta = 2 \arctan\left(\frac{s}{2d}\right) \\
+d = \frac{s}{2 \tan\left(\frac{\theta}{2}\right)} \\
+\]</p>
 </div>
 <div class="paragraph">
-<p>画面サイズ/2＝視距離×tan(画角/2)</p>
+<p>これは、画角、視距離、画面サイズのうち、二つを決めればもう一つは自動的に決まることを意味しています。例えば、画角と画面サイズを決めれば、視距離は自動的に決まります。逆に、画角と画面サイズを変えずに視距離だけを変えることはできません。他の組み合わせについても同様です。</p>
 </div>
 <div class="paragraph">
-<p>画角が一定の時、絵を拡大すると視距離は大きくなる。
-視距離が一定の時、画角を小さくすると絵は小さくなり、見える領域も狭くなる。
-絵の大きさが一定の時、画角を大きくすると視距離は小さくなる。</p>
+<p>一般に、<strong>画角が広いことを「広角」、狭いことを「望遠」といい</strong>、その中間を「標準画角」、または略して「標準」といいます。これは相対的な基準なので、どこを標準画角とするかは基準や文脈によって変わります。後述します。</p>
+</div>
+<div class="sect2">
+<h3 id="_レンズカメラとの対応">レンズカメラとの対応</h3>
+<div class="paragraph">
+<p>視距離に似た概念で、レンズカメラにおける焦点距離というのがあります。</p>
+</div>
+<div class="paragraph">
+<p>レンズカメラにおいては、レンズ（疑似的に視点といえる）とフィルム（疑似的に投影面といえる）の距離が視距離に相当します。レンズの焦点距離が一定でも、レンズを動かすことでピントが変わる、つまりピントをどこに合わせるか次第で視距離は変わるので、これらは厳密に同じものとは言えません。ですが、十分に遠く（10～100m）にピントを合わせたときには視距離と焦点距離が一致するので、同一視して考えることがあります。</p>
+</div>
+<div class="paragraph">
+<p>また、カメラにおけるフィルムの大きさは 24×36mm がもっとも一般的です。</p>
+</div>
+<div class="paragraph">
+<p>すると、焦点距離と画角を相互に換算することができます。例えば、焦点距離50mmの時の対角画角を計算すると、以下のようになります。</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>対角線の長さを求める \( \sqrt{24^2 + 36^2} = 12 \sqrt{13} \approx 43.27 \) mm</p>
+</div>
+<div class="paragraph">
+<p>対角画角を求める \( \theta = 2 \arctan\left(\frac{12 \sqrt{13}}{2 \times 50}\right) \approx 46.8^\circ \)</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_カメラを動かしながら画角を変える">カメラを動かしながら画角を変える</h2>
+<h2 id="_画角を変化させるとどうなるか">画角を変化させるとどうなるか</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>視点と投影面を固定して画面サイズを変えた場合というのは、像は形も大きさも変わらず、単に切り抜き方が変わるだけなので、簡単です。なので、画面サイズを一定にして視距離と画角を変えることを考えてみましょう。画面サイズを固定したので、以下、<strong>視距離が近いほど広角、遠いほど望遠</strong> になることに留意してください。</p>
+</div>
+<div class="sect2">
+<h3 id="_投影面の前後移動">投影面の前後移動</h3>
+<div class="paragraph">
+<p>まず、視距離を変えるために、視点を固定したまま投影面を平行移動することをかんがえます。こうすると像は変化しますが、視距離に比例して大きさだけが変わります。図を書いてみると相似変形になっていることがわかるはずです。</p>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="projection-and-perspective/sketches/symmetry-of-camera" data-options="{&quot;mode&quot;:&quot;zoom&quot;, &quot;whatToMove&quot;:&quot;camera&quot;}"></div>
+</div>
+<div class="paragraph">
+<p>TODO: 図を描く</p>
+</div>
+<div class="paragraph">
+<p>これはいわゆるズームに相当します。投影面を前後に移動させるとき、広角、望遠は難しい概念ではなく、単に口角の絵の中心付近を切り取って拡大したものが、望遠の像なのです。</p>
+</div>
+<div class="paragraph">
+<p>ちなみに、像を求めるために線分ではなく半直線を用いたのは、実はこのメリットのためでした。視点Eとして、点Pの像を「<strong>線分</strong> EPと投影面の交点」と定義してしまうと、投影面より視点側にPがある時に交点が存在しなくなってしまいます。別の見方をすると、投影面を奥に動かすと図形の像が手前から削り取られるように変化してしまうわけです。一方、「<strong>半直線</strong> EPと投影面の交点」と定義すれば、Pが投影面より奥にあろうと手前にあろうと交点が存在するため、投影面を前後に動かしても相似に変形するだけです。この方がシンプルですね。</p>
+</div>
+<details>
+<summary class="title">投影面の無次元化</summary>
+<div class="content">
+<div class="paragraph">
+<p>こう考えると、視距離の違いというのはさほど本質的でない問題であるといえそうです。このとき、投影面上の像の大きさは、長さの次元を持たない無次元量となります。このように考えると話が簡単になる部分もあるのですが、長さの次元がある平面とない平面が一つの図に同時に存在するというのは慣れないとかえって難しい部分があるので、ここでは視距離を固定せずに話を進めます。</p>
+</div>
+</div>
+</details>
+</div>
+<div class="sect2">
+<h3 id="_視点の前後移動">視点の前後移動</h3>
+<div class="paragraph">
+<p>一方で、視距離を変えるといっても、<strong>投影面を固定して視点を移動させた場合</strong> には、話が全く変わります。「並進対称性がない」でも扱ったように、視点が動くとそもそも「何と何が重なるか」が変化するため、この場合は単なる拡大縮小では済まなくなります。</p>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="projection-and-perspective/sketches/symmetry-of-camera" data-options="{&quot;mode&quot;:&quot;dolly-zoom&quot;, &quot;whatToMove&quot;:&quot;camera&quot;}"></div>
+</div>
+<div class="paragraph">
+<p>TODO: 図を描く</p>
+</div>
+<div class="paragraph">
+<p>投影面を固定して視点を投影面に近づけると、投影面よりも近いものの像はより大きくなり（外側に移動し）、投影面より遠くにあるものの像はさらに小さくなり（内側に移動し）ます。したがって、投影面に近づけると遠近感が強調され、前後に引き延ばされたような像になります。「広角はパースが強い」「望遠は前後が圧縮される」などというのはこの現象に由来します。</p>
+</div>
+<div class="paragraph">
+<p>この変化を映像として扱うと、世界全体が変形したような不思議な効果を与えます。「めまい（Vertigo）」という映画で使用されたので、「めまいショット」と呼ばれたり、カメラの前後移動＝ドーリー（Dolly）とズーム（Zoom）を同時に行っているので「ドーリーズーム」と呼ばれたりします。</p>
+</div>
+<div style="text-align: center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/G7YJkBcRWB8?si=MNtlK_o5jN4q0flD&amp;start=28" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_画角が大きい時どうなるか">画角が大きい時どうなるか</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>すでに述べたように、投影面の中で中心から遠い部分では、像が元のモチーフの形状よりも大きく外側に引き延ばされたように変形します。一般的に、自然に見える画角は40～60度が限界といわれていて、特に画角が90度を超えると非直感的な変形が顕著になります。広角になるとそのような外周部が映り込むため、「広角の絵はゆがみが大きく見える」といわれることが多いです。</p>
+</div>
+<div class="paragraph">
+<p>以下の動画では極端な広角の例が見られます。</p>
+</div>
+<div style="text-align: center;">
+<iframe width="560" height="315" style="" src="https://www.youtube.com/embed/nB2brMLAAiw?si=v44m95QkgcSTD82K" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+<div class="paragraph">
+<p>ただし、どんなに歪んで見える広角でも、「『本来の視点』から見れば」理論上はモチーフとぴったり重なって見えることを忘れないでください。広角の絵は視距離が短いので、「本来の視点」はかなり絵の近くにあるはずです。その「本来の視点」から見れば、片目を閉じてもう片方を画面に近づけた状態で見れば、（外周も含めて全体が）本来のモチーフの形状そのままで見えるはずです。</p>
+</div>
+<div class="paragraph">
+<p>「本来の視点」から絵の外周部を見る時は、斜めから見ることで縮むような変換が加わることで、引き延ばされていたのが補正される、と考えると、イメージしやすいでしょう。</p>
+</div>
+<div class="paragraph">
+<p>これは「ガラス板をなぞる方法」で確認しましたね。ある視点からぴったり重なるように描いているからぴったり重なります。しかし、実際にそのようにして絵を見る人はほとんどいないので、ゆがんで見えるのです。</p>
+</div>
+<div class="paragraph">
+<p>少し面白い例を出します。像を意図的に、しかし復元可能な方法で歪ませて描く「アナモルフォーシス」と呼ばれる技法があります。例えば、ハンス・ホルバインの「大使たち」では、画面の下方に歪んだ形で骸骨が描かれています。この骸骨は、特定の視点から見ると正しい形に見えるようになっています。引き延ばされた骸骨を斜めから見ることで、「縮む変換」をして相殺しているわけですね。</p>
+</div>
+<div class="paragraph">
+<p>これはある意味、広角ゆがみと同じ歪ませ方をしています。この骸骨だけ「別の視点」をつかってガラス板をなぞったのに相当するわけです。</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Hans_Holbein_the_Younger_-_The_Ambassadors_-_Google_Art_Project.jpg/960px-Hans_Holbein_the_Younger_-_The_Ambassadors_-_Google_Art_Project.jpg" alt="960px Hans Holbein the Younger   The Ambassadors   Google Art Project" width="500">
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Holbein_Skull.jpg/330px-Holbein_Skull.jpg" alt="330px Holbein Skull" width="330">
+</div>
+</div>
+<div class="paragraph">
+<p>なお、「広角レンズのゆがみ」というと、魚眼レンズや樽状収差のようなゆがみを連想するかもしれませんが、これは全く別の現象なので注意してください。これらの曲線的なゆがみは、実在の広角レンズが理想カメラから乖離したことによる問題です（レンズの設計上の理由により、広角になるほど理想カメラに近づけることが難しくなります）。一方で、この「外側に引き延ばされたように見える」というゆがみ方は、理想カメラでも起きる問題です。</p>
+</div>
+<div class="paragraph">
+<p>ちなみに、「本来の視点」よりも遠い位置から鑑賞した時にはこのようにゆがみが問題になる一方で、本来の視点より近い位置で見る分にはさほど問題にならないようです。</p>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_網膜との関係">網膜との関係</h2>
+<h2 id="_視円錐網膜との関係">視円錐、網膜との関係</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>しかし、絵として自然に見える画角は40～60度が限界といわれています。カメラにおいて標準画角では50mm≒46度が「人間の視野に近い」と言われることが多いです。このような画角の限界は、しばしば人間の網膜上の錐体細胞の分布などと関連付けられることがあります。</p>
+</div>
+<div class="paragraph">
+<p>しかし、実際にはいま説明したように、画角と形の正しさは全く関係ありません。それに、「ガラス板をなぞる方法」は目から先のことだけを考えているので、網膜や脳、また「視野とは何か」といった問題を考慮しなくていいものだったことを思い出してください。</p>
+</div>
+<div class="paragraph">
+<p>では、理想カメラにおける画角の広さと人間の視野の広さに何の関係があるのか。強いて言えば「正面から目を動かさずに全体が見えるような位置で絵を見るのが『自然』だから」ぐらいの理由付けができると考えています。標準画角程度であれば、そのような自然な見方で絵を見たときに、目の位置がちょうど『本来の視点』に近い位置に来るのでしょう。つまり、「視野とは何か」ではなく、見る時の鑑賞者の立ち位置の問題なのだろうと思われます。</p>
+</div>
 </div>
 </div>
 </main>

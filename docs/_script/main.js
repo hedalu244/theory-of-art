@@ -1117,7 +1117,7 @@ var init_objects = __esm({
       render(p) {
         _Line.render(p, this.start, this.end, this.color);
       }
-      static render(p, start, end, color) {
+      static render(p, start, end, color = "#000") {
         p.push();
         setStyle(p, color, void 0);
         p.line(...start, ...end);
@@ -1143,7 +1143,7 @@ var init_objects = __esm({
       render(p) {
         _Label.render(p, this.position, this.text, this.color, this.up, this.right);
       }
-      static render(p, position, text, color, up_, right_) {
+      static render(p, position, text, color = "#000", up_, right_) {
         if (!_Label.font) {
           return;
         }
@@ -1155,15 +1155,15 @@ var init_objects = __esm({
         setStyle(p, void 0, color);
         p.textFont(_Label.font);
         if (up && right) {
-          const forward = normalize(cross(right, up));
+          const forward = normalize(cross(up, right));
           p.applyMatrix(
             right[0],
             right[1],
             right[2],
             0,
-            up[0],
-            up[1],
-            up[2],
+            -up[0],
+            -up[1],
+            -up[2],
             0,
             forward[0],
             forward[1],
@@ -1293,7 +1293,7 @@ var init_idealCamera = __esm({
         this.innerCanvas.camera(...this.eye, ...this.target, ...this.up);
         const distance = mag(sub(this.target, this.eye));
         const fovy = 2 * Math.atan(this.height / 2 / distance);
-        this.innerCanvas.perspective(fovy);
+        this.innerCanvas.perspective(fovy, this.width / this.height, 0.1, 1e3);
       }
       innerRender(objects) {
         if (!this.innerCanvas) return;
@@ -1326,8 +1326,9 @@ var init_idealCamera = __esm({
         if (options.axis) {
           Line.render(p, this.eye, this.target, "#000");
         }
-        const right = normalize(cross(sub(this.target, this.eye), this.up));
-        const up = normalize(cross(right, sub(this.target, this.eye)));
+        const forward = normalize(sub(this.target, this.eye));
+        const right = normalize(cross(this.up, forward));
+        const up = normalize(cross(right, forward));
         const halfWidth = this.width / 2;
         const halfHeight = this.height / 2;
         p.push();
@@ -1354,36 +1355,27 @@ var init_idealCamera = __esm({
           p.endShape(p.CLOSE);
           p.pop();
         }
-        const forward = normalize(sub(this.target, this.eye));
-        const planeLabelPos = add(add(this.target, scale(right, -halfWidth)), scale(up, -halfHeight + 5));
-        const criticalLabelPos = add(add(this.eye, scale(right, -halfWidth)), scale(up, -halfHeight + 5));
-        const eyeLabel = new Label(this.eye, "\u8996\u70B9 E");
-        const targetLabel = new Label(this.target, "\u8996\u5FC3 O");
-        const planeLabel = new Label(planeLabelPos, "\u6295\u5F71\u9762", "#000", up, right);
-        const criticalLabel = new Label(criticalLabelPos, "\u81E8\u754C\u9762", "#f00", up, right);
-        const axisLabel = new Label(add(scale(up, -14), scale(add(this.eye, this.target), 0.5)), "\u8996\u8EF8", "#000", up, forward);
-        eyeLabel.render(p);
+        const planeLabelPos = add(add(this.target, scale(right, halfWidth)), scale(up, halfHeight - 5));
+        const criticalLabelPos = add(add(this.eye, scale(right, halfWidth)), scale(up, halfHeight - 5));
+        Label.render(p, this.eye, "\u8996\u70B9 E");
         if (options.target) {
-          targetLabel.render(p);
+          Label.render(p, this.target, "\u8996\u5FC3 O");
         }
         if (options.axis) {
-          axisLabel.render(p);
+          Label.render(p, add(scale(up, -14), scale(add(this.eye, this.target), 0.5)), "\u8996\u8EF8", "#000", up, forward);
         }
-        planeLabel.render(p);
+        Label.render(p, planeLabelPos, "\u6295\u5F71\u9762", "#000", up, scale(right, -1));
         if (options.critical) {
-          criticalLabel.render(p);
+          Label.render(p, criticalLabelPos, "\u81E8\u754C\u9762", "#f00", up, scale(right, -1));
         }
       }
       // ms
-      renderTrace(p, point, id = 0, options = {}) {
-        const pointColor = "#000";
-        const imageColor = "#f00";
-        const virtualImageColor = "#00f";
-        const renderVirtual = options.renderVirtual ?? false;
+      renderTrace(p, point, id = 0, pointColor = "#000", imageColor = "#f00", virtualImageColor, options = {}) {
         const renderInner = options.renderInner ?? false;
         const renderImageLocus = options.renderImageLocus ?? false;
         const renderPointLocus = options.renderPointLocus ?? false;
         const renderInnerLocus = options.renderInnerLocus ?? false;
+        const extension = options.extension ?? 10;
         const image = this.solve(point);
         const vImage = this.solve_virtual(point);
         const history = this.history.get(id) || [];
@@ -1394,15 +1386,15 @@ var init_idealCamera = __esm({
         this.history.set(id, history);
         Point.render(p, point, pointColor);
         if (image) {
-          const point_extended = add(point, scale(normalize(sub(point, this.eye)), 10));
-          const image_extended = add(image, scale(normalize(sub(image, this.eye)), 10));
+          const point_extended = add(point, scale(normalize(sub(point, this.eye)), extension));
+          const image_extended = add(image, scale(normalize(sub(image, this.eye)), extension));
           Point.render(p, image, imageColor);
           Line.render(p, this.eye, point_extended, imageColor);
           Line.render(p, this.eye, image_extended, imageColor);
         }
-        if (vImage && renderVirtual) {
-          const point_extended = add(point, scale(normalize(sub(point, this.eye)), 10));
-          const image_extended = add(vImage, scale(normalize(sub(vImage, this.eye)), 10));
+        if (vImage && virtualImageColor) {
+          const point_extended = add(point, scale(normalize(sub(point, this.eye)), extension));
+          const image_extended = add(vImage, scale(normalize(sub(vImage, this.eye)), extension));
           Point.render(p, vImage, virtualImageColor);
           Line.render(p, this.eye, point_extended, virtualImageColor);
           Line.render(p, this.eye, image_extended, virtualImageColor);
@@ -1430,7 +1422,7 @@ var init_idealCamera = __esm({
             p.pop();
           }
         }
-        if (renderImageLocus && renderVirtual) {
+        if (renderImageLocus && virtualImageColor) {
           for (let i = 0; i < history.length - 1; i++) {
             const p1 = history[i][3];
             const p2 = history[i + 1][3];
@@ -1445,7 +1437,7 @@ var init_idealCamera = __esm({
         if (this.innerCanvas && renderInner) {
           this.innerSetCamera();
           if (image) Point.render(this.innerCanvas, image, imageColor);
-          if (vImage && renderVirtual) Point.render(this.innerCanvas, vImage, virtualImageColor);
+          if (vImage && virtualImageColor) Point.render(this.innerCanvas, vImage, virtualImageColor);
           if (renderInnerLocus) {
             for (let i = 0; i < history.length - 1; i++) {
               const p1 = history[i][2];
@@ -1458,7 +1450,7 @@ var init_idealCamera = __esm({
               this.innerCanvas.pop();
             }
           }
-          if (renderInnerLocus && renderVirtual) {
+          if (renderInnerLocus && virtualImageColor) {
             for (let i = 0; i < history.length - 1; i++) {
               const p1 = history[i][3];
               const p2 = history[i + 1][3];
@@ -1507,13 +1499,20 @@ function create8(el) {
       scene.forEach((obj) => obj.render(p));
       const t = p.millis() / 1e3;
       const point = [100 * Math.cos(t) + 130, 100, 100 * Math.sin(t)];
-      camera.renderTrace(p, point, 0, {
-        renderPointLocus: true,
-        renderImageLocus: true,
-        renderVirtual: true,
-        renderInner: true,
-        renderInnerLocus: true
-      });
+      camera.renderTrace(
+        p,
+        point,
+        0,
+        "#000",
+        "#f00",
+        "#00f",
+        {
+          renderPointLocus: true,
+          renderImageLocus: true,
+          renderInner: true,
+          renderInnerLocus: true
+        }
+      );
       camera.outerRender(p);
       labels.forEach((label) => label.render(p));
       camera.innerRender(scene);
@@ -1589,7 +1588,7 @@ function create10(el) {
       p.orbitControl();
       const t = p.millis() / 1e3;
       const point = [Math.sin(t) * 50 - 100, Math.sin(t * 2) * 50, Math.sin(t * 3) * 50];
-      camera.renderTrace(p, point, 0, {
+      camera.renderTrace(p, point, 0, "#000", "#f00", void 0, {
         renderInner: true,
         renderImageLocus: true,
         renderPointLocus: true,
@@ -1610,52 +1609,12 @@ var init_ideal_camera2_sketch = __esm({
   }
 });
 
-// src/projection-and-perspective/sketches/image-of-graph.sketch.ts
-var image_of_graph_sketch_exports = {};
-__export(image_of_graph_sketch_exports, {
-  create: () => create11
-});
-function create11(el) {
-  return createP5Sketch(el, (p) => {
-    let scene = [];
-    let labels = [];
-    let camera;
-    p.preload = () => {
-      Label.loadFont(p);
-    };
-    p.setup = () => {
-      p.createCanvas(640, 480, p.WEBGL);
-      camera = new IdealCamera([0, 0, 0], [0, 0, 100], 200, 150, p);
-      scene.push(new Circle([10, 0, 100], 40, [0, 0, 1]));
-      scene.push(new Circle([-20, 0, 200], 80, [0, 0, 1]));
-      p.camera(-300, 300, -300, 0, 0, 100, 0, -1, 0);
-    };
-    p.draw = () => {
-      p.background(255);
-      p.orbitControl();
-      scene.forEach((obj) => obj.render(p));
-      camera.outerRender(p);
-      labels.forEach((label) => label.render(p));
-      camera.innerRender(scene);
-      camera.canvasRender(p);
-    };
-  });
-}
-var init_image_of_graph_sketch = __esm({
-  "src/projection-and-perspective/sketches/image-of-graph.sketch.ts"() {
-    "use strict";
-    init_sketch_helper();
-    init_objects();
-    init_idealCamera();
-  }
-});
-
 // src/projection-and-perspective/sketches/image-of-point.sketch.ts
 var image_of_point_sketch_exports = {};
 __export(image_of_point_sketch_exports, {
-  create: () => create12
+  create: () => create11
 });
-function create12(el) {
+function create11(el) {
   const inputTable = new InputTable(el);
   const xSlider = inputTable.createRangeInput({
     label: "\u5DE6\u53F3",
@@ -1729,6 +1688,58 @@ var init_image_of_point_sketch = __esm({
   }
 });
 
+// src/projection-and-perspective/sketches/image-of-shape.sketch.ts
+var image_of_shape_sketch_exports = {};
+__export(image_of_shape_sketch_exports, {
+  create: () => create12
+});
+function create12(el) {
+  return createP5Sketch(el, (p) => {
+    let scene = [];
+    let labels = [];
+    let camera;
+    p.preload = () => {
+      Label.loadFont(p);
+    };
+    p.setup = () => {
+      p.createCanvas(640, 480, p.WEBGL);
+      camera = new IdealCamera([0, 0, 0], [0, 0, 100], 200, 150, p);
+      scene.push(new Circle([-20, 0, 200], 80, [0, 0, 1], "#e00"));
+      scene.push(new Circle([10, 0, 100], 40, [0, 0, 1], "#0a0"));
+      const up = [0, 1, 0];
+      const right = [1, 0, 0];
+      labels.push(new Label([-35, 5, 200], "\u56F3\u5F62S", "#e00", up, right));
+      labels.push(new Label([-5, 5, 100], "\u56F3\u5F62S'", "#0a0", up, right));
+      p.camera(-300, 300, -300, 0, 0, 100, 0, -1, 0);
+    };
+    p.draw = () => {
+      p.background(255);
+      p.orbitControl();
+      scene.forEach((obj) => obj.render(p));
+      const A = [-80, 0, 200];
+      const a = camera.solve(A);
+      const B = [40, 0, 100];
+      camera.renderTrace(p, A, 0, "#e00", "#e00", void 0, { renderInner: true });
+      camera.renderTrace(p, B, 0, "#0a0", "#0a0", void 0, { renderInner: true, extension: 130 });
+      Label.render(p, A, "\u70B9A", "#000");
+      Label.render(p, B, "\u70B9b", "#000");
+      Label.render(p, a, "\u70B9a", "#000");
+      camera.outerRender(p);
+      labels.forEach((label) => label.render(p));
+      camera.innerRender(scene);
+      camera.canvasRender(p);
+    };
+  });
+}
+var init_image_of_shape_sketch = __esm({
+  "src/projection-and-perspective/sketches/image-of-shape.sketch.ts"() {
+    "use strict";
+    init_sketch_helper();
+    init_objects();
+    init_idealCamera();
+  }
+});
+
 // src/projection-and-perspective/sketches/symmetry-of-camera.sketch.ts
 var symmetry_of_camera_sketch_exports = {};
 __export(symmetry_of_camera_sketch_exports, {
@@ -1744,7 +1755,6 @@ function create13(el, options) {
     };
     p.setup = () => {
       p.createCanvas(640, 480, p.WEBGL);
-      camera = new IdealCamera([100, 0, 0], [-30, 0, 0], 200, 150, p);
       objects.push(new Box([-80, -20, -60], [80, 60, 80], [0, 0.4, 0]));
       objects.push(new Box([-130, 10, 60], [60, 120, 60], [0, -0.1, 0]));
       objects.push(new Box([-10, -50, 20], [30, 20, 30], [0, -0.6, 0]));
@@ -1753,6 +1763,7 @@ function create13(el, options) {
         grid.push(new Line([x, gridY, -200], [x, gridY, 200], "#ccc"));
         grid.push(new Line([-200, gridY, x], [200, gridY, x], "#ccc"));
       }
+      camera = new IdealCamera([100, 0, 0], [-30, 0, 0], 200, 150, p);
       p.camera(500, 500, -500, 0, 0, 0, 0, -1, 0);
       p.noiseDetail(2, 0.5);
     };
@@ -1760,8 +1771,15 @@ function create13(el, options) {
       const phase = p.millis() / 6e3 % 1 * 2 * Math.PI;
       const mode = options.mode || "roll";
       const whatToMove = options.whatToMove || "camera";
-      const distance = mode == "zoom" ? Math.sin(phase) * 50 + 130 : 130;
-      camera.target[0] = camera.eye[0] - distance;
+      if (options.mode == "zoom" || options.mode == "dolly-zoom") {
+        const distance = Math.sin(phase) * 50 + 130;
+        if (options.mode == "dolly-zoom") {
+          camera.eye[0] = camera.target[0] + distance;
+        }
+        if (options.mode == "zoom") {
+          camera.target[0] = camera.eye[0] - distance;
+        }
+      }
       const rollAngle = phase;
       const panAngle = Math.sin(phase) * 0.2;
       const tiltAngle = Math.sin(phase * 2) * 0.2;
@@ -1894,8 +1912,8 @@ var sketchManifest = {
   "projection-and-perspective/sketches/ideal-camera-test": { loader: () => Promise.resolve().then(() => (init_ideal_camera_test_sketch(), ideal_camera_test_sketch_exports)) },
   "projection-and-perspective/sketches/ideal-camera1": { loader: () => Promise.resolve().then(() => (init_ideal_camera1_sketch(), ideal_camera1_sketch_exports)) },
   "projection-and-perspective/sketches/ideal-camera2": { loader: () => Promise.resolve().then(() => (init_ideal_camera2_sketch(), ideal_camera2_sketch_exports)) },
-  "projection-and-perspective/sketches/image-of-graph": { loader: () => Promise.resolve().then(() => (init_image_of_graph_sketch(), image_of_graph_sketch_exports)) },
   "projection-and-perspective/sketches/image-of-point": { loader: () => Promise.resolve().then(() => (init_image_of_point_sketch(), image_of_point_sketch_exports)) },
+  "projection-and-perspective/sketches/image-of-shape": { loader: () => Promise.resolve().then(() => (init_image_of_shape_sketch(), image_of_shape_sketch_exports)) },
   "projection-and-perspective/sketches/symmetry-of-camera": { loader: () => Promise.resolve().then(() => (init_symmetry_of_camera_sketch(), symmetry_of_camera_sketch_exports)) }
 };
 

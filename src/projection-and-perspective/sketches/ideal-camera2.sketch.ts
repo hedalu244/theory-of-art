@@ -32,7 +32,7 @@ export function create(el: HTMLDivElement): Sketch {
             const t = p.millis() / 1000;
             const point = [Math.sin(t) * 50 - 100, Math.sin(t * 2) * 50, Math.sin(t * 3) * 50] as vector3;
 
-            camera.renderTrace(p, point, 0, {
+            camera.renderTrace(p, point, 0, "#000", "#f00", undefined, {
                 renderInner: true,
                 renderImageLocus: true,
                 renderPointLocus: true,
