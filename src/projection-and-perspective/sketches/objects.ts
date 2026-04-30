@@ -5,13 +5,19 @@ declare const p5: typeof p5_;
 export interface Renderable {
     render(p: p5_ | p5_.Graphics): void;
 }
+    
+function setStyle(p: p5_ | p5_.Graphics, strokeColor: string | undefined, fillColor: string | undefined) {
+    if (strokeColor === undefined) p.noStroke();
+    else p.stroke(strokeColor);
 
-
+    if (fillColor === undefined) p.noFill();
+    else p.fill(fillColor);
+}
 
 export class Point implements Renderable {
     center: vector3;
-    color: vector3;
-    constructor(center: vector3, color: vector3 = [0, 0, 0]) {
+    color: string;
+    constructor(center: vector3, color: string = "#000") {
         this.center = center;
         this.color = color;
     }
@@ -20,11 +26,10 @@ export class Point implements Renderable {
         Point.render(p, this.center, this.color);
     }
 
-    static render(p: p5_ | p5_.Graphics, center: vector3, color: vector3 = [0, 0, 0]): void {
+    static render(p: p5_ | p5_.Graphics, center: vector3, color: string = "#000"): void {
         p.push();
         p.translate(...center);
-        p.fill(...color);
-        p.noStroke();
+        setStyle(p, undefined, color);
         p.sphere(2, 8, 8);
         p.pop();
     }
@@ -33,8 +38,8 @@ export class Point implements Renderable {
 export class Line implements Renderable {
     start: vector3;
     end: vector3;
-    color: vector3;
-    constructor(start: vector3, end: vector3, color: vector3 = [0, 0, 0]) {
+    color: string;
+    constructor(start: vector3, end: vector3, color: string = "#000") {
         this.start = start;
         this.end = end;
         this.color = color;
@@ -44,9 +49,9 @@ export class Line implements Renderable {
         Line.render(p, this.start, this.end, this.color);
     }
     
-    static render(p: p5_ | p5_.Graphics, start: vector3, end: vector3, color: vector3): void {
+    static render(p: p5_ | p5_.Graphics, start: vector3, end: vector3, color: string): void {
         p.push();
-        p.stroke(...color);
+        setStyle(p, color, undefined);
         p.line(...start, ...end);
         p.pop();
     }
@@ -55,7 +60,7 @@ export class Line implements Renderable {
 export class Label implements Renderable {
     position: vector3;
     text: string;
-    color: vector3;
+    color: string;
     up?: vector3;
     right?: vector3;
 
@@ -66,7 +71,7 @@ export class Label implements Renderable {
         }
     }
 
-    constructor(position: vector3, text: string, color: vector3 = [0, 0, 0], up?: vector3, right?: vector3) {
+    constructor(position: vector3, text: string, color: string = "#000", up?: vector3, right?: vector3) {
         this.position = position;
         this.text = text;
         this.color = color;
@@ -78,7 +83,7 @@ export class Label implements Renderable {
         Label.render(p, this.position, this.text, this.color, this.up, this.right);
     }
 
-    static render(p: p5_ | p5_.Graphics, position: vector3, text: string, color: vector3, up_?: vector3, right_?: vector3): void {
+    static render(p: p5_ | p5_.Graphics, position: vector3, text: string, color: string, up_?: vector3, right_?: vector3): void {
         if(!Label.font) {
             return;
         }
@@ -90,8 +95,7 @@ export class Label implements Renderable {
 
         const gl = (p as any)._renderer.GL;
         gl.disable(gl.DEPTH_TEST);
-        p.fill(...color);
-        p.noStroke();
+        setStyle(p, undefined, color);
         p.textFont(Label.font);
 
         if (up && right) {
@@ -129,11 +133,42 @@ export class Label implements Renderable {
     }
 }
 
+export class Circle implements Renderable {
+    center: vector3;
+    radius: number;
+    axis: vector3;
+    color: string;
+    constructor(center: vector3, radius: number, axis: vector3 = [0, 0, 1], color: string = "#000") {
+        this.center = center;
+        this.radius = radius;
+        this.axis = axis;
+        this.color = color;
+    }
+
+    render(p: p5_ | p5_.Graphics): void {
+        Circle.render(p, this.center, this.radius, this.axis, this.color);
+    }
+
+    static render(p: p5_ | p5_.Graphics, center: vector3, radius: number, axis: vector3, color: string): void {
+        axis = normalize(axis);
+        const angle = Math.acos(axis[2]);
+        p.push();
+        p.translate(...center);
+        if(angle != 0) {
+            const rotAxis = cross(axis, [0, 0, 1]);
+            p.rotate(angle, rotAxis);
+        }
+        setStyle(p, color, undefined);
+        p.circle(0, 0, radius * 2);
+        p.pop();
+    }
+}
+
 export class Sphere implements Renderable {
     center: vector3;
     radius: number;
-    color: vector3;
-    constructor(center: vector3, radius: number, color: vector3 = [0, 0, 0]) {
+    color: string;
+    constructor(center: vector3, radius: number, color: string = "#000") {
         this.center = center;
         this.radius = radius;
         this.color = color;
@@ -143,11 +178,10 @@ export class Sphere implements Renderable {
         Sphere.render(p, this.center, this.radius, this.color);
     }
 
-    static render(p: p5_ | p5_.Graphics, center: vector3, radius: number, color: vector3 = [0, 0, 0]): void {
+    static render(p: p5_ | p5_.Graphics, center: vector3, radius: number, color: string = "#000"): void {
         p.push();
         p.translate(...center);
-        p.fill(...color);
-        p.noStroke();
+        setStyle(p, undefined, color);
         p.sphere(radius, 16, 16);
         p.pop();
     }
@@ -157,8 +191,8 @@ export class Box implements Renderable {
     center: vector3;
     size: vector3;
     rotation: vector3;
-    color: vector3;
-    constructor(center: vector3, size: vector3, rotation: vector3 = [0, 0, 0], color: vector3 = [0, 0, 0]) {
+    color: string;
+    constructor(center: vector3, size: vector3, rotation: vector3 = [0, 0, 0], color: string = "#000") {
         this.center = center;
         this.size = size;
         this.rotation = rotation;
@@ -169,14 +203,13 @@ export class Box implements Renderable {
         Box.render(p, this.center, this.size, this.rotation, this.color);
     }
 
-    static render(p: p5_ | p5_.Graphics, center: vector3, size: vector3, rotation: vector3 = [0, 0, 0], color: vector3 = [0, 0, 0]): void {
+    static render(p: p5_ | p5_.Graphics, center: vector3, size: vector3, rotation: vector3 = [0, 0, 0], color: string = "#000"): void {
         p.push();
         p.translate(...center);
         p.rotateX(rotation[0]);
         p.rotateY(rotation[1]);
         p.rotateZ(rotation[2]);
-        p.stroke(...color);
-        p.noFill();
+        setStyle(p, color, undefined);
         p.box(...size);
         p.pop();
     }

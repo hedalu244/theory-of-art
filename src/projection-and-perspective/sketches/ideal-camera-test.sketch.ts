@@ -26,8 +26,8 @@ export function create(el: HTMLDivElement): Sketch {
             const posA = [-100, 20, -60] as vector3;
             const solved = camera.solve(posA)!;
 
-            scene.push(new Line(posA, [200, 0, 0], [0, 0, 0]));
-            scene.push(new Point(solved, [0, 0, 0]));
+            scene.push(new Line(posA, [200, 0, 0], "#000"));
+            scene.push(new Point(solved, "#000"));
 
             // outercamera
             p.camera(500, 500, 500, 0, 0, 0, 0, -1, 0); // Position, LookAt, Up

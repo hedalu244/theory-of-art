@@ -18,27 +18,11 @@ export class IdealCamera {
     height: number;
     innerCanvas?: p5_.Graphics;
 
-    eyeLabel: Label;
-    targetLabel: Label;
-    planeLabel: Label;
-    axisLabel: Label;
-
     constructor(eye: vector3, target: vector3, width: number, height: number, p?: p5_) {
         this.eye = eye;
         this.target = target;
         this.width = width;
         this.height = height;
-
-        this.eyeLabel = new Label(this.eye, "視点 E");
-        this.targetLabel = new Label(this.target, "視心 O");
-
-        const forward = normalize(sub(this.target, this.eye));
-        const right = normalize(cross(forward, this.up));
-        const trueUp = normalize(cross(right, forward));
-        const cornerPos = add(add(this.target, scale(right, -width / 2)), scale(trueUp, -height / 2 + 5));
-
-        this.planeLabel = new Label(cornerPos, "投影面", [0, 0, 0], trueUp, right);
-        this.axisLabel = new Label(add(scale(trueUp, -14), scale(add(this.eye, this.target), 0.5)), "視軸", [0, 0, 0], trueUp, forward);
 
         if (p) this.innerCanvas = p.createGraphics(width, height, p.WEBGL);
     }
@@ -72,7 +56,7 @@ export class IdealCamera {
 
     innerSetCamera() {
         if (!this.innerCanvas) return;
-        
+
         this.innerCanvas.camera(...this.eye, ...this.target, ...this.up);
         const distance = mag(sub(this.target, this.eye));
         const fovy = 2 * Math.atan(this.height / 2 / distance);
@@ -99,7 +83,7 @@ export class IdealCamera {
         resetAs2D(p);
         p.image(this.innerCanvas, ...screenPos);
         p.noFill();
-        p.stroke(0, 0, 0);
+        p.stroke("#000");
         p.rect(...screenPos, this.width, this.height);
         p.pop();
 
@@ -109,28 +93,30 @@ export class IdealCamera {
     outerRender(p: p5_, options: {
         target?: boolean,
         axis?: boolean,
+        critical?: boolean,
         axislabel?: boolean
     } = {}) {
         // デフォルト値の設定
-        if (options.target === undefined) options.target = true;
-        if (options.axis === undefined) options.axis = true;
+        if (options.target === undefined) options.target = false;
+        if (options.axis === undefined) options.axis = false;
+        if (options.critical === undefined) options.critical = false;
         if (options.axislabel === undefined) options.axislabel = false;
 
         // 視点を描画
-        Point.render(p, this.eye, [0, 0, 0]);
+        Point.render(p, this.eye, "#000");
 
         if (options.target) {
             // 視心を描画
-            Point.render(p, this.target, [0, 0, 0]);
+            Point.render(p, this.target, "#000");
         }
 
         if (options.axis) {
             // 視軸を描画
-            Line.render(p, this.eye, this.target, [0, 0, 0]);
+            Line.render(p, this.eye, this.target, "#000");
         }
 
-        const right = normalize(cross(this.up, sub(this.target, this.eye)));
-        const up = normalize(cross(sub(this.target, this.eye), right));
+        const right = normalize(cross(sub(this.target, this.eye), this.up));
+        const up = normalize(cross(right, sub(this.target, this.eye)));
 
         const halfWidth = this.width / 2;
         const halfHeight = this.height / 2;
@@ -138,8 +124,9 @@ export class IdealCamera {
         // 長方形を描画
         p.push();
         p.translate(...this.target);
-        p.stroke(0, 0, 0);
-        p.fill(255, 255, 255, 150);
+        p.stroke("#000");
+        // p.fill(255, 255, 255, 150); 半透明厳しい
+        p.noFill();
         p.beginShape();
         p.vertex(...add(scale(right, -halfWidth), scale(up, -halfHeight)));
         p.vertex(...add(scale(right, halfWidth), scale(up, -halfHeight)));
@@ -148,14 +135,46 @@ export class IdealCamera {
         p.endShape(p.CLOSE);
         p.pop();
 
-        this.eyeLabel.render(p);
+        // 臨界面
+        if (options.critical) {
+            p.push();
+            p.translate(...this.eye);
+            p.stroke("#f00");
+            // p.fill(255, 255, 255, 150); 半透明厳しい
+            p.noFill();
+            p.beginShape();
+            p.vertex(...add(scale(right, -halfWidth), scale(up, -halfHeight)));
+            p.vertex(...add(scale(right, halfWidth), scale(up, -halfHeight)));
+            p.vertex(...add(scale(right, halfWidth), scale(up, halfHeight)));
+            p.vertex(...add(scale(right, -halfWidth), scale(up, halfHeight)));
+            p.endShape(p.CLOSE);
+            p.pop();
+        }
+
+
+        const forward = normalize(sub(this.target, this.eye));
+        //const right = normalize(cross(forward, this.up));
+        //const up = normalize(cross(right, forward));
+        const planeLabelPos = add(add(this.target, scale(right, -halfWidth)), scale(up, -halfHeight + 5));
+        const criticalLabelPos = add(add(this.eye, scale(right, -halfWidth)), scale(up, -halfHeight + 5));
+
+        const eyeLabel = new Label(this.eye, "視点 E");
+        const targetLabel = new Label(this.target, "視心 O");
+        const planeLabel = new Label(planeLabelPos, "投影面", "#000", up, right);
+        const criticalLabel = new Label(criticalLabelPos, "臨界面", "#f00", up, right);
+        const axisLabel = new Label(add(scale(up, -14), scale(add(this.eye, this.target), 0.5)), "視軸", "#000", up, forward);
+
+        eyeLabel.render(p);
         if (options.target) {
-            this.targetLabel.render(p);
+            targetLabel.render(p);
         }
         if (options.axis) {
-            this.axisLabel.render(p);
+            axisLabel.render(p);
         }
-        this.planeLabel.render(p);
+        planeLabel.render(p);
+        if (options.critical) {
+            criticalLabel.render(p);
+        }
     }
 
 
@@ -169,9 +188,9 @@ export class IdealCamera {
         renderPointLocus?: boolean
         renderInnerLocus?: boolean
     } = {}) {
-        const pointColor: vector3 = [0, 0, 0];
-        const imageColor: vector3 = [255, 0, 0];
-        const virtualImageColor: vector3 = [0, 0, 255];
+        const pointColor = "#000";
+        const imageColor = "#f00";
+        const virtualImageColor = "#00f";
 
         const renderVirtual = options.renderVirtual ?? false;
         const renderInner = options.renderInner ?? false;

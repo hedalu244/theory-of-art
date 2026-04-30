@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <ul class="sectlevel1">
 <li><a href="#_点の像">点の像</a></li>
 <li><a href="#_像の定義域">像の定義域</a></li>
-<li><a href="#_自明な例投影面上の点の像">自明な例：投影面上の点の像</a></li>
+<li><a href="#_図形の像">図形の像</a></li>
 </ul>
 </div>
 <div class="sect1">
@@ -59,22 +59,19 @@ document.addEventListener('DOMContentLoaded', function() {
 <h2 id="_像の定義域">像の定義域</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>交わる点が <strong>あれば</strong> という留保がついています。実際、どのような時に点の像が存在するのでしょうか。</p>
+<p>定義には交わる点が <strong>あれば</strong> という留保がついています。実際、どのような時に点の像が存在するのでしょうか。以下、視点から投影面方向を「前」、その反対方向を「後ろ」と呼ぶことにします。</p>
 </div>
 <div class="paragraph">
-<p>以下、視点から投影面方向を「前」、その反対方向を「後ろ」と呼ぶことにします。</p>
+<p>まず、点が投影面より「前」にある場合、これは視点と点の間に投影面があるので、半直線は必ず投影面と交わり、点の像が存在します。</p>
 </div>
 <div class="paragraph">
-<p>まず、点が投影面より前にある場合、これは視点と点の間に投影面があるので、半直線は必ず投影面と交わり、点の像が存在します。</p>
+<p>点が投影面より「後ろ」にある場合は、注意が必要です。視点から点に向かって伸ばした半直線が、投影面に近づいていくのか、平行なのか、遠ざかっていくのかで区別する必要があります。投影面に近づいていく場合は、半直線を伸ばしていけばいずれ投影面と交わるので、点の像が存在します。平行な場合と遠ざかっていく場合は、いくら半直線を伸ばしても投影面と交わらないので、点の像は存在しません。</p>
 </div>
 <div class="paragraph">
-<p>点が投影面より後ろある場合は、注意が必要です。視点から点に向かって伸ばした半直線が、投影面に近づいていくのか、平行なのか、遠ざかっていくのかで区別する必要があります。投影面に近づいていく場合は、半直線を伸ばしていけばいずれ投影面と交わるので、点の像が存在します。平行な場合と遠ざかっていく場合は、いくら半直線を伸ばしても投影面と交わらないので、点の像は存在しません。</p>
+<p>結局、「投影面に平行で視点を通る平面」が像が存在するか否かの境界になっていることが分かります。この面上より前側に点があれば点の像が存在し、この面上やこの面より後ろ側に点があれば、点の像は存在ません。この「点の像が存在する範囲」を、投影の「定義域」と呼びます。</p>
 </div>
 <div class="paragraph">
-<p>まとめると、「投影面に平行で視点を通る平面」が像が存在するか否かの境界になっていることが分かります。この面上より前側に点があれば点の像が存在し、この面上やこの面より後ろ側に点があれば、点の像は存在しない、ということになります。この「点の像が存在する範囲」を、投影の「定義域」と言います。</p>
-</div>
-<div class="paragraph">
-<p>この「投影面に平行で、視点を通る平面」は、定義域とそうでない領域の境界になる需要な概念なので、本テキストでは「臨界面」と呼ぶことにします。</p>
+<p>この <strong>「投影面に平行で、視点を通る平面」は、定義域とそうでない領域の境界になる</strong> 重要な概念なので、本テキストでは「臨界面」と呼ぶことにします。</p>
 </div>
 <div class="openblock definition">
 <div class="title">定義 （臨界面）</div>
@@ -85,40 +82,20 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 </div>
 <div class="openblock theorem">
-<div class="title">定理（点の像の存在条件）</div>
+<div class="title">定理（像の定義域）</div>
 <div class="content">
 <div class="paragraph">
-<p>臨界面に対して、視心と点Pが同じ側にあれば、またその時に限り、点Pの像が存在する。</p>
+<p>臨界面に対して、投影面と点Pが同じ側にあれば、またその時に限り、点Pの像が一意に存在する。</p>
 </div>
 </div>
 </div>
-<div class="openblock proof">
-<div class="title">厳密な証明</div>
-<div class="content">
-
-</div>
-</div>
-<div class="openblock theorem">
-<div class="title">定理（点の像の一意性）</div>
-<div class="content">
 <div class="paragraph">
-<p>点Pの像が存在するとき、その像は一意である。</p>
+<p>実際にやってみると以下のようになります。長方形はあくまでも平面を示すためのもので、投影面は無限に広がっていることを忘れないでください。
+像が長方形をはみ出してはるか遠くに行っていたとしても、「ある」ことには変わりありません。</p>
 </div>
-</div>
-</div>
-<div class="openblock proof">
-<div class="title">証明</div>
-<div class="content">
 <div class="paragraph">
-<p>定義（点の像）より、点Pの像は、視点から点P方向へ延びる半直線と投影面との交点である。半直線と平面が交わる点は高々一つしかないので、点Pの像は一意である。</p>
+<div class="sketch" data-path="projection-and-perspective/sketches/image-of-point"></div>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_自明な例投影面上の点の像">自明な例：投影面上の点の像</h2>
-<div class="sectionbody">
 <div class="paragraph">
 <p>一般的に、点の像を求めるためには視点から点に伸びる半直線を考え、それと投影面の交点を求める必要があります。これは結構大変で、それを簡単にするための様々な定理と作図法をこれから学んでいきます。</p>
 </div>
@@ -133,8 +110,13 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_図形の像">図形の像</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>図形の像についても定義を確認します</p>
+<p>図形の像についても定義を確認します。</p>
 </div>
 <div class="openblock definition">
 <div class="title">定義（図形の像）</div>
@@ -145,55 +127,65 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 </div>
 <div class="paragraph">
-<p>これはガラス板上でペン先を動かす例に対応しているのでしたね。しかし、「すべての点」というのが厄介です。無数の点がある図形に対して、この方法をいちいち適用していくことはできません。</p>
+<p>これはガラス板上でペン先を動かす例に対応しているのでしたね。しかし、「すべての点」というのが厄介です。無数の点がある図形に対して、この方法をいちいち適用していくことはできません。厳密に図形の像を求めるためには、その像に含まれる必要十分条件を示すことで、像を特定することができます。</p>
 </div>
 <div class="paragraph">
-<p>実際に図形の像を求めるためには、その像に含まれる必要十分条件を示すことで、像を特定することができます。</p>
+<p>図形Sと、投影面上の図形S&#8217;について、以下の二つをともに満たす時、S&#8217;はSの像となります。</p>
 </div>
 <div class="paragraph">
-<p>空間中の図形Sと、投影面上の図形S&#8217;について、以下の二つをともに満たす時、S&#8217;はSの像となります。
-. S上の任意の点Pについて、その像pが存在するならば、それはS&#8217;上にある。
-. S&#8217;上の任意の点pについて、その点を像とする点PがS上に存在する。</p>
-</div>
-<div class="openblock proof">
-<div class="title">厳密な証明</div>
-<div class="content">
-<div class="paragraph">
-<p>定義に従った、Sの像をS''とする。つまり、S''は「S上にあって像が存在するすべての点の像を集めた図形」である。
-S上の任意の点Pについて、その像pが存在するならば、S&#8217;上にあるならば、S''⊆S&#8217;である。
-S&#8217;上の任意の点pについて、その点を像とする点PがS上に存在するならば、S'⊆S''である。
-S''⊆S&#8217;かつS'⊆S''より、S''=S&#8217;である。■</p>
-</div>
-</div>
+<p>(1) S上の任意の点Pについて、その像pが存在するならば、それはS&#8217;上にある。<br>
+(2) S&#8217;上の任意の点pについて、pを像とする点PがS上に存在する。</p>
 </div>
 <div class="paragraph">
-<p>ここに点の像の定義を代入して書き下すと、以下の定理を得ます。</p>
+<p>(1)はともかく、(2)は直感的な像の取り方と逆向きになっていることに気を付けてください。(1)はS&#8217;がSの像全体を覆えていることを、(2)はS&#8217;がSの像からはみ出していないことを確認していて、両方を確認することではじめて一致したと言えます。</p>
+</div>
+<div class="paragraph">
+<p>ここに点の像の定義を代入して書き下すと、以下の定理を得ます。作図するときにこれを意識することはまずありませんが、基礎的な定理の証明では必要になります。</p>
 </div>
 <div class="openblock theorem">
 <div class="title">定理（図形の像の必要十分条件）</div>
 <div class="content">
 <div class="paragraph">
-<p>視点をEとする。空間中の図形Sと、投影面上の図形S&#8217;について、以下の二つをともに満たす時、S&#8217;はSの像となる。
-. S上の任意の点Pについて、半直線EPと投影面との交点が存在するとき、それはS&#8217;上にある。
-. S&#8217;上の任意の点pについて、半直線EpとSとの交点が存在する。</p>
+<p>視点をEとする。図形Sと、投影面上の図形S&#8217;について、以下の二つをともに満たす時、S&#8217;はSの像となる。</p>
 </div>
-</div>
-</div>
-<div class="openblock theorem">
-<div class="title">定理（部分集合の像）</div>
-<div class="content">
 <div class="paragraph">
-<p>S₁とS₂を空間中の図形とする。S₁がS₂の部分集合であるとき、S₁の像はS₂の像の部分集合である。</p>
+<p>(1) S上の任意の点Pについて、半直線EPと投影面との交点が存在するとき、それはS&#8217;上にある。<br>
+(2) S&#8217;上の任意の点pについて、半直線EpとSとの交点が存在する。</p>
 </div>
 </div>
 </div>
 <div class="openblock proof">
-<div class="title">証明</div>
+<div class="title">厳密な証明</div>
 <div class="content">
 <div class="paragraph">
-<p>S₁の像をS₁'、S₂の像をS₂'とする。S₁がS₂の部分集合であるとき、S₁上の任意の点Pについて、PはS₂上の点でもある。定義（図形の像）より、Pの像pはS₁'上にあると同時にS₂'上にもある。したがって、S₁'はS₂'の部分集合である。■</p>
+<p>結論から同値変形して示す。</p>
+</div>
+<div class="paragraph">
+<p>Sの像がS&#8217;である。<br>
+⇔ 任意の点Pとpについて、PがS上にあって、pがPの像であるとき、またその時に限り、点pがS&#8217;上にある。</p>
+</div>
+<div class="paragraph">
+<p>順と逆をそれぞれ同値変形する</p>
+</div>
+<div class="paragraph">
+<p>任意の点Pとpについて、PがS上にあって、pがPの像であるとき、点pがS&#8217;上にある。<br>
+⇔ S上の任意の点Pについて、ある点pがPの像であるとき、点pはS&#8217;上にある。<br>
+⇔ S上の任意の点Pについて、その像pが存在するならば、点pはS&#8217;上にある。<br>
+⇔ S上の任意の点Pについて、半直線EPと投影面との交点が存在するとき、それはS&#8217;上にある。&#8230;&#8203;(1)</p>
+</div>
+<div class="paragraph">
+<p>任意の点Pとpについて、点pがS&#8217;上にあるとき、PがS上にあって、pがPの像である。<br>
+⇔ S&#8217;上の任意の点pについて、ある点PがS上にあって、pがPの像である。<br>
+⇔ S&#8217;上の任意の点pについて、pを像とする点PがS上に存在する。<br>
+⇔ S&#8217;上の任意の点pについて、半直線EpとSとの交点が存在する。&#8230;&#8203;(2)</p>
+</div>
+<div class="paragraph">
+<p>したがって、(1)かつ(2)とSの像がS&#8217;であることは同値である。■</p>
 </div>
 </div>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="projection-and-perspective/sketches/image-of-graph"></div>
 </div>
 </div>
 </div>

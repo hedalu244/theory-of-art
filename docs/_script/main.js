@@ -564,7 +564,7 @@ var init_d_LSM_color_sketch = __esm({
 });
 
 // src/_script/input.ts
-function createElement(tagName, children, options) {
+function createElement(tagName, children = [], options) {
   const wrapper = document.createElement(tagName);
   if (options?.id) {
     wrapper.id = options.id;
@@ -1081,30 +1081,35 @@ var init_sine_wave_sketch = __esm({
 });
 
 // src/projection-and-perspective/sketches/objects.ts
-var Point, Line, Label, Box;
+function setStyle(p, strokeColor, fillColor) {
+  if (strokeColor === void 0) p.noStroke();
+  else p.stroke(strokeColor);
+  if (fillColor === void 0) p.noFill();
+  else p.fill(fillColor);
+}
+var Point, Line, Label, Circle, Box;
 var init_objects = __esm({
   "src/projection-and-perspective/sketches/objects.ts"() {
     "use strict";
     init_linearalgebra();
     Point = class _Point {
-      constructor(center, color = [0, 0, 0]) {
+      constructor(center, color = "#000") {
         this.center = center;
         this.color = color;
       }
       render(p) {
         _Point.render(p, this.center, this.color);
       }
-      static render(p, center, color = [0, 0, 0]) {
+      static render(p, center, color = "#000") {
         p.push();
         p.translate(...center);
-        p.fill(...color);
-        p.noStroke();
+        setStyle(p, void 0, color);
         p.sphere(2, 8, 8);
         p.pop();
       }
     };
     Line = class _Line {
-      constructor(start, end, color = [0, 0, 0]) {
+      constructor(start, end, color = "#000") {
         this.start = start;
         this.end = end;
         this.color = color;
@@ -1114,7 +1119,7 @@ var init_objects = __esm({
       }
       static render(p, start, end, color) {
         p.push();
-        p.stroke(...color);
+        setStyle(p, color, void 0);
         p.line(...start, ...end);
         p.pop();
       }
@@ -1128,7 +1133,7 @@ var init_objects = __esm({
           _Label.font = p.loadFont("/_assets/MPLUS1p-Regular.ttf");
         }
       }
-      constructor(position, text, color = [0, 0, 0], up, right) {
+      constructor(position, text, color = "#000", up, right) {
         this.position = position;
         this.text = text;
         this.color = color;
@@ -1147,8 +1152,7 @@ var init_objects = __esm({
         p.push();
         const gl = p._renderer.GL;
         gl.disable(gl.DEPTH_TEST);
-        p.fill(...color);
-        p.noStroke();
+        setStyle(p, void 0, color);
         p.textFont(_Label.font);
         if (up && right) {
           const forward = normalize(cross(right, up));
@@ -1199,8 +1203,32 @@ var init_objects = __esm({
         p.pop();
       }
     };
+    Circle = class _Circle {
+      constructor(center, radius, axis = [0, 0, 1], color = "#000") {
+        this.center = center;
+        this.radius = radius;
+        this.axis = axis;
+        this.color = color;
+      }
+      render(p) {
+        _Circle.render(p, this.center, this.radius, this.axis, this.color);
+      }
+      static render(p, center, radius, axis, color) {
+        axis = normalize(axis);
+        const angle = Math.acos(axis[2]);
+        p.push();
+        p.translate(...center);
+        if (angle != 0) {
+          const rotAxis = cross(axis, [0, 0, 1]);
+          p.rotate(angle, rotAxis);
+        }
+        setStyle(p, color, void 0);
+        p.circle(0, 0, radius * 2);
+        p.pop();
+      }
+    };
     Box = class _Box {
-      constructor(center, size, rotation = [0, 0, 0], color = [0, 0, 0]) {
+      constructor(center, size, rotation = [0, 0, 0], color = "#000") {
         this.center = center;
         this.size = size;
         this.rotation = rotation;
@@ -1209,14 +1237,13 @@ var init_objects = __esm({
       render(p) {
         _Box.render(p, this.center, this.size, this.rotation, this.color);
       }
-      static render(p, center, size, rotation = [0, 0, 0], color = [0, 0, 0]) {
+      static render(p, center, size, rotation = [0, 0, 0], color = "#000") {
         p.push();
         p.translate(...center);
         p.rotateX(rotation[0]);
         p.rotateY(rotation[1]);
         p.rotateZ(rotation[2]);
-        p.stroke(...color);
-        p.noFill();
+        setStyle(p, color, void 0);
         p.box(...size);
         p.pop();
       }
@@ -1245,14 +1272,6 @@ var init_idealCamera = __esm({
         this.target = target;
         this.width = width;
         this.height = height;
-        this.eyeLabel = new Label(this.eye, "\u8996\u70B9 E");
-        this.targetLabel = new Label(this.target, "\u8996\u5FC3 O");
-        const forward = normalize(sub(this.target, this.eye));
-        const right = normalize(cross(forward, this.up));
-        const trueUp = normalize(cross(right, forward));
-        const cornerPos = add(add(this.target, scale(right, -width / 2)), scale(trueUp, -height / 2 + 5));
-        this.planeLabel = new Label(cornerPos, "\u6295\u5F71\u9762", [0, 0, 0], trueUp, right);
-        this.axisLabel = new Label(add(scale(trueUp, -14), scale(add(this.eye, this.target), 0.5)), "\u8996\u8EF8", [0, 0, 0], trueUp, forward);
         if (p) this.innerCanvas = p.createGraphics(width, height, p.WEBGL);
       }
       solve(point) {
@@ -1290,30 +1309,31 @@ var init_idealCamera = __esm({
         resetAs2D(p);
         p.image(this.innerCanvas, ...screenPos);
         p.noFill();
-        p.stroke(0, 0, 0);
+        p.stroke("#000");
         p.rect(...screenPos, this.width, this.height);
         p.pop();
         this.innerCanvas.background(255);
       }
       outerRender(p, options = {}) {
-        if (options.target === void 0) options.target = true;
-        if (options.axis === void 0) options.axis = true;
+        if (options.target === void 0) options.target = false;
+        if (options.axis === void 0) options.axis = false;
+        if (options.critical === void 0) options.critical = false;
         if (options.axislabel === void 0) options.axislabel = false;
-        Point.render(p, this.eye, [0, 0, 0]);
+        Point.render(p, this.eye, "#000");
         if (options.target) {
-          Point.render(p, this.target, [0, 0, 0]);
+          Point.render(p, this.target, "#000");
         }
         if (options.axis) {
-          Line.render(p, this.eye, this.target, [0, 0, 0]);
+          Line.render(p, this.eye, this.target, "#000");
         }
-        const right = normalize(cross(this.up, sub(this.target, this.eye)));
-        const up = normalize(cross(sub(this.target, this.eye), right));
+        const right = normalize(cross(sub(this.target, this.eye), this.up));
+        const up = normalize(cross(right, sub(this.target, this.eye)));
         const halfWidth = this.width / 2;
         const halfHeight = this.height / 2;
         p.push();
         p.translate(...this.target);
-        p.stroke(0, 0, 0);
-        p.fill(255, 255, 255, 150);
+        p.stroke("#000");
+        p.noFill();
         p.beginShape();
         p.vertex(...add(scale(right, -halfWidth), scale(up, -halfHeight)));
         p.vertex(...add(scale(right, halfWidth), scale(up, -halfHeight)));
@@ -1321,20 +1341,44 @@ var init_idealCamera = __esm({
         p.vertex(...add(scale(right, -halfWidth), scale(up, halfHeight)));
         p.endShape(p.CLOSE);
         p.pop();
-        this.eyeLabel.render(p);
+        if (options.critical) {
+          p.push();
+          p.translate(...this.eye);
+          p.stroke("#f00");
+          p.noFill();
+          p.beginShape();
+          p.vertex(...add(scale(right, -halfWidth), scale(up, -halfHeight)));
+          p.vertex(...add(scale(right, halfWidth), scale(up, -halfHeight)));
+          p.vertex(...add(scale(right, halfWidth), scale(up, halfHeight)));
+          p.vertex(...add(scale(right, -halfWidth), scale(up, halfHeight)));
+          p.endShape(p.CLOSE);
+          p.pop();
+        }
+        const forward = normalize(sub(this.target, this.eye));
+        const planeLabelPos = add(add(this.target, scale(right, -halfWidth)), scale(up, -halfHeight + 5));
+        const criticalLabelPos = add(add(this.eye, scale(right, -halfWidth)), scale(up, -halfHeight + 5));
+        const eyeLabel = new Label(this.eye, "\u8996\u70B9 E");
+        const targetLabel = new Label(this.target, "\u8996\u5FC3 O");
+        const planeLabel = new Label(planeLabelPos, "\u6295\u5F71\u9762", "#000", up, right);
+        const criticalLabel = new Label(criticalLabelPos, "\u81E8\u754C\u9762", "#f00", up, right);
+        const axisLabel = new Label(add(scale(up, -14), scale(add(this.eye, this.target), 0.5)), "\u8996\u8EF8", "#000", up, forward);
+        eyeLabel.render(p);
         if (options.target) {
-          this.targetLabel.render(p);
+          targetLabel.render(p);
         }
         if (options.axis) {
-          this.axisLabel.render(p);
+          axisLabel.render(p);
         }
-        this.planeLabel.render(p);
+        planeLabel.render(p);
+        if (options.critical) {
+          criticalLabel.render(p);
+        }
       }
       // ms
       renderTrace(p, point, id = 0, options = {}) {
-        const pointColor = [0, 0, 0];
-        const imageColor = [255, 0, 0];
-        const virtualImageColor = [0, 0, 255];
+        const pointColor = "#000";
+        const imageColor = "#f00";
+        const virtualImageColor = "#00f";
         const renderVirtual = options.renderVirtual ?? false;
         const renderInner = options.renderInner ?? false;
         const renderImageLocus = options.renderImageLocus ?? false;
@@ -1453,8 +1497,8 @@ function create8(el) {
       scene.push(new Box([-100, 10, 60], [60, 120, 60], [0, -0.3, 0]));
       const posA = [-100, 20, -60];
       const solved = camera.solve(posA);
-      scene.push(new Line(posA, [200, 0, 0], [0, 0, 0]));
-      scene.push(new Point(solved, [0, 0, 0]));
+      scene.push(new Line(posA, [200, 0, 0], "#000"));
+      scene.push(new Point(solved, "#000"));
       p.camera(500, 500, 500, 0, 0, 0, 0, -1, 0);
     };
     p.draw = () => {
@@ -1508,7 +1552,7 @@ function create9(el) {
       p.background(255);
       p.orbitControl();
       scene.forEach((obj) => obj.render(p));
-      camera.outerRender(p);
+      camera.outerRender(p, { target: true, axis: true, axislabel: true });
       labels.forEach((label) => label.render(p));
     };
   });
@@ -1566,12 +1610,131 @@ var init_ideal_camera2_sketch = __esm({
   }
 });
 
+// src/projection-and-perspective/sketches/image-of-graph.sketch.ts
+var image_of_graph_sketch_exports = {};
+__export(image_of_graph_sketch_exports, {
+  create: () => create11
+});
+function create11(el) {
+  return createP5Sketch(el, (p) => {
+    let scene = [];
+    let labels = [];
+    let camera;
+    p.preload = () => {
+      Label.loadFont(p);
+    };
+    p.setup = () => {
+      p.createCanvas(640, 480, p.WEBGL);
+      camera = new IdealCamera([0, 0, 0], [0, 0, 100], 200, 150, p);
+      scene.push(new Circle([10, 0, 100], 40, [0, 0, 1]));
+      scene.push(new Circle([-20, 0, 200], 80, [0, 0, 1]));
+      p.camera(-300, 300, -300, 0, 0, 100, 0, -1, 0);
+    };
+    p.draw = () => {
+      p.background(255);
+      p.orbitControl();
+      scene.forEach((obj) => obj.render(p));
+      camera.outerRender(p);
+      labels.forEach((label) => label.render(p));
+      camera.innerRender(scene);
+      camera.canvasRender(p);
+    };
+  });
+}
+var init_image_of_graph_sketch = __esm({
+  "src/projection-and-perspective/sketches/image-of-graph.sketch.ts"() {
+    "use strict";
+    init_sketch_helper();
+    init_objects();
+    init_idealCamera();
+  }
+});
+
+// src/projection-and-perspective/sketches/image-of-point.sketch.ts
+var image_of_point_sketch_exports = {};
+__export(image_of_point_sketch_exports, {
+  create: () => create12
+});
+function create12(el) {
+  const inputTable = new InputTable(el);
+  const xSlider = inputTable.createRangeInput({
+    label: "\u5DE6\u53F3",
+    min: -100,
+    max: 100,
+    value: 50,
+    type: "int",
+    width: 200,
+    hideFeedback: true
+  });
+  const ySlider = inputTable.createRangeInput({
+    label: "\u4E0A\u4E0B",
+    min: -100,
+    max: 100,
+    value: 50,
+    type: "int",
+    width: 200,
+    hideFeedback: true
+  });
+  const zSlider = inputTable.createRangeInput({
+    label: "\u524D\u5F8C",
+    min: -100,
+    max: 100,
+    value: 50,
+    type: "int",
+    width: 200,
+    hideFeedback: true
+  });
+  const span = createElement("span");
+  el.appendChild(span);
+  return createP5Sketch(el, (p) => {
+    let camera;
+    p.preload = () => {
+      Label.loadFont(p);
+    };
+    p.setup = () => {
+      p.createCanvas(640, 480, p.WEBGL);
+      camera = new IdealCamera([0, 0, 0], [0, 0, 100], 200, 150);
+      p.camera(-300, 300, -300, 0, 0, 0, 0, -1, 0);
+    };
+    let lastResult = null;
+    p.draw = () => {
+      p.background(255);
+      p.orbitControl();
+      const x = xSlider.valueAsNumber / 100;
+      const y = ySlider.valueAsNumber / 100;
+      const z = zSlider.valueAsNumber / 100;
+      const point = [x * 120, y * 120, z * 120];
+      const newResult = camera.solve(point);
+      if (lastResult != !!newResult) {
+        lastResult = !!newResult;
+        if (newResult) {
+          span.textContent = "\u70B9\u306E\u50CF\u306F\u5B58\u5728\u3057\u307E\u3059";
+        } else {
+          span.textContent = "\u70B9\u306E\u50CF\u306F\u5B58\u5728\u3057\u307E\u305B\u3093";
+        }
+      }
+      if (newResult) Label.render(p, newResult, "\u50CF", "#000");
+      camera.renderTrace(p, point);
+      camera.outerRender(p, { target: false, axis: false, axislabel: false, critical: true });
+    };
+  });
+}
+var init_image_of_point_sketch = __esm({
+  "src/projection-and-perspective/sketches/image-of-point.sketch.ts"() {
+    "use strict";
+    init_sketch_helper();
+    init_objects();
+    init_idealCamera();
+    init_input();
+  }
+});
+
 // src/projection-and-perspective/sketches/symmetry-of-camera.sketch.ts
 var symmetry_of_camera_sketch_exports = {};
 __export(symmetry_of_camera_sketch_exports, {
-  create: () => create11
+  create: () => create13
 });
-function create11(el, options) {
+function create13(el, options) {
   return createP5Sketch(el, (p) => {
     let objects = [];
     let grid = [];
@@ -1587,21 +1750,23 @@ function create11(el, options) {
       objects.push(new Box([-10, -50, 20], [30, 20, 30], [0, -0.6, 0]));
       const gridY = -30;
       for (let x = -200; x <= 200; x += 50) {
-        grid.push(new Line([x, gridY, -200], [x, gridY, 200], [200, 200, 200]));
-        grid.push(new Line([-200, gridY, x], [200, gridY, x], [200, 200, 200]));
+        grid.push(new Line([x, gridY, -200], [x, gridY, 200], "#ccc"));
+        grid.push(new Line([-200, gridY, x], [200, gridY, x], "#ccc"));
       }
       p.camera(500, 500, -500, 0, 0, 0, 0, -1, 0);
       p.noiseDetail(2, 0.5);
     };
     p.draw = () => {
-      const phase = p.millis() / 6e3 % 1;
+      const phase = p.millis() / 6e3 % 1 * 2 * Math.PI;
       const mode = options.mode || "roll";
       const whatToMove = options.whatToMove || "camera";
-      const rollAngle = phase * 2 * Math.PI;
-      const panAngle = Math.sin(phase * 2 * Math.PI) * 0.2;
-      const tiltAngle = Math.sin(phase * 4 * Math.PI) * 0.2;
-      const offsetAmount = 40 - Math.cos(4 * Math.PI * phase) * 40;
-      const pallalelOffset = phase < 0.5 ? [offsetAmount, 0, 0] : [0, 0, offsetAmount];
+      const distance = mode == "zoom" ? Math.sin(phase) * 50 + 130 : 130;
+      camera.target[0] = camera.eye[0] - distance;
+      const rollAngle = phase;
+      const panAngle = Math.sin(phase) * 0.2;
+      const tiltAngle = Math.sin(phase * 2) * 0.2;
+      const offsetAmount = 40 - Math.cos(phase * 2) * 40;
+      const pallalelOffset = phase < Math.PI ? [offsetAmount, 0, 0] : [0, 0, offsetAmount];
       const t = p.millis() / 1e3 * 0.5;
       const randomOffset = [
         p.noise(t, 0) * 2 - 1,
@@ -1729,6 +1894,8 @@ var sketchManifest = {
   "projection-and-perspective/sketches/ideal-camera-test": { loader: () => Promise.resolve().then(() => (init_ideal_camera_test_sketch(), ideal_camera_test_sketch_exports)) },
   "projection-and-perspective/sketches/ideal-camera1": { loader: () => Promise.resolve().then(() => (init_ideal_camera1_sketch(), ideal_camera1_sketch_exports)) },
   "projection-and-perspective/sketches/ideal-camera2": { loader: () => Promise.resolve().then(() => (init_ideal_camera2_sketch(), ideal_camera2_sketch_exports)) },
+  "projection-and-perspective/sketches/image-of-graph": { loader: () => Promise.resolve().then(() => (init_image_of_graph_sketch(), image_of_graph_sketch_exports)) },
+  "projection-and-perspective/sketches/image-of-point": { loader: () => Promise.resolve().then(() => (init_image_of_point_sketch(), image_of_point_sketch_exports)) },
   "projection-and-perspective/sketches/symmetry-of-camera": { loader: () => Promise.resolve().then(() => (init_symmetry_of_camera_sketch(), symmetry_of_camera_sketch_exports)) }
 };
 

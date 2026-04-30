@@ -1,4 +1,4 @@
-function createElement(tagName: string, children: (HTMLElement | Text | string)[], options?:
+export function createElement(tagName: string, children: (HTMLElement | Text | string)[] = [], options?:
     {
         id?: string,
         class?: string | string[],

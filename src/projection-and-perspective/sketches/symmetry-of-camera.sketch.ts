@@ -31,8 +31,8 @@ export function create(el: HTMLDivElement, options: {
 
             const gridY = -30;
             for (let x = -200; x <= 200; x += 50) {
-                grid.push(new Line([x, gridY, -200], [x, gridY, 200], [200, 200, 200]));
-                grid.push(new Line([-200, gridY, x], [200, gridY, x], [200, 200, 200]));
+                grid.push(new Line([x, gridY, -200], [x, gridY, 200], "#ccc"));
+                grid.push(new Line([-200, gridY, x], [200, gridY, x], "#ccc"));
             }
 
             // outercamera
@@ -42,17 +42,20 @@ export function create(el: HTMLDivElement, options: {
         };
 
         p.draw = () => {
-            const phase = (p.millis() / 6000) % 1;
+            const phase = (p.millis() / 6000) % 1 * 2 * Math.PI;
 
             const mode = options.mode || "roll";
             const whatToMove = options.whatToMove || "camera";
 
-            const rollAngle = phase * 2 * Math.PI;
-            const panAngle = Math.sin(phase * 2 * Math.PI) * 0.2;
-            const tiltAngle = Math.sin(phase * 4 * Math.PI) * 0.2;
+            const distance = mode == "zoom" ? Math.sin(phase) * 50 + 130 : 130;
+            camera.target[0] = camera.eye[0] - distance;
+
+            const rollAngle = phase;
+            const panAngle = Math.sin(phase) * 0.2;
+            const tiltAngle = Math.sin(phase * 2) * 0.2;
             //const offsetAmount = Math.sin(4 * Math.PI * phase - Math.sin(4 * Math.PI * phase)) * 30;
-            const offsetAmount = 40 - Math.cos(4 * Math.PI * phase) * 40;
-            const pallalelOffset: vector3 = phase < 0.5 ? [offsetAmount, 0, 0] : [0, 0, offsetAmount];
+            const offsetAmount = 40 - Math.cos(phase * 2) * 40;
+            const pallalelOffset: vector3 = phase < Math.PI ? [offsetAmount, 0, 0] : [0, 0, offsetAmount];
 
             const t = p.millis() / 1000 * 0.5;
             const randomOffset: vector3 = [
