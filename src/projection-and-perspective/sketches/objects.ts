@@ -159,7 +159,14 @@ export class Circle implements Renderable {
             p.rotate(angle, rotAxis);
         }
         setStyle(p, color, undefined);
-        p.circle(0, 0, radius * 2);
+        //p.circle(0, 0, radius * 2);
+        p.beginShape();
+        const N = 64;
+        for(let i = 0; i < N; i++) {
+            const theta = i / N * 2 * Math.PI;
+            p.vertex(Math.cos(theta) * radius, Math.sin(theta) * radius);
+        }
+        p.endShape(p.CLOSE);
         p.pop();
     }
 }

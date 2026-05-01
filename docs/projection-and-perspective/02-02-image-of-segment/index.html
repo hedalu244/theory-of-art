@@ -34,13 +34,44 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="toc" class="toc">
 <div id="toctitle" class="title">目次</div>
 <ul class="sectlevel1">
+<li><a href="#_線分の像">線分の像</a></li>
+<li><a href="#_直観的な予想">直観的な予想</a></li>
 <li><a href="#_直線上の三点の投影">直線上の三点の投影</a></li>
 <li><a href="#_線分の投影">線分の投影</a></li>
+<li><a href="#_作図への応用">作図への応用</a></li>
 </ul>
+</div>
+<div class="sect1">
+<h2 id="_線分の像">線分の像</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>今回からは、特定の図形について考えていきます。とはいっても、まずは今回は最も簡単な例として、線分について考えてみます。今回はチュートリアルです。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_直観的な予想">直観的な予想</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>厳密に考える前に、結果を予想してみましょう。</p>
+</div>
+<div class="paragraph">
+<p>図形上全体を動く点Pを取って、視点EからPに伸びる半直線EPを動かしていったときに、半直線がスイープする（なぎ払う）範囲を考えます。まずEからPにビームを打った時に、そのビームに巻き込まれるような領域をまず考えるとよいのでしたね。</p>
+</div>
+<div class="paragraph">
+<p>線分をABとして、EからABを払うようにビームを撃つと、その通る領域は三角形EABをAB方向に無限に伸ばしたような形になりそうです（このような図形を角EABと呼びます）。</p>
+</div>
+<div class="paragraph">
+<p>その領域を投影面で切った断面を考えると、図形の像が得られます。角EABは平面なので、投影面と交わる部分は線分になりそうです。その両端は、それぞれ半直線EAとEBに乗っています。つまり、点A,Bの像をそれぞれ点a,bとすると、線分ABの像は線分abになるのではないでしょうか。今回は簡単のため、線分EAや線分EBが投影面と交差しない場合は考えません。</p>
+</div>
+</div>
 </div>
 <div class="sect1">
 <h2 id="_直線上の三点の投影">直線上の三点の投影</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>ここから厳密に考えます。まず、</p>
+</div>
 <div class="openblock theorem">
 <div class="title">定理（直線上の三点の投影）</div>
 <div class="content">
@@ -131,6 +162,11 @@ abcはαと投影面の共通部分上にあるので、同一直線上にある
 </div>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_作図への応用">作図への応用</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>この定理を使うと、例えば長方形の像が分かっているときに、その中心を作図することができます。</p>
 </div>

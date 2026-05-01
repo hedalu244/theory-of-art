@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <link rel="stylesheet" href="/_style/style.css">
-<title>射影的特徴の保存</title>
+<title>射影幾何学と交差の保存</title>
 
 <!-- Katex -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </head>
 
 <body>
-<h1>射影的特徴の保存</h1>
+<h1>射影幾何学と交差の保存</h1>
 <main>
 <div id="toc" class="toc">
 <div id="toctitle" class="title">目次</div>
@@ -39,8 +39,20 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><a href="#_虚像">虚像</a></li>
 </ul>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+ハリーポッターと韻踏めそう
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
-<p>投影面に平行でない直線の像は、その全体が像を持つわけではなく、臨界面より前の部分のみが像を持つのでした。では、臨界面より後ろの部分はどうなっているのでしょうか。ここは「ガラス板になぞる方法」で言えば実際には見えない部分ですが、これについて考えると少し幾何学的な特徴が見えてきます。そしてその幾何学的な特徴は、上手く扱うと作図法に応用できます。</p>
+<p>投影面に平行でない直線の像は、その全体が像を持つわけではなく、臨界面より前の部分のみが像を持つのでした。では、臨界面より後ろの部分はどうなっているのでしょうか。ここは「ガラス板になぞる方法」で言えば実際には見えない部分ですが、これについて考えると少し幾何学的な性質が見えてきます。そしてその幾何学的な性質は、上手く扱うと作図法に応用できます。</p>
 </div>
 <div class="sect1">
 <h2 id="_結論">結論</h2>
@@ -146,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 </div>
 <div class="openblock theorem">
-<div class="title">定理（射影的特徴の保存）</div>
+<div class="title">定理（射影的交差の保存）</div>
 <div class="content">
 <div class="olist arabic">
 <ol class="arabic">
@@ -223,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>ただし、射影幾何学においては順序の概念がないので、半直線が無かったり、線分の定義に癖があったりします。二点ABを選んだときに、線分ABは、直線（大円）のうちAB上ということになりますが、これは普通にABを繋ぐルートと、無限遠点を超えてぐるっと繋ぐルートの二つがあり、これらは本質的に区別できません（区別してしまうと、無限遠点が特殊な点ということになってしまって、射影幾何の面白さが損なわれてしまいます）なので、線分を定義するには「同一直線上にあるABCを、AからBを通ってCに行くルート」のように定めてあげる必要があります。同様に、無限遠点を特別扱いしたくないという理由から、半直線と言うものも存在しません。強い言えば、無限遠点を片端に持つ線分の一種になります。</p>
 </div>
 <div class="paragraph">
-<p>射影幾何の考え方を使うと、今回の定理で重要な概念だった「互いに平行であるか、一点で交わる」という特徴は単に「一点で交わる」と言い換えることができます。そして、視点Eと点Pを繋いで像を求める時に半直線ではなく直線を使うようにする（そのようにして作られる像は、今までの像と虚像を合わせた形になります）など、理想カメラの定義からすべてを射影幾何の上でやり直し、消失点は無限遠点の像であるというようなことにすると、この定理は場合分けなく証明することができます。</p>
+<p>射影幾何の考え方を使うと、今回の定理で重要な概念だった「互いに平行であるか、一点で交わる」という概念は、単に「一点で交わる」と言い換えることができます。そして、視点Eと点Pを繋いで像を求める時に半直線ではなく直線を使うようにする（そのようにして作られる像は、今までの像と虚像を合わせた形になります）など、理想カメラの定義からすべてを射影幾何の上でやり直し、消失点は無限遠点の像であるというようなことにすると、この定理は場合分けなく証明することができます。</p>
 </div>
 <div class="paragraph">
 <p>ちなみに、先ほどの半球の中心に視点を置いて、北極を視心とし、投影面に像を作ると、射影幾何と投影面上の作図が接続されます。「赤道上で交わる線」は投影面上で平行線になることなどを確認してみてください。</p>

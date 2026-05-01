@@ -4,7 +4,7 @@ import { Renderable, Point, Line, Label } from "./objects"
 import { toP5Color } from "../../_script/color";
 declare const p5: typeof p5_;
 
-function resetAs2D(p: p5_) {
+export function resetAs2D(p: p5_) {
     p.resetMatrix();
     p.ortho(-p.width / 2, p.width / 2, -p.height / 2, p.height / 2, 0, 1000);
     p.camera(p.width / 2, p.height / 2, 500, p.width / 2, p.height / 2, 0, 0, 1, 0); // Position, LookAt, Up
