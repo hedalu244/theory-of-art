@@ -543,14 +543,17 @@ main {
 
 /* ===== 定理・定義ブロック ===== */
 :root {
+  --color-axiom: #27ae60;
+  --color-axiom-bg: #e2f8ec;
   --color-definition: #ae273b;
-  --color-definition-bg: #faeaef;
-  --color-proof: #4a6fa5;
-  --color-proof-bg: #eef2f9;
-  --color-theorem: #27ae60;
-  --color-theorem-bg: #eafaf1;
+  --color-definition-bg: #fae9ef;
+  --color-theorem: #a17601;
+  --color-theorem-bg: #fbf8e9;
+  --color-proof: #4184ab;
+  --color-proof-bg: #e7f1f9;
 }
 
+.openblock.axiom,
 .openblock.definition,
 .openblock.theorem,
 .openblock.proof {
@@ -570,12 +573,12 @@ main {
   }
 }
 
-.openblock.theorem {
-  background-color: var(--color-theorem-bg);
-  border-color: var(--color-theorem);
+.openblock.axiom {
+  background-color: var(--color-axiom-bg);
+  border-color: var(--color-axiom);
 
   & > .title {
-    color: var(--color-theorem);
+    color: var(--color-axiom);
   }
 }
 
@@ -585,6 +588,15 @@ main {
 
   & > .title {
     color: var(--color-definition);
+  }
+}
+
+.openblock.theorem {
+  background-color: var(--color-theorem-bg);
+  border-color: var(--color-theorem);
+
+  & > .title {
+    color: var(--color-theorem);
   }
 }
 
