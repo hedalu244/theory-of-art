@@ -34,46 +34,23 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="toc" class="toc">
 <div id="toctitle" class="title">目次</div>
 <ul class="sectlevel1">
+<li><a href="#_共線の保存">共線の保存</a></li>
 <li><a href="#_線分の像">線分の像</a></li>
-<li><a href="#_直観的な予想">直観的な予想</a></li>
-<li><a href="#_直線上の三点の投影">直線上の三点の投影</a></li>
 <li><a href="#_線分の投影">線分の投影</a></li>
 <li><a href="#_作図への応用">作図への応用</a></li>
 </ul>
 </div>
-<div class="sect1">
-<h2 id="_線分の像">線分の像</h2>
-<div class="sectionbody">
 <div class="paragraph">
 <p>今回からは、特定の図形について考えていきます。とはいっても、まずは今回は最も簡単な例として、線分について考えてみます。今回はチュートリアルです。</p>
 </div>
-</div>
-</div>
 <div class="sect1">
-<h2 id="_直観的な予想">直観的な予想</h2>
+<h2 id="_共線の保存">共線の保存</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>厳密に考える前に、結果を予想してみましょう。</p>
-</div>
-<div class="paragraph">
-<p>図形上全体を動く点Pを取って、視点EからPに伸びる半直線EPを動かしていったときに、半直線がスイープする（なぎ払う）範囲を考えます。まずEからPにビームを打った時に、そのビームに巻き込まれるような領域をまず考えるとよいのでしたね。</p>
-</div>
-<div class="paragraph">
-<p>線分をABとして、EからABを払うようにビームを撃つと、その通る領域は三角形EABをAB方向に無限に伸ばしたような形になりそうです（このような図形を角EABと呼びます）。</p>
-</div>
-<div class="paragraph">
-<p>その領域を投影面で切った断面を考えると、図形の像が得られます。角EABは平面なので、投影面と交わる部分は線分になりそうです。その両端は、それぞれ半直線EAとEBに乗っています。つまり、点A,Bの像をそれぞれ点a,bとすると、線分ABの像は線分abになるのではないでしょうか。今回は簡単のため、線分EAや線分EBが投影面と交差しない場合は考えません。</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_直線上の三点の投影">直線上の三点の投影</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>ここから厳密に考えます。まず、</p>
+<p>まず練習として、以下の定理を示しておきましょう。</p>
 </div>
 <div class="openblock theorem">
-<div class="title">定理（直線上の三点の投影）</div>
+<div class="title">定理（共線の保存）</div>
 <div class="content">
 <div class="paragraph">
 <p>空間中の点A,B,Cが同一直線上にあって、それらが像a,b,cを持つとき、a,b,cは同一直線上にある。</p>
@@ -84,29 +61,104 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="title">証明</div>
 <div class="content">
 <div class="paragraph">
-<p>視点をEとする。
-平面EABを平面αとする。
-仮定より、ABCが同一直線上なのでCもα上にある。
-像の定義より、EAaは同一直線上なのでaもα上。
-同様に、EBbは同一直線上なのでbもα上。
-同様に、ECcは同一直線上なのでcもα上。
-従って、abcはすべてα上。
-また、αは投影面と平行ではない（∵投影面上にないEを含んでいて、投影面との共有点abcも持っている）。
-abcはαと投影面の共通部分上にあるので、同一直線上にある。</p>
-</div>
-</div>
+<p>視点をEとする。</p>
 </div>
 <div class="paragraph">
-<p>これは透視図法において、直線や線分の像が曲がらないことを示す重要な定理です。
-実在のカメラにおいては、魚眼レンズのように歪みのあるレンズの影響で直線が曲がることがあり、それを再現するような絵を描くこともありますが、透視図法に従う限り、そうはならないことが言えます。</p>
+<p>点E,A,Bから定まる平面をαとする。<br>
+仮定より、ABCが同一直線上なのでCはα上にある。<br>
+像の定義より、EAaは同一直線上なのでaもα上にある。同様に、b,cもα上にある。<br>
+また、αは投影面と平行ではない（∵投影面上にないEを含んでいて、投影面との共有点abcも持っている）。
+abcはαと投影面の共通部分上にあるので、同一直線上にある。<br></p>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_線分の像">線分の像</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>つぎは線分の像について考えます。今回は簡単のため、線分EAや線分EBが投影面と交差しない場合は考えません。</p>
+</div>
+<div class="paragraph">
+<p>厳密に考える前に、結果を予想してみましょう。</p>
+</div>
+<div class="paragraph">
+<p>図形上全体を動く点Pを取って、視点EからPに伸びる半直線EPを動かしていったときに、半直線がスイープする（なぎ払う）範囲、つまりEからPにビームを打った時に、そのビームに巻き込まれるような領域をまず考えるとよいのでしたね。線分をABとして、EからABをなぎ払うようにビームを撃つと、その通る領域は三角形EABをAB方向に無限に伸ばしたような形になりそうです（このような図形を角EABと呼びます）。</p>
+</div>
+<div class="paragraph">
+<p>その領域を投影面で切った断面を考えると、図形の像が得られます。角EABは平面なので、投影面と交わる部分は線分になりそうです。その両端は、それぞれ半直線EAとEBに乗っています。つまり、点A,Bの像をそれぞれ点a,bとすると、線分ABの像は線分abになりそうです。</p>
+</div>
+<div class="paragraph">
+<p>TODO: スケッチを入れる</p>
+</div>
+<div class="paragraph">
+<p>定理（図形の像の必要十分条件）を使って丁寧に示してみましょう。まず、以下の定理を使います。これは図を描くと当然のことを言っています。</p>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（角の大小関係）</div>
+<div class="content">
+<div class="paragraph">
+<p>同一平面上の7つの点O,A,B,C,P,Qについて、半直線OA上にPがあり、半直線OB上にQがあり、線分AB上にCがあるとき、半直線OCは線分PQと交わる。</p>
+</div>
+</div>
+</div>
+<details>
+<summary class="title">厳密な証明</summary>
+<div class="content">
+<div class="paragraph">
+<p>図を見れば当然であることも、数学的には公理から証明する必要があります。現代的なヒルベルト幾何学は十分な表現力を持っているので、当たり前のことはちゃんと示すことができます。</p>
+</div>
+<div class="paragraph">
+<p>定理（角の大小関係）は順序の公理から厳密に示すこともできます。以下の証明は、図を書いたらそうなるという「観察」を一切伴わず、すべて公理から言葉の上で示せていることを確認してみてください。</p>
+</div>
+<div class="openblock proof">
+<div class="title">厳密な証明</div>
+<div class="content">
+<div class="paragraph">
+<p>以下、パッシュの公理を、三角形XYZと直線lについて、XYZの各辺のうちちょうど0個か2個がlと交わるという形で利用する。<br>
+また、XYZが同一直線上にあるとき、半直線XY上にZがあるということ線分YZ上にXがないことは定義より同値である。</p>
+</div>
+<div class="paragraph">
+<p>[1] 直線OCと線分PQが交わることを示す。<br>
+三角形ABPと直線OCについて、パッシュの公理を考える。<br>
+直線OCと直線ABの交点は点Cであり、A,C,Bはこの順にあるから、直線OCは線分ABと交わる。<br>
+直線OCと直線APの交点は点Oであり、A,O,Pはこの順にないから、直線OCは線分APと交わらない。<br>
+したがって、直線OCは線分BPと交わる。&#8230;&#8203;(1)</p>
+</div>
+<div class="paragraph">
+<p>次に、三角形BPQと直線OCについて、パッシュの公理を考える。<br>
+(1)より、直線OCと線分BPは交わる。<br>
+直線OCと直線BQの交点は点Oであり、B,O,Qはこの順にないから、直線OCは線分BQと交わらない。<br>
+したがって、直線OCは線分PQと交わる。&#8230;&#8203;(2)</p>
+</div>
+<div class="paragraph">
+<p>[2] (2)の交点をRとして、Rが半直線OC上にあることを示す。<br>
+三角形APRと直線OBについて、パッシュの公理を考える。<br>
+直線OBと直線APの交点は点Oであり、A,O,Pはこの順にないから、直線OBは線分APと交わらない。<br>
+直線OBと直線PRの交点は点Qであり、P,R,Qはこの順にあるから、直線OBは線分PRと交わらない。<br>
+したがって、直線OBと線分ARは交わらない。&#8230;&#8203;(3)</p>
+</div>
+<div class="paragraph">
+<p>三角形ACRと直線OBについて、パッシュの公理を考える。<br>
+(3)より、直線OBと線分ARは交わらない。<br>
+直線OBと直線ACの交点は点Bであり、A,C,Bはこの順にあるから、直線OBは線分ACと交わらない。<br>
+したがって、直線OBは線分CRと交わらない。したがって、交点Rは半直線OC上にある。&#8230;&#8203;(4)</p>
+</div>
+<div class="paragraph">
+<p>(2)と(4)より、半直線OCと線分PQは交わる。■</p>
+</div>
+</div>
+</div>
+</div>
+</details>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_線分の投影">線分の投影</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>ここから、線分の像が線分になることが示せます。</p>
+<p>線分の像が線分になることを示します。</p>
 </div>
 <div class="openblock theorem">
 <div class="title">定理（線分の投影）</div>
@@ -117,50 +169,32 @@ abcはαと投影面の共通部分上にあるので、同一直線上にある
 </div>
 </div>
 <div class="openblock proof">
-<div class="title">簡易的な証明</div>
+<div class="title">証明</div>
 <div class="content">
 <div class="paragraph">
-<p>定理（図形の像の必要十分条件）を用いて示す。</p>
+<p>以下視点をEとする。定理（図形の像の必要十分条件）を用いて示す。</p>
 </div>
 <div class="paragraph">
-<p>線分AB上の任意の点Cについて考える。</p>
+<p>[1] 線分AB上の任意の点Cに対して、Cの像cが線分ab上にあることを示す。<br>
+線分AB上の任意の点Cについて考える。<br>
+EABで定まる平面をαとすると、E,A,B,C,a,bはすべてα上にある。<br>
+定理（角の大小関係）より、半直線ECは線分abと交わる。この交点をcとする。<br>
+cは投影面上にあるから、cはCの像である。</p>
 </div>
 <div class="paragraph">
-<p>まず、AとBがそれぞれ像を持つこと、定理（点の像の存在条件）と定理（半空間の凸性）より、Cも像を持つ。この像をcとする。
-点A,B,Cは同一直線上にあるので、定理（直線上の三点の投影）より、a,b,cは同一直線上にある。
-また、点Cは直線AB上でAとBの間にあるので、点Cの像cも直線ab上でaとbの間に存在すると予想できる。（ここは簡易的な説明であり、厳密な証明は後述する。）
-したがって、線分ABの像は線分abとなる。</p>
-</div>
-</div>
-</div>
-<div class="openblock proof">
-<div class="title">厳密な証明</div>
-<div class="content">
-<div class="paragraph">
-<p>定理（カメラの相似変形）より、点Aが投影面上にある場合のみ示せば十分である。</p>
-</div>
-<div class="paragraph">
-<p>この時、定理（投影面上の点の像）より、点Aと点aは同一である。また、EBbは同一直線上にあるので、EABbはすべて同一平面上である。</p>
-</div>
-<div class="paragraph">
-<p>定理（図形の像の必要十分条件）を用いて示す。</p>
-</div>
-<div class="paragraph">
-<p>[1] 線分AB上の任意の点Cに対して、Cの像cが線分ab上にあることを示す。</p>
-</div>
-<div class="paragraph">
-<p>三角形ABbと直線ECについてパッシュの公理を考える。直線ECは線分ABと点Cで交わるため、直線ECは線分abまたは線分Bbと交わる。直線ECと直線Bbの交点はEただ一つであるが、定義（点の像）より、直線Bb上でEに対してBとbは同じ側にあるので、直線ECと線分Bbは交点を持たない。従って、直線ECは線分abと交わる。この交点を点cとすると、定義（点の像）より、点cは点Cの像となる。ゆえに、線分ABの像全体は線分abに含まれる。…[1]</p>
-</div>
-<div class="paragraph">
-<p>[2] 線分ab上の任意の点cに対して、cを像とする点Cが線分AB上にあることを示す。</p>
-</div>
-<div class="paragraph">
-<p>三角形ABbと直線Ecについてパッシュの公理を考える。直線Ecは線分abと点cで交わるため、直線Ecは線分ABまたは線分Bbと交わる。直線Ecと直線Bbの交点はEただ一つであるが、定義（点の像）より、直線Bb上でに対してBとbは同じ側にあるので、直線Ecと線分Bbは交点を持たない。従って、直線Ecは線分ABと交わる。この交点を点Cとすると、定義（点の像）より、点Cの像は点cとなる。ゆえに、線分ab全体が線分ABの像に含まれる。…[2]</p>
+<p>[2] 線分ab上の任意の点cに対して、cを像とする点Cが線分AB上にあることを示す。<br>
+線分ab上の任意の点cについて考える。<br>
+Eabで定まる平面をαとすると、E,A,B,a,b,cはすべてα上にある。<br>
+定理（角の大小関係）より、半直線Ecは線分abと交わる。この交点をCとする。<br>
+cは投影面上にあるから、cはCの像である。</p>
 </div>
 <div class="paragraph">
 <p>[1]と[2]と定理（図形の像の必要十分条件）より、線分ABの像は線分abと一致する。■</p>
 </div>
 </div>
+</div>
+<div class="paragraph">
+<p>これは透視図法において、線分の像が曲がらないことを示します。実在のカメラにおいては、魚眼レンズのように歪みのあるレンズの影響で直線が曲がることがあり、それを再現するような絵を描くこともありますが、透視図法に従う限り、そうはならないことが言えます。</p>
 </div>
 </div>
 </div>
@@ -168,28 +202,25 @@ abcはαと投影面の共通部分上にあるので、同一直線上にある
 <h2 id="_作図への応用">作図への応用</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>この定理を使うと、例えば長方形の像が分かっているときに、その中心を作図することができます。</p>
+<p>以下、自明なことかもしれませんが、作図法においては重要なので、特筆しておきます。</p>
 </div>
 <div class="openblock theorem">
-<div class="title">定理（長方形の中心の像）</div>
+<div class="title">定理（線分の交点の像）</div>
 <div class="content">
 <div class="paragraph">
-<p>長方形ABCDの像が四角形abcdであり、点Pが長方形ABCDの中心、つまり線分ACと線分BDの交点であるとき、点Pの像は線分acとbdの交点である。</p>
+<p>線分ABと線分CDが点Pで交わっていて、点A,B,C,Dそれぞれが像a,b,c,dを持つとき、Pの像はabとcdの交点になる</p>
 </div>
 </div>
 </div>
 <div class="openblock proof">
 <div class="content">
 <div class="paragraph">
-<p>点Pは線分AC上にあるため、定理（線分の投影）より、点Pの像は線分ac上にある。同様に、点Pの像は線分bd上にある。したがって、点Pの像は線分acと線分bdの交点である。</p>
-</div>
-</div>
+<p>点Pは線分AB上にあるため、定理（部分の像）より、Pの像はABの像の上にある。CDについても同様。</p>
 </div>
 <div class="paragraph">
-<p>同様に、いくつかの点の像が分かっているとき、対象上でそれらを線分で繋ぐ操作と線分の交点を取る操作の組み合わせで得られる図形の像は、同等の手順を投影面上で行うことで得られます。これは投影面上で作図をするときに強力な道具となります。</p>
+<p>定理（線分の投影）より、線分ABの像は線分ab、線分CDの像は線分cdであるから、Pの像pはabとcdの交点になる。</p>
 </div>
-<div class="paragraph">
-<p>以下、自明なことですが作図法においては重要なので、特筆しておきます。（平面上においては）2つの直線が交わるというのは珍しくないものの、3直線が一点で交わるのは得意なことです。</p>
+</div>
 </div>
 <div class="openblock theorem">
 <div class="title">定理（一点で交わる3線分の像）</div>
@@ -203,9 +234,18 @@ abcはαと投影面の共通部分上にあるので、同一直線上にある
 <div class="openblock proof">
 <div class="content">
 <div class="paragraph">
-<p>点Pを線分ABと線分CD、線分EFの交点とし、Pの像をpとすると、pは線分ab上、線分cd上、線分ef上に乗る。■</p>
+<p>点Pを線分AB、線分CD、線分EFの交点とし、Pの像をpとする。pは線分ab上、線分cd上、線分ef上に乗る。■</p>
 </div>
 </div>
+</div>
+<div class="paragraph">
+<p>これらの定理を使うと、例えば四角形abcdが長方形ABCDの像であると分かっているときに、長方形のの中心の像を作図することができますね。長方形の中心は対角線ACとBDの交点なので、acとbdの交点が中心の像となります。</p>
+</div>
+<div class="paragraph">
+<p>同様に、いくつかの点とその像が分かっているとき、対象上でそれらを線分で繋ぐ操作と交点を取る操作の組み合わせで得られる図形の像は、同等の手順を投影面上で行うことで得られます。これは投影面上で作図をするときに強力な道具となります。</p>
+</div>
+<div class="paragraph">
+<p>ただし、まだ線分を延長するような操作については示していないことに注意してください</p>
 </div>
 </div>
 </div>
