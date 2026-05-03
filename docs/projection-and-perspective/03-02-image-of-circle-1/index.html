@@ -34,8 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="toc" class="toc">
 <div id="toctitle" class="title">目次</div>
 <ul class="sectlevel1">
-<li><a href="#_円について考えるその前に">円について考える、その前に</a></li>
-<li><a href="#_円と回転体">円と回転体</a></li>
 <li><a href="#_円の像は楕円">円の像は楕円？</a></li>
 <li><a href="#_直観的な理解">直観的な理解①</a></li>
 <li><a href="#_直観的な理解_2">直観的な理解②</a></li>
@@ -44,29 +42,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><a href="#_楕円の描き方への応用">楕円の描き方への応用</a></li>
 </ul>
 </div>
-<div class="sect1">
-<h2 id="_円について考えるその前に">円について考える、その前に</h2>
-<div class="sectionbody">
 <div class="paragraph">
 <p>今回からは、円と回転体の描き方について考えます。円とその周辺に関してはたくさんの誤解が起きやすいので、「その1」～「その3」の3ページに分割します。</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_円と回転体">円と回転体</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>まず、定義から確認しましょう。</p>
-</div>
-<div class="openblock definition">
-<div class="title">定義（円）</div>
-<div class="content">
-<div class="paragraph">
-<p>平面πとπ上の点P、長さrがあったとき、平面π上で点Pから長さrの距離にある点の集合を円と呼ぶ</p>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div class="sect1">
 <h2 id="_円の像は楕円">円の像は楕円？</h2>
@@ -154,10 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>直感的な理解①では、楕円であることと <strong>相反するわけではない</strong> ことが分かったのみで、まだ「楕円である」とは言えません。もう少し証明らしく考えます。</p>
 </div>
 <div class="paragraph">
-<p>定義に基づくと、視点Eから円周上の各点Pに向かって半直線EPを伸ばしていき、投影面と交わる点が円の像です。これは見方を変えると、視点を頂点とする円錐を平面で切った断面を求めていると考えることができます。</p>
-</div>
-<div class="paragraph">
-<p>TODO: スケッチを作る</p>
+<p>例によって視点から円全体を「なぎ払う」ようにビームを動かすことを考えてみましょう。ビームが通る部分は円錐形になりますね。それを投影面で切った断面が円の像になります。</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -166,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="title">Note</div>
 </td>
 <td class="content">
-ある平面図形を底面とし、平面上にない頂点について、頂点から平面図形のばす線分または半直線を集めた図形を錐体と呼びます。円錐とは底面が円の錐体です。
+ある平面図形を底面とし、平面上にない頂点について、頂点から平面図形まで伸ばした線分や半直線を集めた図形を錐体と呼びます。円錐は底面が円の錐体です。円に対して視点が斜めにありますが、一点に
 </td>
 </tr>
 </table>

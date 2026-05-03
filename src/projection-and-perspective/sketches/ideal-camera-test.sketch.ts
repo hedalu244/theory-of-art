@@ -1,7 +1,7 @@
 import type p5_ from "p5";
 declare const p5: typeof p5_;
 import { Sketch, createP5Sketch } from "../../_script/sketch-helper";
-import { Renderable, Label, Line, Box, Sphere, Point } from "./objects.ts";
+import { Renderable, Label, Segment, Box, Sphere, Point } from "./objects.ts";
 import { IdealCamera } from "./idealCamera.ts"
 import { add, scale, vector3 } from "../../_script/linearalgebra.ts";
 
@@ -26,7 +26,7 @@ export function create(el: HTMLDivElement): Sketch {
             const posA = [-100, 20, -60] as vector3;
             const solved = camera.solve(posA)!;
 
-            scene.push(new Line(posA, [200, 0, 0], "#000"));
+            scene.push(new Segment(posA, [200, 0, 0], "#000"));
             scene.push(new Point(solved, "#000"));
 
             // outercamera

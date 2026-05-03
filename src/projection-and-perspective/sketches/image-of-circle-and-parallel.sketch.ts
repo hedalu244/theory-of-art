@@ -1,14 +1,10 @@
 import type p5_ from "p5";
 declare const p5: typeof p5_;
 import { Sketch, createP5Sketch } from "../../_script/sketch-helper.ts";
-import { Label, Circle, Line } from "./objects.ts";
-import { IdealCamera } from "./idealCamera.ts";
+import { Label, Circle, Segment } from "./objects.ts";
 
 export function create(el: HTMLDivElement, options: { roll?: boolean, grid?: boolean; }): Sketch {
     return createP5Sketch(el, (p: p5_) => {
-
-        let camera: IdealCamera;
-
         p.setup = () => {
             p.createCanvas(640, 480, p.WEBGL);
             p.camera(0, 200, 0, 0, 0, 0, 0, 0, -1); // Position, LookAt, Up
@@ -49,10 +45,10 @@ export function create(el: HTMLDivElement, options: { roll?: boolean, grid?: boo
             }
             p.endShape();
 
-            Circle.render(p, [0, 0, 0], radius, [0, 1, 0], "#000");
-            Line.render(p, [radius, 0, -length], [radius, 0, length], "#000");
-            Line.render(p, [-radius, 0, -length], [-radius, 0, length], "#000");
-            Line.render(p, [radius, 1, 0], [-radius, 1, 0], "#000");
+            Circle.renderCircle(p, [0, 0, 0], radius, [0, 1, 0], "#000");
+            Segment.renderSegment(p, [radius, 0, -length], [radius, 0, length], "#000");
+            Segment.renderSegment(p, [-radius, 0, -length], [-radius, 0, length], "#000");
+            Segment.renderSegment(p, [radius, 1, 0], [-radius, 1, 0], "#000");
         };
     });
 }

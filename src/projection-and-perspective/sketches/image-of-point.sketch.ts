@@ -1,18 +1,20 @@
 import type p5_ from "p5";
 declare const p5: typeof p5_;
 import { Sketch, createP5Sketch } from "../../_script/sketch-helper";
-import { Renderable, Label, Line, Box, Sphere, Point } from "./objects.ts";
-import { IdealCamera } from "./idealCamera.ts"
+import { Renderable, Label, Segment, Box, Sphere, Point } from "./objects.ts";
+import { IdealCamera } from "./idealCamera.ts";
 import { vector3, add, scale, sub } from "../../_script/linearalgebra.ts";
 import { InputTable, createElement } from "../../_script/input.ts";
 
-export function create(el: HTMLDivElement): Sketch {
+export function create(el: HTMLDivElement, options: {
+    virtual?: boolean;
+}): Sketch {
     const inputTable = new InputTable(el);
     const xSlider = inputTable.createRangeInput({
         label: "左右",
         min: -100,
         max: 100,
-        value: 50,
+        value: 10,
         type: "int",
         width: 200,
         hideFeedback: true,
@@ -22,7 +24,7 @@ export function create(el: HTMLDivElement): Sketch {
         label: "上下",
         min: -100,
         max: 100,
-        value: 50,
+        value: 10,
         type: "int",
         width: 200,
         hideFeedback: true,
@@ -46,7 +48,7 @@ export function create(el: HTMLDivElement): Sketch {
 
         p.preload = () => {
             Label.loadFont(p);
-        }
+        };
 
         p.setup = () => {
             p.createCanvas(640, 480, p.WEBGL);
@@ -68,18 +70,38 @@ export function create(el: HTMLDivElement): Sketch {
             const z = zSlider.valueAsNumber / 100;
             const point = [x * 120, y * 120, z * 120] as vector3;
 
-            const newResult = camera.solve(point);
-            if (lastResult != !!newResult) {
-                lastResult = !!newResult;
-                if (newResult) {
-                    span.textContent = "点の像は存在します";
-                } else {
-                    span.textContent = "点の像は存在しません";
+            const image = camera.solve(point);
+            const virtualImage = camera.solve_virtual(point);
+            if (lastResult != !!image) {
+                lastResult = !!image;
+                if (options.virtual) {
+                    if (image) {
+                        span.textContent = "点の像が存在します";
+                    } else if(virtualImage) {
+                        span.textContent = "点の虚像が存在します";
+                    } else {
+                        span.textContent = "像も虚像も存在しません";
+                    }
+                }
+                else {
+                    if (image) {
+                        span.textContent = "点の像は存在します";
+                    } else {
+                        span.textContent = "点の像は存在しません";
+                    }
                 }
             }
 
-            if (newResult) Label.render(p, newResult, "像", "#000");
+            Label.renderLabel(p, point, "点", "#000");
+
+            if (image) Label.renderLabel(p, image, "像", "#000");
             camera.renderTrace(p, point);
+
+            if(options.virtual) {
+                if (virtualImage) Label.renderLabel(p, virtualImage, "虚像", "#000");
+                camera.renderTrace(p, point, 0, "#000", "#f00", "#00f");
+            }
+
             camera.outerRender(p, { target: false, axis: false, axislabel: false, critical: true });
         };
     });

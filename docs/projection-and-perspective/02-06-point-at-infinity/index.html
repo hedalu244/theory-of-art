@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <li><a href="#_平行でないときをなくしたい">「平行でないとき…」をなくしたい！</a></li>
 <li><a href="#_無限遠点の像">無限遠点の像</a></li>
 <li><a href="#_直線の像">直線の像</a></li>
-<li><a href="#_逆に平行線の消失点">逆に、平行線の消失点</a></li>
+<li><a href="#_投影面に平行な線の消失点">投影面に平行な線の消失点</a></li>
 <li><a href="#_共点の保存">共点の保存</a></li>
 </ul>
 </div>
@@ -92,19 +92,22 @@ document.addEventListener('DOMContentLoaded', function() {
 <p>虚像は「ガラス板になぞる方法」で言えば見えるわけがありません。人間は前しか見えないし、もし（複眼とかで）後ろが見えたとしても、真反対方向にあるものを「重なっている」といって投影面になぞるのは無理があります。しかし、幾何学的には、半直線より直線のほうが圧倒的に扱いやすいので、こういうものを考えます。</p>
 </div>
 <div class="paragraph">
+<div class="sketch" data-path="projection-and-perspective/sketches/image-of-point" data-options="{&quot;virtual&quot;:true}"></div>
+</div>
+<div class="paragraph">
 <p>なぜこんなものを定義したかと言えば、臨界面より前にあるか後ろにあるかで場合分けしたくないからです。なので、 <strong>このページに限っては</strong> 断りなく「像」と言ったら基本的に虚像も含むと考えてください。</p>
 </div>
 <div class="paragraph">
 <p>この条件下で、直線の像を考えてみましょう。アニメーションで見てみると以下のようになります。青く表示されるのが虚像です。</p>
 </div>
 <div class="paragraph">
-<p>TODO: スケッチを入れる</p>
+<div class="sketch" data-path="projection-and-perspective/sketches/image-of-line" data-options="{&quot;virtual&quot;: true}"></div>
 </div>
 <div class="paragraph">
 <p>L上で点Pを動かすと、Pが臨界面に近づいたときにPの像ははるか遠方に行きます。そして、Pが臨界面より後ろに行くと、代わりに消失点の反対方向からPの虚像が表れて、直線のほぼ全体を塗りつぶします。</p>
 </div>
 <div class="paragraph">
-<p>しかし、あくまでも「ほぼ全体」です。定理（図形の像の必要十分条件）の[2]で確認してみると、消失点Vに対して、EVとlが平行となって交点を持たないので、Vはlの像には含まれないことが分かります。つまり、消失点を除く必要があるのです。……この場合分けもなくしたいですね。</p>
+<p>しかし、あくまでも「ほぼ全体」です。定理（図形の像の必要十分条件）の[2]で確認してみると、消失点Vに対して、EVとlが平行となって交点を持たないので、像も虚像もVに限りなく近づくのみで、V自体はlの像には含まれないことが分かります。つまり、消失点を除く必要があるのです。……この場合分けもなくしたいですね。</p>
 </div>
 </div>
 </div>
@@ -173,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h2 id="_直線の像">直線の像</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>もう一度直線lの像を考えてみましょう。像と虚像を合わせたことで、直線の像は「ほとんど」直線になりましたが、まら消失点をとり除く必要がありました。これが無限遠点を入れたことでどうなったでしょうか。</p>
+<p>もう一度直線lの像を考えてみましょう。像と虚像を合わせたことで、直線の像は「ほとんど」直線になりましたが、まだ消失点をとり除く必要がありました。これが無限遠点を入れたことでどうなったでしょうか。</p>
 </div>
 <div class="paragraph">
 <p>直線lが無限遠点Pを通るとき、lの消失点VはPの像になっていました。ということは、消失点Vもlの像に含んでよいことになりますね！　これで、文字通り一点の曇りもなく「直線の像は消失点を通る直線である」と言えるようになりました！</p>
@@ -181,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 </div>
 <div class="sect1">
-<h2 id="_逆に平行線の消失点">逆に、平行線の消失点</h2>
+<h2 id="_投影面に平行な線の消失点">投影面に平行な線の消失点</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>無限遠点を考える目的は、「平行な場合」の場合分けを無くすことでした。もう一つ、ぜひなくしたい場合分けがありますよね。定理（投影面に平行な直線）では、投影面に平行な直線は消失点を持たないことになっていたので、これが面倒な場合分けになっていました。これについても考えてみましょう。</p>
@@ -232,7 +235,10 @@ document.addEventListener('DOMContentLoaded', function() {
 </ol>
 </div>
 <div class="paragraph">
-<p>ね、簡単でしょう？</p>
+<p>虚像を描いてみると分かりやすいでしょう。</p>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="projection-and-perspective/sketches/concurrent" data-options="{&quot;virtual&quot;: true}"></div>
 </div>
 </div>
 </div>

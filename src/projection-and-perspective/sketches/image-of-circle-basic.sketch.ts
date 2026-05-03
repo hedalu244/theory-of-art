@@ -1,7 +1,7 @@
 import type p5_ from "p5";
 declare const p5: typeof p5_;
 import { Sketch, createP5Sketch } from "../../_script/sketch-helper.ts";
-import { Label, Circle, Line } from "./objects.ts";
+import { Label, Circle, Segment } from "./objects.ts";
 import { IdealCamera } from "./idealCamera.ts";
 
 export function create(el: HTMLDivElement, options: { roll?: boolean, grid?: boolean; }): Sketch {
@@ -26,8 +26,8 @@ export function create(el: HTMLDivElement, options: { roll?: boolean, grid?: boo
 
             if (options.roll) p.rotateZ(t);
 
-            Circle.render(p, [0, 0, 0], 80, [0, 1, 0], "#000");
-            Line.render(p, [0, -100, 0], [0, 100, 0], "#000");
+            Circle.renderCircle(p, [0, 0, 0], 80, [0, 1, 0], "#000");
+            Segment.renderSegment(p, [0, -100, 0], [0, 100, 0], "#000");
 
             if (options.grid) {
                 let N = 3;
@@ -35,8 +35,8 @@ export function create(el: HTMLDivElement, options: { roll?: boolean, grid?: boo
                 const length = size * N;
 
                 for (let i = -3; i <= 3; i++) {
-                    Line.render(p, [i * size, 0, length], [i * size, 0, -length], "#aaa");
-                    Line.render(p, [length, 0, i * size], [-length, 0, i * size], "#aaa");
+                    Segment.renderSegment(p, [i * size, 0, length], [i * size, 0, -length], "#aaa");
+                    Segment.renderSegment(p, [length, 0, i * size], [-length, 0, i * size], "#aaa");
                 }
             }
         };

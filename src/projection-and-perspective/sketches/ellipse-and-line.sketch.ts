@@ -1,7 +1,7 @@
 import type p5_ from "p5";
 declare const p5: typeof p5_;
 import { Sketch, createP5Sketch } from "../../_script/sketch-helper.ts";
-import { Label, Circle, Line } from "./objects.ts";
+import { Label, Circle, Segment } from "./objects.ts";
 import { IdealCamera } from "./idealCamera.ts";
 
 export function create(el: HTMLDivElement, options: { roll?: boolean, grid?: boolean; }): Sketch {

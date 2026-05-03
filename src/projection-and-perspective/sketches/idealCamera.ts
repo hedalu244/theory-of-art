@@ -1,6 +1,6 @@
 import type p5_ from "p5";
 import { vector3, cross, scale, normalize, sub, add, mag, dot } from "../../_script/linearalgebra";
-import { Renderable, Point, Line, Label } from "./objects"
+import { Renderable, Point, Segment, Label, Shape } from "./objects"
 import { toP5Color } from "../../_script/color";
 declare const p5: typeof p5_;
 
@@ -74,6 +74,21 @@ export class IdealCamera {
         }
     }
 
+    renderImage(p: p5_, object: Shape) {
+        const vertices = object.vertices;
+        const image = vertices.map(v => this.solve(v));
+        // .filter((v): v is vector3 => v !== undefined);
+        let fragment = [] as vector3[];
+        for (let i = 0; i < vertices.length; i++) {
+            if (image[i] && isFinite(image[i]![0]) && isFinite(image[i]![1]) && isFinite(image[i]![2])) {
+                fragment.push(image[i]!);
+            } else if (fragment.length > 0) {
+                Shape.renderShape(p, fragment, object.strokeColor, object.fillColor);
+                fragment = [];
+            }
+        }
+        if (fragment.length > 0) Shape.renderShape(p, fragment, object.strokeColor, object.fillColor);
+    }
     canvasRender(p: p5_) {
         if (!this.innerCanvas) return;
 
@@ -89,7 +104,6 @@ export class IdealCamera {
 
         this.innerCanvas.background(255);
     }
-
     outerRender(p: p5_, options: {
         target?: boolean,
         axis?: boolean,
@@ -112,7 +126,7 @@ export class IdealCamera {
 
         if (options.axis) {
             // 視軸を描画
-            Line.render(p, this.eye, this.target, "#000");
+            Segment.renderSegment(p, this.eye, this.target, "#000");
         }
 
         const forward = normalize(sub(this.target, this.eye));
@@ -159,22 +173,22 @@ export class IdealCamera {
         const planeLabelPos = add(add(this.target, scale(right, halfWidth)), scale(up, halfHeight - 5));
         const criticalLabelPos = add(add(this.eye, scale(right, halfWidth)), scale(up, halfHeight - 5));
 
-        Label.render(p, this.eye, "視点 E");
+        Label.renderLabel(p, this.eye, "視点 E");
         if (options.target) {
-            Label.render(p, this.target, "視心 O");
+            Label.renderLabel(p, this.target, "視心 O");
         }
         if (options.axis) {
-            Label.render(p, add(scale(up, -14), scale(add(this.eye, this.target), 0.5)), "視軸", "#000", up, forward);
+            Label.renderLabel(p, add(scale(up, -14), scale(add(this.eye, this.target), 0.5)), "視軸", "#000", up, forward);
         }
-        Label.render(p, planeLabelPos, "投影面", "#000", up, scale(right, -1));
+        Label.renderLabel(p, planeLabelPos, "投影面", "#000", up, scale(right, -1));
         if (options.critical) {
-            Label.render(p, criticalLabelPos, "臨界面", "#f00", up, scale(right, -1));
+            Label.renderLabel(p, criticalLabelPos, "臨界面", "#f00", up, scale(right, -1));
         }
     }
 
 
     history = new Map<number, [number, vector3, vector3 | undefined, vector3 | undefined][]>();
-    historyLifespan = 3000; // ms
+    historyLifespan = 1000; // ms
 
     renderTrace(p: p5_, point: vector3, id = 0, 
     pointColor = "#000",
@@ -191,7 +205,7 @@ export class IdealCamera {
         const renderImageLocus = options.renderImageLocus ?? false;
         const renderPointLocus = options.renderPointLocus ?? false;
         const renderInnerLocus = options.renderInnerLocus ?? false;
-        const extension = options.extension ?? 10;
+        const extension = options.extension ?? 50;
 
         const image = this.solve(point);
         const vImage = this.solve_virtual(point);
@@ -211,8 +225,8 @@ export class IdealCamera {
 
             Point.render(p, image, imageColor);
 
-            Line.render(p, this.eye, point_extended, imageColor);
-            Line.render(p, this.eye, image_extended, imageColor);
+            Segment.renderSegment(p, this.eye, point_extended, imageColor);
+            Segment.renderSegment(p, this.eye, image_extended, imageColor);
         }
 
         if (vImage && virtualImageColor) {
@@ -221,8 +235,8 @@ export class IdealCamera {
 
             Point.render(p, vImage, virtualImageColor);
 
-            Line.render(p, this.eye, point_extended, virtualImageColor);
-            Line.render(p, this.eye, image_extended, virtualImageColor);
+            Segment.renderSegment(p, this.eye, point_extended, virtualImageColor);
+            Segment.renderSegment(p, this.eye, image_extended, virtualImageColor);
         }
 
         if (renderPointLocus) {
@@ -234,7 +248,7 @@ export class IdealCamera {
 
                 p.push();
                 p.strokeWeight(alpha)
-                Line.render(p, p1, p2, pointColor);
+                Segment.renderSegment(p, p1, p2, pointColor);
                 p.pop();
             }
         }
@@ -250,7 +264,7 @@ export class IdealCamera {
 
                 p.push();
                 p.strokeWeight(alpha)
-                Line.render(p, p1, p2, imageColor);
+                Segment.renderSegment(p, p1, p2, imageColor);
                 p.pop();
             }
         }
@@ -266,7 +280,7 @@ export class IdealCamera {
 
                 p.push();
                 p.strokeWeight(alpha)
-                Line.render(p, p1, p2, virtualImageColor);
+                Segment.renderSegment(p, p1, p2, virtualImageColor);
                 p.pop();
             }
         }
@@ -289,7 +303,7 @@ export class IdealCamera {
 
                     this.innerCanvas.push();
                     this.innerCanvas.strokeWeight(alpha)
-                    Line.render(this.innerCanvas, p1, p2, imageColor);
+                    Segment.renderSegment(this.innerCanvas, p1, p2, imageColor);
                     this.innerCanvas.pop();
                 }
             }
@@ -305,7 +319,7 @@ export class IdealCamera {
 
                     this.innerCanvas.push();
                     this.innerCanvas.strokeWeight(alpha)
-                    Line.render(this.innerCanvas, p1, p2, virtualImageColor);
+                    Segment.renderSegment(this.innerCanvas, p1, p2, virtualImageColor);
                     this.innerCanvas.pop();
                 }
             }

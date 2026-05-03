@@ -1,7 +1,7 @@
 import type p5_ from "p5";
 declare const p5: typeof p5_;
 import { Sketch, createP5Sketch } from "../../_script/sketch-helper";
-import { Renderable, Label, Line, Box, Sphere, Point } from "./objects.ts";
+import { Renderable, Label, Segment, Box, Sphere, Point } from "./objects.ts";
 import { IdealCamera } from "./idealCamera.ts";
 import { vector3, add, scale, sub } from "../../_script/linearalgebra.ts";
 
@@ -30,8 +30,8 @@ export function create(el: HTMLDivElement, options: {
 
             const gridY = -30;
             for (let x = -200; x <= 200; x += 50) {
-                grid.push(new Line([x, gridY, -200], [x, gridY, 200], "#ccc"));
-                grid.push(new Line([-200, gridY, x], [200, gridY, x], "#ccc"));
+                grid.push(new Segment([x, gridY, -200], [x, gridY, 200], "#ccc"));
+                grid.push(new Segment([-200, gridY, x], [200, gridY, x], "#ccc"));
             }
 
             camera = new IdealCamera([100, 0, 0], [-30, 0, 0], 200, 150, p);

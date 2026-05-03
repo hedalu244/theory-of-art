@@ -47,9 +47,9 @@ export function create(el: HTMLDivElement): Sketch {
             camera.renderTrace(p, A, 0, "#e00", "#e00", undefined, {renderInner: true});
             camera.renderTrace(p, B, 0, "#0a0", "#0a0", undefined, {renderInner: true, extension: 130});
 
-            Label.render(p, A, "点A", "#000");
-            Label.render(p, B, "点b", "#000");
-            Label.render(p, a, "点a", "#000");
+            Label.renderLabel(p, A, "点A", "#000");
+            Label.renderLabel(p, B, "点b", "#000");
+            Label.renderLabel(p, a, "点a", "#000");
 
             camera.outerRender(p);
             labels.forEach(label => label.render(p));

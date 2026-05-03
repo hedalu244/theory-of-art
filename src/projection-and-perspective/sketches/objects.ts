@@ -1,5 +1,5 @@
 import type p5_ from "p5";
-import { vector3, cross, normalize, sub } from "../../_script/linearalgebra";
+import { vector3, cross, normalize, sub, mag, add, scale } from "../../_script/linearalgebra";
 declare const p5: typeof p5_;
 
 export interface Renderable {
@@ -35,25 +35,50 @@ export class Point implements Renderable {
     }
 }
 
-export class Line implements Renderable {
-    start: vector3;
-    end: vector3;
-    color: string;
-    constructor(start: vector3, end: vector3, color: string = "#000") {
-        this.start = start;
-        this.end = end;
-        this.color = color;
+export class Shape implements Renderable {
+    fillColor?: string;
+    strokeColor?: string;
+    vertices: vector3[];
+    constructor(vertices: vector3[], strokeColor?: string, fillColor?: string) {
+        this.vertices = vertices;
+        this.strokeColor = strokeColor;
+        this.fillColor = fillColor;
+    }
+    render(p: p5_ | p5_.Graphics): void {
+        Shape.renderShape(p, this.vertices, this.strokeColor, this.fillColor);
     }
 
-    render(p: p5_ | p5_.Graphics): void {
-        Line.render(p, this.start, this.end, this.color);
+    static renderShape(p: p5_ | p5_.Graphics, vertices: vector3[], strokeColor?: string, fillColor?: string): void {
+        p.push();
+        setStyle(p, strokeColor, fillColor);
+        p.beginShape();
+        for (const v of vertices) {
+            p.vertex(...v);
+        }
+        p.endShape();
+        p.pop();
+    }
+}
+
+export class Segment extends Shape {
+    start: vector3;
+    end: vector3;
+
+    constructor(start: vector3, end: vector3, color: string = "#000", N = 1) {
+        const vertices: vector3[] = [];
+        for(let i = 0; i <= N + 1; i++) {
+            const t = i / (N + 1);
+            vertices.push(add(scale(start, 1 - t), scale(end, t)) as vector3);
+        }
+
+        super(vertices, color, undefined);
+        this.start = start;
+        this.end = end;
+        this.strokeColor = color;
     }
     
-    static render(p: p5_ | p5_.Graphics, start: vector3, end: vector3, color: string = "#000"): void {
-        p.push();
-        setStyle(p, color, undefined);
-        p.line(...start, ...end);
-        p.pop();
+    static renderSegment(p: p5_ | p5_.Graphics, start: vector3, end: vector3, color: string = "#000"): void {
+        Shape.renderShape(p, [start, end], color, undefined);
     }
 }
 
@@ -80,10 +105,10 @@ export class Label implements Renderable {
     }
     
     render(p: p5_ | p5_.Graphics): void {
-        Label.render(p, this.position, this.text, this.color, this.up, this.right);
+        Label.renderLabel(p, this.position, this.text, this.color, this.up, this.right);
     }
 
-    static render(p: p5_ | p5_.Graphics, position: vector3, text: string, color: string = "#000", up_?: vector3, right_?: vector3): void {
+    static renderLabel(p: p5_ | p5_.Graphics, position: vector3, text: string, color: string = "#000", up_?: vector3, right_?: vector3): void {
         if(!Label.font) {
             return;
         }
@@ -133,41 +158,33 @@ export class Label implements Renderable {
     }
 }
 
-export class Circle implements Renderable {
+export class Circle extends Shape {
     center: vector3;
-    radius: number;
     axis: vector3;
-    color: string;
+    radius: number;
     constructor(center: vector3, radius: number, axis: vector3 = [0, 0, 1], color: string = "#000") {
+        const vec1 = cross(axis, [1, 0, 0]);
+        if (mag(vec1) < 1e-6) {
+            vec1[1] = 1;
+        }
+        const vec2 = normalize(cross(axis, vec1));
+        const vec3 = normalize(cross(axis, vec2));
+
+        const vertices: vector3[] = [];
+        const N = 64;
+        for(let i = 0; i < N + 1; i++) {
+            const theta = i / N * 2 * Math.PI;
+            vertices.push(add(add(center, scale(vec2, Math.cos(theta) * radius)), scale(vec3, Math.sin(theta) * radius)));
+        }
+        super(vertices, color, undefined);
         this.center = center;
         this.radius = radius;
         this.axis = axis;
-        this.color = color;
     }
 
-    render(p: p5_ | p5_.Graphics): void {
-        Circle.render(p, this.center, this.radius, this.axis, this.color);
-    }
-
-    static render(p: p5_ | p5_.Graphics, center: vector3, radius: number, axis: vector3, color: string): void {
-        axis = normalize(axis);
-        const angle = Math.acos(axis[2]);
-        p.push();
-        p.translate(...center);
-        if(angle != 0) {
-            const rotAxis = cross(axis, [0, 0, 1]);
-            p.rotate(angle, rotAxis);
-        }
-        setStyle(p, color, undefined);
-        //p.circle(0, 0, radius * 2);
-        p.beginShape();
-        const N = 64;
-        for(let i = 0; i < N; i++) {
-            const theta = i / N * 2 * Math.PI;
-            p.vertex(Math.cos(theta) * radius, Math.sin(theta) * radius);
-        }
-        p.endShape(p.CLOSE);
-        p.pop();
+    static renderCircle(p: p5_ | p5_.Graphics, center: vector3, radius: number, axis: vector3, color: string): void {
+        const circle = new Circle(center, radius, axis, color);
+        circle.render(p);
     }
 }
 

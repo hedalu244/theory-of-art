@@ -1,7 +1,7 @@
 import type p5_ from "p5";
 declare const p5: typeof p5_;
 import { Sketch, createP5Sketch } from "../../_script/sketch-helper";
-import { Renderable, Label, Line, Box, Sphere, Point } from "./objects.ts";
+import { Renderable, Label, Segment, Box, Sphere, Point } from "./objects.ts";
 import { IdealCamera } from "./idealCamera.ts"
 import { vector3, add, scale, sub } from "../../_script/linearalgebra.ts";
 
