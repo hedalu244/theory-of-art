@@ -6,7 +6,8 @@
   "scripts": {
     "build:js": "node esbuild.config.js",
     "build:site": "eleventy",
-    "build": "rimraf docs && npm run build:js && npm run build:site",
+    "build:site:pages": "eleventy",
+    "build": "rimraf docs && npm run build:js && npm run build:site:pages",
 
     "watch:js": "node esbuild.config.js --watch",
     "watch:site": "eleventy --serve",

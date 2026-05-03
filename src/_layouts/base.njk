@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" href="/_style/style.css">
+<link rel="stylesheet" href="{{ '/_style/style.css' | url }}">
 <title>{{ title }}</title>
 
 <!-- Katex -->
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <main>
 {{ content | processSketchMacro | safe }}
 </main>
-<script src="/_script/main.js"></script>
+<script src="{{ '/_script/main.js' | url }}"></script>
 </body>
 
 </html>

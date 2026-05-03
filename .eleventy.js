@@ -1,5 +1,11 @@
 const asciidoc = require("eleventy-plugin-asciidoc")
 
+// GitHub Pages の公開先サブパス（変更する場合はここだけ直せばOK）
+const GITHUB_PAGES_PATH_PREFIX = "/theory-of-art/"
+
+// `npm run build` から呼ばれる専用スクリプト時のみ prefix を有効化
+const isPagesBuild = process.env.npm_lifecycle_event === "build:site:pages"
+
 function escapeAttribute(value) {
   return value
     .replace(/&/g, "&amp;")
@@ -62,6 +68,7 @@ module.exports = function(eleventyConfig){
   eleventyConfig.addPassthroughCopy('src/**/*.!(md|adoc|njk|ts|sketch.ts)');
 
   return {
+    pathPrefix: isPagesBuild ? GITHUB_PAGES_PATH_PREFIX : "/",
     dir: {
       input: "src",
       output: "docs",

@@ -1150,7 +1150,11 @@ var init_objects = __esm({
       }
       static loadFont(p) {
         if (!_Label.font) {
-          _Label.font = p.loadFont("/_assets/MPLUS1p-Regular.ttf");
+          if (window.location.hostname === "localhost") {
+            _Label.font = p.loadFont("/_assets/MPLUS1p-Regular.ttf");
+          } else {
+            _Label.font = p.loadFont("/theory-of-art/_assets/MPLUS1p-Regular.ttf");
+          }
         }
       }
       constructor(position, text, color = "#000", up, right) {

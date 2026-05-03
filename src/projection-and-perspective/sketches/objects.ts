@@ -92,7 +92,12 @@ export class Label implements Renderable {
     static font: p5_.Font | null = null;
     static loadFont(p: p5_) {
         if (!Label.font) {
-            Label.font = p.loadFont("/_assets/MPLUS1p-Regular.ttf");
+            if(window.location.hostname === "localhost") {
+                Label.font = p.loadFont("/_assets/MPLUS1p-Regular.ttf");
+            }
+            else{
+                Label.font = p.loadFont("/theory-of-art/_assets/MPLUS1p-Regular.ttf");
+            }
         }
     }
 
