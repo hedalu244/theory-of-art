@@ -65,6 +65,7 @@ module.exports = function(eleventyConfig){
   
   // src配下の全ファイルをパススルーコピー対象に
   // その他のファイル(css, 画像, その他アセット)をコピーします
+  eleventyConfig.addPassthroughCopy('src/.nojekyll');
   eleventyConfig.addPassthroughCopy('src/**/*.!(md|adoc|njk|ts|sketch.ts)');
 
   return {
