@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prepare": "husky",
     "build:js": "node esbuild.config.js",
     "build:site": "eleventy",
     "build:site:pages": "eleventy",
     "build": "rimraf docs && npm run build:js && npm run build:site:pages",
-
     "watch:js": "node esbuild.config.js --watch",
     "watch:site": "eleventy --serve",
     "dev": "rimraf docs && concurrently \"npm:watch:*\""
@@ -23,6 +23,7 @@
     "concurrently": "^9.2.1",
     "eleventy-plugin-asciidoc": "^5.1.0",
     "esbuild": "^0.27.3",
+    "husky": "^9.1.7",
     "rimraf": "^6.1.3",
     "typescript": "^5.9.3"
   }
