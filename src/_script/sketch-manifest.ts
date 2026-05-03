@@ -9,6 +9,7 @@ export const sketchManifest: Record<string, { loader: () => Promise<unknown> }> 
   "projection-and-perspective/sketches/accurate-circle": { loader: () => import("../projection-and-perspective/sketches/accurate-circle.sketch.ts") },
   "projection-and-perspective/sketches/circle-and-cube": { loader: () => import("../projection-and-perspective/sketches/circle-and-cube.sketch.ts") },
   "projection-and-perspective/sketches/circle-basic": { loader: () => import("../projection-and-perspective/sketches/circle-basic.sketch.ts") },
+  "projection-and-perspective/sketches/circle-large-pov": { loader: () => import("../projection-and-perspective/sketches/circle-large-pov.sketch.ts") },
   "projection-and-perspective/sketches/circle-parallel-square": { loader: () => import("../projection-and-perspective/sketches/circle-parallel-square.sketch.ts") },
   "projection-and-perspective/sketches/concurrent": { loader: () => import("../projection-and-perspective/sketches/concurrent.sketch.ts") },
   "projection-and-perspective/sketches/eccentric-circle": { loader: () => import("../projection-and-perspective/sketches/eccentric-circle.sketch.ts") },
