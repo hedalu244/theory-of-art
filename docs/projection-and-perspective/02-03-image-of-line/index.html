@@ -35,10 +35,11 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="toctitle" class="title">目次</div>
 <ul class="sectlevel1">
 <li><a href="#_直線の像">直線の像</a></li>
-<li><a href="#_直観的な理解">直観的な理解</a></li>
+<li><a href="#_投影面と平行でない場合">投影面と平行でない場合</a></li>
 <li><a href="#_投影面と平行な場合">投影面と平行な場合</a></li>
 <li><a href="#_消失点の求め方">消失点の求め方</a></li>
 <li><a href="#_作図への応用">作図への応用</a></li>
+<li><a href="#_番外">番外</a></li>
 </ul>
 </div>
 <div class="sect1">
@@ -50,13 +51,13 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 </div>
 <div class="sect1">
-<h2 id="_直観的な理解">直観的な理解</h2>
+<h2 id="_投影面と平行でない場合">投影面と平行でない場合</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>今回も直観的に予想してみましょう。</p>
+<p>まず、投影面と平行でない直線について考えます。今回も直観的に予想してみましょう。</p>
 </div>
 <div class="paragraph">
-<p>直線上全体を動く点Pを取って、視点EからPに伸びる半直線EPを動かしていったときに、半直線がスイープする（なぎ払う）領域をまず考えるとよいのでしたね。今回直線lに対して、Eからl全体をなぎ払うようにビームを撃つと、180度広がりそうですね。Eを通りlに平行な直線を境界として、それよりl側の範囲全体がなぎ払われることになりそうです。このような領域を、半平面と言います。</p>
+<p>直線上全体を動く点Pを取って、視点EからPに伸びる半直線EPを動かしていったときに、半直線がスイープする（なぎ払う）領域をまず考えるとよいのでしたね。今回直線lに対して、Eからl全体を「なぎ払う」ようにビームを撃つと、180度広がりそうですね。Eを通りlに平行な直線を境界として、それよりl側の範囲全体がなぎ払われることになりそうです。このような領域を、半平面と言います。</p>
 </div>
 <div class="paragraph">
 <p>この領域を投影面で切った断面を考えると、直線の像が得られます。半平面を投影面で切ると、境界と投影面が平行でなければ半直線になりそうです。</p>
@@ -297,13 +298,22 @@ lはそれ自身と平行であるという定義を採用しています。
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>直線が投影面と平行な場合、その直線状での長さの比は保存します。うれしいですね。逆に、投影面と平行でないときには</p>
+</div>
+<div class="openblock theorem">
+<div class="title">投影面に平行な線の長さの比の保存</div>
+<div class="content">
+
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_消失点の求め方">消失点の求め方</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>直線の消失点を求める時には、原則として定義に立ち返って求めることになります。「直角を保証したい」などの特殊な場合の求め方については「n点透視図法」以降で扱おうと思うのですが、すぐにわかる例があるので紹介します。</p>
+<p>さて、直線の消失点を求める時には、原則として定義に立ち返って求めることになります。「直角を保証したい」などの特殊な場合の求め方については「n点透視図法」以降で扱おうと思うのですが、すぐにわかる例があるので紹介します。</p>
 </div>
 <div class="openblock theorem">
 <div class="title">定理（投影面に垂直な直線の消失点）</div>
@@ -349,24 +359,61 @@ lはそれ自身と平行であるという定義を採用しています。
 <h2 id="_作図への応用">作図への応用</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>実はこの時点で、かなり実用的な作図をすることができます。現在投影面上で有効に使える操作は、</p>
+<p>実はこの時点で、かなり実用的な作図をすることができます。a,b,c,d,pをA,B,C,D,Pの像として、投影面上での操作が空間中の操作に対応する「有効」な操作と言えます。</p>
+</div>
+<table class="tableblock frame-all grid-all fit-content">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">-</th>
+<th class="tableblock halign-left valign-top">条件</th>
+<th class="tableblock halign-left valign-top">投影面上での操作</th>
+<th class="tableblock halign-left valign-top">対応する空間中の操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">線分abを引く</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">線分ABの像を得る</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ABとCDがPで交わっているとき</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ABとCDの像の交点を取る</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">交点の像pを得る</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(3)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ABとCDが平行で、abとcdが平行でないとき</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">直線abと直線cdの交点をVとし、Vpを引く</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pを通りABに平行な直線の像を得る</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(4)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ABとCDが平行で、abとcdも平行であるとき</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pを通りabに平行な線を引く</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pを通りABに平行な直線の像を得る</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>前回の線分の証明で(1)(2)が有効であることが示されましたが、延長はできませんでした。今回の結果で、消失点を超えない限り延長しても有効であることが分かりました。</p>
 </div>
 <div class="paragraph">
-<p>(1) 既知の点の像同士の間に線を引く。
-(2) 既知の線の像同士の交点を得る。
-(3) 消失点から既知の点まで半直線を引く。
-(4) 既知の平行線の像同士の消失点を求める。
-(5) 投影面に対して平行であると分かっている線に対して、それに平行な線を引く。</p>
+<p>次元を落とす変換なので、ABとCDが同一平面上にないときには(2)は使えず、像の交点をとっても特に意味のない点になることに注意してください。</p>
 </div>
 <div class="paragraph">
-<p>ぐらいでしょうか。
-つまり、 <strong>対象上で、「既知の点同士をつなぐ」「既知の線同士の交点を得る」「既知の点から既知の方向に線を伸ばす」の組み合わせで得られる図形の像は自由に作れる</strong> ようになったわけです。</p>
+<p>この操作の組み合わせで作図可能な実際に図形上にない線も、補助線をうまく使ってこの操作の組み合わせで作図できるようなものであれば、作図することができます。</p>
 </div>
 <div class="paragraph">
-<p>実際に図形上にない線分についても、補助線をうまく使ってこの操作の組み合わせで作図できるようなものであれば、作図することができます。</p>
-</div>
-<div class="paragraph">
-<p>たとえば、不等辺四角形abcdが正方形ABCDの像であると仮定して、以下のものを作図していましょう。</p>
+<p>たとえば、不等辺四角形abcdが正方形ABCDの像であると仮定して、以下のものを作図してみましょう。</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -377,12 +424,20 @@ lはそれ自身と平行であるという定義を採用しています。
 <p>1辺を3分割する。</p>
 </li>
 <li>
-<p>ABに対してABCDと対称な正方形を描く（幅を倍にする）</p>
+<p>ABに対してABCDと対称な正方形を描く（一辺を倍にする）</p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>しかし、まだ交差関係しか利用できておらず、正方形である場合しか扱えていません。それに、辺の長さを10等分するとか、辺の長さを1:√2に分割するとかいった操作がまだできません。もっと長さとか角度とかを定量的に扱いたいですよね。</p>
+<p>しかし、ここまでの知識では異なる向きの長さの比や角度を保証することができません。もうすこし掘り下げる必要がありそうです。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_番外">番外</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>現実には（特にアナログ絵では）有限の画面内で作図する必要がある場合、画面外に消失点が表れる場合もあるでしょうが、相似やデザルグの定理をうまく活用することで作図することができます。</p>
 </div>
 </div>
 </div>
