@@ -1,6 +1,6 @@
 type interpMode = "linear" | "cos" | "cubic" ;
 
-export function sequenceNumber(arr: number[], t: number, stop: number, transition: number, mode: interpMode = "linear"): number {
+export function sequenceNumber(arr: number[], t: number, stop: number, transition: number, mode: interpMode = "cos"): number {
     const N = arr.length;
     const total = stop + transition;
     const i = Math.floor(t / total) % N;
