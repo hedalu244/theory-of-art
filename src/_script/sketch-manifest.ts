@@ -6,7 +6,9 @@ export const sketchManifest: Record<string, { loader: () => Promise<unknown> }> 
   "color-and-light/sketches/metamerism": { loader: () => import("../color-and-light/sketches/metamerism.sketch.ts") },
   "color-and-light/sketches/photometry": { loader: () => import("../color-and-light/sketches/photometry.sketch.ts") },
   "color-and-light/sketches/sine-wave": { loader: () => import("../color-and-light/sketches/sine-wave.sketch.ts") },
+  "projection-and-perspective/sketches/accurate-circle": { loader: () => import("../projection-and-perspective/sketches/accurate-circle.sketch.ts") },
   "projection-and-perspective/sketches/concurrent": { loader: () => import("../projection-and-perspective/sketches/concurrent.sketch.ts") },
+  "projection-and-perspective/sketches/eccentric-circle": { loader: () => import("../projection-and-perspective/sketches/eccentric-circle.sketch.ts") },
   "projection-and-perspective/sketches/ellipse-and-line": { loader: () => import("../projection-and-perspective/sketches/ellipse-and-line.sketch.ts") },
   "projection-and-perspective/sketches/ideal-camera-test": { loader: () => import("../projection-and-perspective/sketches/ideal-camera-test.sketch.ts") },
   "projection-and-perspective/sketches/ideal-camera1": { loader: () => import("../projection-and-perspective/sketches/ideal-camera1.sketch.ts") },
@@ -18,5 +20,7 @@ export const sketchManifest: Record<string, { loader: () => Promise<unknown> }> 
   "projection-and-perspective/sketches/image-of-point": { loader: () => import("../projection-and-perspective/sketches/image-of-point.sketch.ts") },
   "projection-and-perspective/sketches/image-of-segment": { loader: () => import("../projection-and-perspective/sketches/image-of-segment.sketch.ts") },
   "projection-and-perspective/sketches/image-of-shape": { loader: () => import("../projection-and-perspective/sketches/image-of-shape.sketch.ts") },
+  "projection-and-perspective/sketches/orthodrome": { loader: () => import("../projection-and-perspective/sketches/orthodrome.sketch.ts") },
+  "projection-and-perspective/sketches/projective-geometry": { loader: () => import("../projection-and-perspective/sketches/projective-geometry.sketch.ts") },
   "projection-and-perspective/sketches/symmetry-of-camera": { loader: () => import("../projection-and-perspective/sketches/symmetry-of-camera.sketch.ts") },
 }

@@ -25,6 +25,7 @@ export function create(el: HTMLDivElement, options: { roll?: boolean, grid?: boo
             p.orbitControl();
 
             if (options.roll) p.rotateZ(t);
+            else p.rotateY(t);
 
             Circle.renderCircle(p, [0, 0, 0], 80, [0, 1, 0], "#000");
             Segment.renderSegment(p, [0, -100, 0], [0, 100, 0], "#000");

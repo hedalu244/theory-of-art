@@ -105,7 +105,7 @@ function mag(a) {
 }
 function normalize(a) {
   const length = mag(a);
-  if (length === 0) throw new Error("Cannot normalize a zero-length vector.");
+  if (length === 0) return [0, 0, 0];
   return scale(a, 1 / length);
 }
 function applyMatrix3(v, m) {
@@ -1087,7 +1087,7 @@ function setStyle(p, strokeColor, fillColor) {
   if (fillColor === void 0) p.noFill();
   else p.fill(fillColor);
 }
-var Point, Shape, Segment, Label, Circle, Box;
+var Point, Shape, Segment, Label, Circle, Sphere, Box;
 var init_objects = __esm({
   "src/projection-and-perspective/sketches/objects.ts"() {
     "use strict";
@@ -1247,6 +1247,23 @@ var init_objects = __esm({
         circle.render(p);
       }
     };
+    Sphere = class _Sphere {
+      constructor(center, radius, color = "#000") {
+        this.center = center;
+        this.radius = radius;
+        this.color = color;
+      }
+      render(p) {
+        _Sphere.render(p, this.center, this.radius, this.color);
+      }
+      static render(p, center, radius, color = "#000") {
+        p.push();
+        p.translate(...center);
+        setStyle(p, void 0, color);
+        p.sphere(radius, 16, 16);
+        p.pop();
+      }
+    };
     Box = class _Box {
       constructor(center, size, rotation = [0, 0, 0], color = "#000") {
         this.center = center;
@@ -1268,6 +1285,64 @@ var init_objects = __esm({
         p.pop();
       }
     };
+  }
+});
+
+// src/projection-and-perspective/sketches/accurate-circle.sketch.ts
+var accurate_circle_sketch_exports = {};
+__export(accurate_circle_sketch_exports, {
+  create: () => create8
+});
+function create8(el, options) {
+  return createP5Sketch(el, (p) => {
+    p.preload = () => {
+      Label.loadFont(p);
+    };
+    p.setup = () => {
+      p.createCanvas(640, 480, p.WEBGL);
+      p.camera(-300, 300, -300, 0, 0, 0, 0, -1, 0);
+    };
+    p.draw = () => {
+      const t = p.millis() / 1e3;
+      p.background(255);
+      p.orbitControl();
+      const r = 100;
+      Circle.renderCircle(p, [0, 0, 0], r, [0, 1, 0], "#000");
+      const A = [r, 0, r];
+      ;
+      const B = [r, 0, -r];
+      const C = [-r, 0, -r];
+      const D = [-r, 0, r];
+      const P = [0, 0, -r];
+      const Q = [-r, 0, 0];
+      const R = [0, 0, r];
+      const S = [r, 0, 0];
+      const corners = [A, B, C, D];
+      const edgecenter = [P, Q, R, S];
+      for (let i = 0; i < 4; i++) {
+        Segment.renderSegment(p, corners[i], corners[(i + 1) % 4], "#000");
+        Segment.renderSegment(p, corners[i], edgecenter[i % 4], "#f00");
+        Segment.renderSegment(p, corners[i], edgecenter[(i + 1) % 4], "#f00");
+        const m1 = scale(add(corners[i], edgecenter[(i + 2) % 4]), 0.5);
+        const m2 = scale(add(corners[i], edgecenter[(i + 3) % 4]), 0.5);
+        Segment.renderSegment(p, edgecenter[(i + 2) % 4], m2, "#0a0");
+        Segment.renderSegment(p, edgecenter[(i + 3) % 4], m1, "#0a0");
+      }
+      for (let x = -1; x <= 1; x += 2) {
+        for (let z = -1; z <= 1; z += 2) {
+          Point.render(p, [x * r * 0.6, 0, z * r * 0.8], "#000");
+          Point.render(p, [x * r * 0.8, 0, z * r * 0.6], "#000");
+        }
+      }
+    };
+  });
+}
+var init_accurate_circle_sketch = __esm({
+  "src/projection-and-perspective/sketches/accurate-circle.sketch.ts"() {
+    "use strict";
+    init_sketch_helper();
+    init_objects();
+    init_linearalgebra();
   }
 });
 
@@ -1527,9 +1602,9 @@ var init_sequence = __esm({
 // src/projection-and-perspective/sketches/concurrent.sketch.ts
 var concurrent_sketch_exports = {};
 __export(concurrent_sketch_exports, {
-  create: () => create8
+  create: () => create9
 });
-function create8(el, options) {
+function create9(el, options) {
   return createP5Sketch(el, (p) => {
     let camera;
     p.preload = () => {
@@ -1576,12 +1651,57 @@ var init_concurrent_sketch = __esm({
   }
 });
 
+// src/projection-and-perspective/sketches/eccentric-circle.sketch.ts
+var eccentric_circle_sketch_exports = {};
+__export(eccentric_circle_sketch_exports, {
+  create: () => create10
+});
+function create10(el) {
+  return createP5Sketch(el, (p) => {
+    p.preload = () => {
+      Label.loadFont(p);
+    };
+    p.setup = () => {
+      p.createCanvas(640, 480, p.WEBGL);
+      p.camera(0, 0, -300, 0, 0, 0, 0, -1, 0);
+      p.perspective(Math.PI / 2, p.width / p.height, 0.1, 1e3);
+    };
+    const N = 2;
+    p.draw = () => {
+      const t = p.millis() / 1e3;
+      p.background(255);
+      const r = 80;
+      p.strokeWeight(2);
+      for (let y = -100; y <= 100; y += 200) {
+        for (let i = -N; i <= N; i++) {
+          Circle.renderCircle(p, [r * 2 * i, y, 0], r, [0, 1, 0], "#f00");
+          Segment.renderSegment(p, [r * 2 * i, y - 100, 0], [r * 2 * i, y + 100, 0], "#0a0");
+          Segment.renderSegment(p, [r * (2 * i + 1), y, -100], [r * (2 * i + 1), y, 100], "#000");
+          Segment.renderSegment(p, [r * (2 * i - 1), y, -100], [r * (2 * i - 1), y, 100], "#000");
+        }
+        Segment.renderSegment(p, [r * (2 * N + 1), y, r], [-r * (2 * N + 1), y, r], "#000");
+        Segment.renderSegment(p, [r * (2 * N + 1), y, -r], [-r * (2 * N + 1), y, -r], "#000");
+      }
+      Point.render(p, [0, 0, 0], "#000");
+      p.textSize(16);
+      Label.renderLabel(p, [0, 0, 0], "\u8996\u5FC3", "#000");
+    };
+  });
+}
+var init_eccentric_circle_sketch = __esm({
+  "src/projection-and-perspective/sketches/eccentric-circle.sketch.ts"() {
+    "use strict";
+    init_sketch_helper();
+    init_objects();
+  }
+});
+
 // src/projection-and-perspective/sketches/ellipse-and-line.sketch.ts
 var ellipse_and_line_sketch_exports = {};
 __export(ellipse_and_line_sketch_exports, {
-  create: () => create9
+  create: () => create11
 });
-function create9(el, options) {
+function create11(el, options) {
   return createP5Sketch(el, (p) => {
     let camera;
     p.setup = () => {
@@ -1641,9 +1761,9 @@ var init_ellipse_and_line_sketch = __esm({
 // src/projection-and-perspective/sketches/ideal-camera-test.sketch.ts
 var ideal_camera_test_sketch_exports = {};
 __export(ideal_camera_test_sketch_exports, {
-  create: () => create10
+  create: () => create12
 });
-function create10(el) {
+function create12(el) {
   return createP5Sketch(el, (p) => {
     let scene = [];
     let labels = [];
@@ -1702,9 +1822,9 @@ var init_ideal_camera_test_sketch = __esm({
 // src/projection-and-perspective/sketches/ideal-camera1.sketch.ts
 var ideal_camera1_sketch_exports = {};
 __export(ideal_camera1_sketch_exports, {
-  create: () => create11
+  create: () => create13
 });
-function create11(el) {
+function create13(el) {
   return createP5Sketch(el, (p) => {
     let scene = [];
     let labels = [];
@@ -1738,9 +1858,9 @@ var init_ideal_camera1_sketch = __esm({
 // src/projection-and-perspective/sketches/ideal-camera2.sketch.ts
 var ideal_camera2_sketch_exports = {};
 __export(ideal_camera2_sketch_exports, {
-  create: () => create12
+  create: () => create14
 });
-function create12(el) {
+function create14(el) {
   return createP5Sketch(el, (p) => {
     let scene = [];
     let labels = [];
@@ -1782,9 +1902,9 @@ var init_ideal_camera2_sketch = __esm({
 // src/projection-and-perspective/sketches/image-of-circle-all.sketch.ts
 var image_of_circle_all_sketch_exports = {};
 __export(image_of_circle_all_sketch_exports, {
-  create: () => create13
+  create: () => create15
 });
-function create13(el) {
+function create15(el) {
   return createP5Sketch(el, (p) => {
     let camera;
     p.preload = () => {
@@ -1838,9 +1958,9 @@ var init_image_of_circle_all_sketch = __esm({
 // src/projection-and-perspective/sketches/image-of-circle-and-parallel.sketch.ts
 var image_of_circle_and_parallel_sketch_exports = {};
 __export(image_of_circle_and_parallel_sketch_exports, {
-  create: () => create14
+  create: () => create16
 });
-function create14(el, options) {
+function create16(el, options) {
   return createP5Sketch(el, (p) => {
     p.setup = () => {
       p.createCanvas(640, 480, p.WEBGL);
@@ -1889,9 +2009,9 @@ var init_image_of_circle_and_parallel_sketch = __esm({
 // src/projection-and-perspective/sketches/image-of-circle-basic.sketch.ts
 var image_of_circle_basic_sketch_exports = {};
 __export(image_of_circle_basic_sketch_exports, {
-  create: () => create15
+  create: () => create17
 });
-function create15(el, options) {
+function create17(el, options) {
   return createP5Sketch(el, (p) => {
     let camera;
     p.preload = () => {
@@ -1906,6 +2026,7 @@ function create15(el, options) {
       p.background(255);
       p.orbitControl();
       if (options.roll) p.rotateZ(t);
+      else p.rotateY(t);
       Circle.renderCircle(p, [0, 0, 0], 80, [0, 1, 0], "#000");
       Segment.renderSegment(p, [0, -100, 0], [0, 100, 0], "#000");
       if (options.grid) {
@@ -1931,7 +2052,7 @@ var init_image_of_circle_basic_sketch = __esm({
 // src/projection-and-perspective/sketches/image-of-line.sketch.ts
 var image_of_line_sketch_exports = {};
 __export(image_of_line_sketch_exports, {
-  create: () => create16
+  create: () => create18
 });
 function PlaneAndLineInterSect(planePoint, planeNormal, linePoint, lineDir) {
   const denom = dot(planeNormal, lineDir);
@@ -1941,7 +2062,7 @@ function PlaneAndLineInterSect(planePoint, planeNormal, linePoint, lineDir) {
   const t = dot(sub(planePoint, linePoint), planeNormal) / denom;
   return add(linePoint, scale(lineDir, t));
 }
-function create16(el, options) {
+function create18(el, options) {
   const span = createElement("span");
   el.appendChild(span);
   return createP5Sketch(el, (p) => {
@@ -2007,9 +2128,9 @@ var init_image_of_line_sketch = __esm({
 // src/projection-and-perspective/sketches/image-of-point.sketch.ts
 var image_of_point_sketch_exports = {};
 __export(image_of_point_sketch_exports, {
-  create: () => create17
+  create: () => create19
 });
-function create17(el, options) {
+function create19(el, options) {
   const inputTable = new InputTable(el);
   const xSlider = inputTable.createRangeInput({
     label: "\u5DE6\u53F3",
@@ -2102,9 +2223,9 @@ var init_image_of_point_sketch = __esm({
 // src/projection-and-perspective/sketches/image-of-segment.sketch.ts
 var image_of_segment_sketch_exports = {};
 __export(image_of_segment_sketch_exports, {
-  create: () => create18
+  create: () => create20
 });
-function create18(el, options) {
+function create20(el, options) {
   const span = createElement("span");
   el.appendChild(span);
   return createP5Sketch(el, (p) => {
@@ -2167,9 +2288,9 @@ var init_image_of_segment_sketch = __esm({
 // src/projection-and-perspective/sketches/image-of-shape.sketch.ts
 var image_of_shape_sketch_exports = {};
 __export(image_of_shape_sketch_exports, {
-  create: () => create19
+  create: () => create21
 });
-function create19(el) {
+function create21(el) {
   return createP5Sketch(el, (p) => {
     let scene = [];
     let labels = [];
@@ -2216,12 +2337,160 @@ var init_image_of_shape_sketch = __esm({
   }
 });
 
+// src/projection-and-perspective/sketches/orthodrome.sketch.ts
+var orthodrome_sketch_exports = {};
+__export(orthodrome_sketch_exports, {
+  create: () => create22
+});
+function create22(el, options) {
+  return createP5Sketch(el, (p) => {
+    p.preload = () => {
+      Label.loadFont(p);
+    };
+    p.setup = () => {
+      p.createCanvas(640, 480, p.WEBGL);
+      p.camera(-300, -300, -300, 0, 0, 0, 0, 0, 1);
+    };
+    p.draw = () => {
+      const t = p.millis() / 1e3;
+      p.background(255);
+      p.orbitControl();
+      const rollAngle = t;
+      const tiltAngle = t / 2;
+      const r = 80;
+      const cos = 0.707;
+      const sin = Math.sqrt(1 - cos * cos);
+      p.push();
+      p.rotateZ(rollAngle);
+      p.rotateX(tiltAngle);
+      p.strokeWeight(2);
+      Circle.renderCircle(p, [0, 0, 0], r, [0, 1, -0.5], "#f00");
+      Circle.renderCircle(p, [0, 0, 0], r, [0, 1, 0.5], "#0a0");
+      Circle.renderCircle(p, [0, 0, r * cos], r * sin, [0, 0, 1], "#00f");
+      p.pop();
+      if (options.grid) {
+        let N = 3;
+        const size = 40;
+        const length = size * N;
+        for (let i = -3; i <= 3; i++) {
+          p.strokeWeight(1);
+          Segment.renderSegment(p, [i * size, length, 0], [i * size, -length, 0], "#aaa");
+          Segment.renderSegment(p, [length, i * size, 0], [-length, i * size, 0], "#aaa");
+        }
+      }
+      Sphere.render(p, [0, 0, 0], r - 1, "#ddda");
+    };
+  });
+}
+var init_orthodrome_sketch = __esm({
+  "src/projection-and-perspective/sketches/orthodrome.sketch.ts"() {
+    "use strict";
+    init_sketch_helper();
+    init_objects();
+  }
+});
+
+// src/projection-and-perspective/sketches/projective-geometry.sketch.ts
+var projective_geometry_sketch_exports = {};
+__export(projective_geometry_sketch_exports, {
+  create: () => create23
+});
+function rotateVector(v, angle, axis) {
+  const cos = Math.cos(angle);
+  const sin = Math.sin(angle);
+  const dot2 = v[0] * axis[0] + v[1] * axis[1] + v[2] * axis[2];
+  return [
+    cos * v[0] + sin * (axis[1] * v[2] - axis[2] * v[1]) + (1 - cos) * dot2 * axis[0],
+    cos * v[1] + sin * (axis[2] * v[0] - axis[0] * v[2]) + (1 - cos) * dot2 * axis[1],
+    cos * v[2] + sin * (axis[0] * v[1] - axis[1] * v[0]) + (1 - cos) * dot2 * axis[2]
+  ];
+}
+function planeIntersect(normal, z, color) {
+  normal = normalize(normal);
+  const d = Math.sqrt(normal[0] * normal[0] + normal[1] * normal[1]);
+  if (d === 0) return new Segment([0, 0, z], [0, 0, z], color);
+  const vec = cross(normal, [0, 0, 1]);
+  let pos = cross(normal, vec);
+  pos = scale(pos, z / pos[2]);
+  return new Segment(add(pos, scale(vec, -1e3)), add(pos, scale(vec, 1e3)), color);
+}
+function renderHemicircle(p, normal, r, upperColor, lowerColor) {
+  normal = normalize(normal);
+  const N = 32;
+  const axis1 = normalize(cross(normal, [0, 0, 1]));
+  if (axis1[0] === 0 && axis1[1] === 0 && axis1[2] === 0) {
+    axis1[0] = 1;
+  }
+  const axis2 = normalize(cross(normal, axis1));
+  let offset = 0;
+  for (let color of [lowerColor, upperColor]) {
+    p.stroke(color);
+    p.noFill();
+    p.beginShape();
+    for (let i = 0; i < N + 1; i++) {
+      const theta = i / N * Math.PI + offset;
+      const pos = add(scale(axis1, Math.cos(theta) * r), scale(axis2, Math.sin(theta) * r));
+      p.vertex(pos[0], pos[1], pos[2]);
+    }
+    p.endShape();
+    offset += Math.PI;
+  }
+}
+function create23(el) {
+  return createP5Sketch(el, (p) => {
+    p.preload = () => {
+      Label.loadFont(p);
+    };
+    p.setup = () => {
+      p.createCanvas(640, 480, p.WEBGL);
+      p.camera(-300, -300, -300, 0, 0, 0, 0, 0, 1);
+    };
+    const lineNum = 4;
+    const seed = [0, 100, 200, 300, 400];
+    const lowerColors = ["#f00", "#0a0", "#00f", "#aa0", "#0aa"];
+    const upperColors = ["#faa", "#afa", "#aaf", "#ffa", "#aff"];
+    p.draw = () => {
+      const t = p.millis() / 1e3;
+      p.background(255);
+      p.orbitControl();
+      const r = 80;
+      p.strokeWeight(2);
+      for (let i = 0; i < lineNum; i++) {
+        const rollAngle = p.noise(seed[i], t / 100) * Math.PI * 2 * 10;
+        const tiltAngle = p.noise(seed[i] + 1e3, t / 100) * Math.PI * 2 * 10;
+        const normal = rotateVector(rotateVector([0, 0, 1], tiltAngle, [0, 1, 0]), rollAngle, [0, 0, 1]);
+        renderHemicircle(p, normal, r, lowerColors[i], upperColors[i]);
+        planeIntersect(normal, r, lowerColors[i]).render(p);
+      }
+      let N = 3;
+      const size = 40;
+      const length = size * N;
+      for (let i = -3; i <= 3; i++) {
+        p.strokeWeight(1);
+        Segment.renderSegment(p, [i * size, length, r], [i * size, -length, r], "#aaa");
+        Segment.renderSegment(p, [length, i * size, r], [-length, i * size, r], "#aaa");
+      }
+      Circle.renderCircle(p, [0, 0, 0], r, [0, 0, 1], "#000");
+      Point.render(p, [0, 0, 0], "#000");
+      Sphere.render(p, [0, 0, 0], r - 1, "#ddda");
+    };
+  });
+}
+var init_projective_geometry_sketch = __esm({
+  "src/projection-and-perspective/sketches/projective-geometry.sketch.ts"() {
+    "use strict";
+    init_sketch_helper();
+    init_objects();
+    init_linearalgebra();
+  }
+});
+
 // src/projection-and-perspective/sketches/symmetry-of-camera.sketch.ts
 var symmetry_of_camera_sketch_exports = {};
 __export(symmetry_of_camera_sketch_exports, {
-  create: () => create20
+  create: () => create24
 });
-function create20(el, options) {
+function create24(el, options) {
   return createP5Sketch(el, (p) => {
     let objects = [];
     let grid = [];
@@ -2385,7 +2654,9 @@ var sketchManifest = {
   "color-and-light/sketches/metamerism": { loader: () => Promise.resolve().then(() => (init_metamerism_sketch(), metamerism_sketch_exports)) },
   "color-and-light/sketches/photometry": { loader: () => Promise.resolve().then(() => (init_photometry_sketch(), photometry_sketch_exports)) },
   "color-and-light/sketches/sine-wave": { loader: () => Promise.resolve().then(() => (init_sine_wave_sketch(), sine_wave_sketch_exports)) },
+  "projection-and-perspective/sketches/accurate-circle": { loader: () => Promise.resolve().then(() => (init_accurate_circle_sketch(), accurate_circle_sketch_exports)) },
   "projection-and-perspective/sketches/concurrent": { loader: () => Promise.resolve().then(() => (init_concurrent_sketch(), concurrent_sketch_exports)) },
+  "projection-and-perspective/sketches/eccentric-circle": { loader: () => Promise.resolve().then(() => (init_eccentric_circle_sketch(), eccentric_circle_sketch_exports)) },
   "projection-and-perspective/sketches/ellipse-and-line": { loader: () => Promise.resolve().then(() => (init_ellipse_and_line_sketch(), ellipse_and_line_sketch_exports)) },
   "projection-and-perspective/sketches/ideal-camera-test": { loader: () => Promise.resolve().then(() => (init_ideal_camera_test_sketch(), ideal_camera_test_sketch_exports)) },
   "projection-and-perspective/sketches/ideal-camera1": { loader: () => Promise.resolve().then(() => (init_ideal_camera1_sketch(), ideal_camera1_sketch_exports)) },
@@ -2397,6 +2668,8 @@ var sketchManifest = {
   "projection-and-perspective/sketches/image-of-point": { loader: () => Promise.resolve().then(() => (init_image_of_point_sketch(), image_of_point_sketch_exports)) },
   "projection-and-perspective/sketches/image-of-segment": { loader: () => Promise.resolve().then(() => (init_image_of_segment_sketch(), image_of_segment_sketch_exports)) },
   "projection-and-perspective/sketches/image-of-shape": { loader: () => Promise.resolve().then(() => (init_image_of_shape_sketch(), image_of_shape_sketch_exports)) },
+  "projection-and-perspective/sketches/orthodrome": { loader: () => Promise.resolve().then(() => (init_orthodrome_sketch(), orthodrome_sketch_exports)) },
+  "projection-and-perspective/sketches/projective-geometry": { loader: () => Promise.resolve().then(() => (init_projective_geometry_sketch(), projective_geometry_sketch_exports)) },
   "projection-and-perspective/sketches/symmetry-of-camera": { loader: () => Promise.resolve().then(() => (init_symmetry_of_camera_sketch(), symmetry_of_camera_sketch_exports)) }
 };
 

@@ -31,7 +31,7 @@ export function mag(a: vector3): number {
 
 export function normalize(a: vector3): vector3{
     const length = mag(a);
-    if (length === 0) throw new Error("Cannot normalize a zero-length vector.");
+    if (length === 0) return [0, 0, 0];
     return scale(a, 1 / length);
 }
 
