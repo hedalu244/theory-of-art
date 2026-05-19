@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/theory-of-art/_style/style.css">
+<title>図形の像</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>図形の像</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_図形の像">図形の像</a></li>
+<li><a href="#_厳密な証明">厳密な証明</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_図形の像">図形の像</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>図形の像についても定義を確認します。</p>
+</div>
+<div class="openblock definition">
+<div class="title">定義（図形の像）</div>
+<div class="content">
+<div class="paragraph">
+<p>空間中の図形Sに対して、S上にあって像が存在するすべての点の像を集めた投影面上の図形を「Sの像」と呼ぶ。</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>これはガラス板上でペン先を動かす例に対応しているのでしたね。しかし、「すべての点」というのが厄介です。無数の点がある図形に対して、この方法をいちいち適用していくことはできません。</p>
+</div>
+<div class="paragraph">
+<p>直感的には、図形上全体を動く点Pを取って、視点EからPに伸びる半直線EPを動かしていったときに、半直線がスイープする範囲を考えると分かりやすいと思います。もっとラフに言うと、EからP全体をなぎ払うようにビームを打った時に、そのビームに巻き込まれるような領域をまず考えます。その領域を投影面で切った断面を考えると、図形の像が得られます。</p>
+</div>
+<div class="paragraph">
+<p>TODO: 図を入れる</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_厳密な証明">厳密な証明</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>厳密に図形の像を求めるためには、その像に含まれる必要十分条件を示すことで、像を特定することができます。</p>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（図形の像の必要十分条件）</div>
+<div class="content">
+<div class="paragraph">
+<p>視点をEとする。図形Sと、投影面上の図形S&#8217;について、以下の二つをともに満たす時、S&#8217;はSの像となる。</p>
+</div>
+<div class="paragraph">
+<p>(1) S上の任意の点Pについて、半直線EPと投影面との交点が存在するとき、それはS&#8217;上にある。<br>
+(2) S&#8217;上の任意の点pについて、半直線EpとSとの交点が存在する。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="title">厳密な証明</div>
+<div class="content">
+<div class="paragraph">
+<p>結論から同値変形して示す。</p>
+</div>
+<div class="paragraph">
+<p>Sの像がS&#8217;である。<br>
+⇔ 任意の点Pとpについて、PがS上にあって、pがPの像であるとき、またその時に限り、点pがS&#8217;上にある。</p>
+</div>
+<div class="paragraph">
+<p>順と逆をそれぞれ同値変形する</p>
+</div>
+<div class="paragraph">
+<p>任意の点Pとpについて、PがS上にあって、pがPの像であるとき、点pがS&#8217;上にある。<br>
+⇔ S上の任意の点Pについて、ある点pがPの像であるとき、点pはS&#8217;上にある。<br>
+⇔ S上の任意の点Pについて、その像pが存在するならば、点pはS&#8217;上にある。<br>
+⇔ S上の任意の点Pについて、半直線EPと投影面との交点が存在するとき、それはS&#8217;上にある。&#8230;&#8203;(1)</p>
+</div>
+<div class="paragraph">
+<p>任意の点Pとpについて、点pがS&#8217;上にあるとき、PがS上にあって、pがPの像である。<br>
+⇔ S&#8217;上の任意の点pについて、ある点PがS上にあって、pがPの像である。<br>
+⇔ S&#8217;上の任意の点pについて、pを像とする点PがS上に存在する。<br>
+⇔ S&#8217;上の任意の点pについて、半直線EpとSとの交点が存在する。&#8230;&#8203;(2)</p>
+</div>
+<div class="paragraph">
+<p>したがって、(1)かつ(2)とSの像がS&#8217;であることは同値である。■</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>(1)はともかく、(2)は直感的な像の取り方と逆向きになっていることに気を付けてください。(1)はS&#8217;がSの像全体を覆えていることを、(2)はS&#8217;がSの像からはみ出していないことを確認していて、両方を確認することではじめて一致したと言えます。</p>
+</div>
+<div class="paragraph">
+<p>たとえば以下の例では、図形Sの像はS&#8217;ではありません。点AはS上の点であり、半直線EAが投影面との交点aを持つにもかかわらず、そのaがS&#8217;上にないので、(1)を満たしていません。また、点bはS&#8217;上の点ですが、半直線EbとSとの交点が存在しないので、(2)も満たしていません。したがって、S&#8217;はSの像ではありません。逆に、S&#8217;がSぴったりSの像であることを確認するには、このような点がどちらもないことを確認すればいいのです。</p>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="projection-and-perspective/sketches/image-of-shape"></div>
+</div>
+<div class="paragraph">
+<p>それと、以下の定理を示しておきます。</p>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（部分の像）</div>
+<div class="content">
+<div class="paragraph">
+<p>SとTを空間中の図形とする。SがTの部分であるとき、Sの像はTの像の部分である。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="title">証明</div>
+<div class="content">
+<div class="paragraph">
+<p>Sの像をS'、Tの像をT&#8217;とする。SがTの部分であるとき、S上の任意の点Pについて、PはT上の点でもある。定義（図形の像）より、Pの像pはS&#8217;上にあると同時にT&#8217;上にもある。したがって、S&#8217;はT&#8217;の部分である。■</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script src="/theory-of-art/_script/main.js"></script>
+</body>
+
+</html>

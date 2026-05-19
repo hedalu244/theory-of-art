@@ -34,44 +34,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="toc" class="toc">
 <div id="toctitle" class="title">目次</div>
 <ul class="sectlevel1">
-<li><a href="#_共線の保存">共線の保存</a></li>
 <li><a href="#_線分の像">線分の像</a></li>
 <li><a href="#_作図への応用">作図への応用</a></li>
 </ul>
 </div>
 <div class="paragraph">
 <p>今回からは、特定の図形について考えていきます。とはいっても、まずは今回は最も簡単な例として、線分について考えてみす。今回はチュートリアルです。</p>
-</div>
-<div class="sect1">
-<h2 id="_共線の保存">共線の保存</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>まず練習として、以下の定理を示しておきましょう。</p>
-</div>
-<div class="openblock theorem">
-<div class="title">定理（共線の保存）</div>
-<div class="content">
-<div class="paragraph">
-<p>空間中の点A,B,Cが同一直線上にあって、それらが像a,b,cを持つとき、a,b,cは同一直線上にある。</p>
-</div>
-</div>
-</div>
-<div class="openblock proof">
-<div class="title">証明</div>
-<div class="content">
-<div class="paragraph">
-<p>視点をEとする。</p>
-</div>
-<div class="paragraph">
-<p>点E,A,Bから定まる平面をαとする。<br>
-仮定より、ABCが同一直線上なのでCはα上にある。<br>
-像の定義より、EAaは同一直線上なのでaもα上にある。同様に、b,cもα上にある。<br>
-また、αは投影面と平行ではない（∵投影面上にないEを含んでいて、投影面との共有点abcも持っている）。
-abcはαと投影面の共通部分上にあるので、同一直線上にある。<br></p>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div class="sect1">
 <h2 id="_線分の像">線分の像</h2>
@@ -193,16 +161,14 @@ cは投影面上にあるから、cはCの像である。</p>
 </div>
 </div>
 </div>
-<div class="paragraph">
-<p>これは透視図法において、線分の像が曲がらないことを示します。実在のカメラにおいては、魚眼レンズのように歪みのあるレンズの影響で直線が曲がることがあり、それを再現するような絵を描くこともありますが、透視図法に従う限り、そうはならないことが言えます。</p>
-</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_作図への応用">作図への応用</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>以下、自明なことかもしれませんが、作図法においては重要なので、特筆しておきます。</p>
+<p>（定理）線分の像と（定理）部分の像を組み合わせることで、以下のような作図ができます。
+自明なことかもしれませんが、作図法においては重要なので、特筆しておきます。</p>
 </div>
 <div class="openblock theorem">
 <div class="title">定理（線分の交点の像）</div>

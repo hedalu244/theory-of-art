@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/theory-of-art/_style/style.css">
+<title>縮退</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>縮退</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_2次元から1次元への縮退">2次元から1次元への縮退</a></li>
+<li><a href="#_1次元から0次元への縮退">1次元から0次元への縮退</a></li>
+<li><a href="#_平面から平面の変換であれば縮退が起きない">平面から平面の変換であれば、縮退が起きない。</a></li>
+</ul>
+</div>
+<div class="paragraph">
+<p>投影は次元を落とす変換なので。3次元の立体が2次元の像に投影されます。つまり、次元が落ちます。回転や平行移動は次元が変わらないので、これは投影という変換が特殊であるといえます。</p>
+</div>
+<div class="paragraph">
+<p>3次元の図形は必ず2次元になります。</p>
+</div>
+<div class="sect1">
+<h2 id="_2次元から1次元への縮退">2次元から1次元への縮退</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>2次元の図形は、2次元の図形になる場合もあれば、1次元になってしまう場合もあります。</p>
+</div>
+<div class="paragraph">
+<p>具体的には、図形が視点を通る平面上の平面図形である場合、その像は直線になってしまいます。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1次元から0次元への縮退">1次元から0次元への縮退</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>1次元の図形は、1次元の図形になる場合もあれば、0次元になってしまう場合もあります。</p>
+</div>
+<div class="paragraph">
+<p>具体的には、図形が視点を通る直線に収まっている場合、その像は点になってしまいます。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_平面から平面の変換であれば縮退が起きない">平面から平面の変換であれば、縮退が起きない。</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>縮退はそもそも、投影という変換が次元を落とす変換だったことに起因します。このとき、多数の点の像が重なってしまう場合と、そうでない場合があることによって縮退が生じます。</p>
+</div>
+<div class="paragraph">
+<p>しかし、平面から平面への変換であれば、<strong>縮退は起きません</strong>。</p>
+</div>
+<div class="paragraph">
+<p>TODO: 定理系にまとめる、適切な位置に置く</p>
+</div>
+<div class="paragraph">
+<p>視点を通らない平面上の異なる2点は異なる像を持つ。
+→視点を通らない平面上の直線が縮退することはない。</p>
+</div>
+<div class="paragraph">
+<p>視点を通らない平面上の同一直線上にない3点は、同一直線上にない像を持つ。（共線の保存の逆の対偶）
+視点を通らない平面上の平面図形が縮退することはない。</p>
+</div>
+<div class="paragraph">
+<p>この関係により、ある程度の場面において、投影面上の作図から逆に空間上の図形を規定するような操作が可能になります。
+TODO: ？？？</p>
+</div>
+</div>
+</div>
+</main>
+<script src="/theory-of-art/_script/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/theory-of-art/_style/style.css">
+<title>共線の保存</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>共線の保存</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_共線の保存">共線の保存</a></li>
+<li><a href="#_共線の保存の逆">共線の保存の逆</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_共線の保存">共線の保存</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>3つ（以上）の点が同一直線にあることを「共線である」と言います。透視図法の前後で、共線の関係が保たれます。</p>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（共線の保存）</div>
+<div class="content">
+<div class="paragraph">
+<p>点A,B,Cが像a,b,cを持つとき、A,B,Cが共線であれば、a,b,cは共線である。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="title">証明</div>
+<div class="content">
+<div class="paragraph">
+<p>視点をEとする。</p>
+</div>
+<div class="paragraph">
+<p>点E,A,Bから定まる平面をαとする。<br>
+仮定より、ABCが同一直線上なのでCはα上にある。<br>
+像の定義より、EAaは同一直線上なのでaもα上にある。同様に、b,cもα上にある。<br>
+また、αは投影面と平行ではない（∵投影面上にないEを含んでいて、投影面との共有点abcも持っている）。
+abcはαと投影面の共通部分上にあるので、同一直線上にある。<br></p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>これを利用すると、以下の定理が自明に分かります。</p>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（直線上の図形の像）</div>
+<div class="content">
+<div class="paragraph">
+<p>図形Sが直線の一部（線分、半直線など）であるとき、Sの像も直線の一部である。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="title">証明</div>
+<div class="content">
+<div class="paragraph">
+<p>Sのうち像を持つ点が1点、2点以下であるときは自明なので、Sが3点以上を含むときに示す。<br>
+S上の2点をA,Bとし、それらの像をa,bとする。<br>
+S上の任意の点Cについて、A,B,Cは同一直線上にあるので、Cが像を持てば、定理（共線の保存）より、a,b,cも同一直線上にある。<br>
+従って、Sの像はa,bを含む直線の一部である。<br></p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>これは透視図法において、直線や線分などの像が決して曲がらないことを示します。実在のカメラにおいては、魚眼レンズのように歪みのあるレンズの影響で直線が曲がることがあり、それを再現するような絵を描くこともありますが、透視図法に従う限り、そうはならないことが言えます。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_共線の保存の逆">共線の保存の逆</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>投影は次元を落とす変換なので、共線の保存の逆は成り立ちません。点A,B,Cが同一直線上になくても、点A,B,Cを含む平面が直線に縮退する場合には、像a,b,cが一直線上にあるからです。つまり、像が同一直線上にあっても、元の点が同一直線上にあるとは限りません。</p>
+</div>
+<div class="paragraph">
+<p>しかし、<strong>縮退が起きない場合に限って言えば</strong>、逆が成り立ちます。</p>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（共線の保存の逆）</div>
+<div class="content">
+<div class="paragraph">
+<p>視点Eを含まない平面αと、α上の任意の3点A,B,Cについて、点A,B,Cが像a,b,cを持ち、a,b,cが共線であれば、A,B,Cは共線である。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="title">証明</div>
+<div class="content">
+<div class="paragraph">
+<p>視点をEとする。</p>
+</div>
+<div class="paragraph">
+<p>点E,a,bから定まる平面をβとする。<br>
+仮定より、a,b,cが同一直線上なのでcはβ上にある。<br>
+像の定義より、EAaは同一直線上なので、Aもβ上にある。同様に、B,Cもβ上にある。<br>
+また、βはαと平行ではない（∵αとβは共有点ABCを持っているが、βはα上にないEを含んでいる）。
+abcはαとβの共通部分上にあるので、同一直線上にある。<br></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script src="/theory-of-art/_script/main.js"></script>
+</body>
+
+</html>

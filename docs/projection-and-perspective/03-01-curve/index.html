@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="toctitle" class="title">目次</div>
 <ul class="sectlevel1">
 <li><a href="#_曲線">曲線</a></li>
+<li><a href="#_連続性の保存">連続性の保存</a></li>
 </ul>
 </div>
 <div class="paragraph">
@@ -63,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
 ぐにゃぐにゃ曲がった複雑な曲線上に点Pを取って、Pを中心とする球を適当に考えると、交点はたくさんある場合もあります。しかし、球を小さくしていくと、交点はあるときからちょうど2つになり、それ以上どんなに小さくしても2つのままです。</p>
 </div>
 <div class="paragraph">
-<div class="sketch" data-path="projection-and-perspective/sketches/definition-of-curve"></div>
+<p>TODO: 作る</p>
 </div>
 <div class="paragraph">
 <p>一方、例えば平面に対して同様のことを考えると、どんなに小さな球を考えても、交点は常に無数に（つまり球を切る円周上に）存在します。つまり、平面は曲線ではありません。</p>
@@ -101,54 +102,54 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 </div>
 </div>
-<div class="openblock">
-<div class="content">
-<div class="paragraph">
-<p>== 連続性の保存</p>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_連続性の保存">連続性の保存</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>さて、ここまで定義した曲線や曲面の像について、うれしい性質があります。</p>
 </div>
-</div>
-</div>
+<div class="openblock theorem">
+<div class="title">定理（位置連続性の保存）</div>
+<div class="content">
 <div class="paragraph">
 <p>定義域内において、曲線の像は曲線になる。</p>
 </div>
-<div class="openblock">
-<div class="content">
+</div>
+</div>
 <div class="paragraph">
 <p>直感的に言えば、定義域から出ない限り、つながっていた線がちぎれることはないという主張です。</p>
 </div>
-</div>
-</div>
+<div class="openblock theorem">
+<div class="title">定理（接線の保存）</div>
+<div class="content">
 <div class="paragraph">
 <p>視点Eを通らない直線lが曲線Cに点Pで接しているとき、直線lの像は曲線Cの像に点Pの像で接する。</p>
 </div>
-<div class="openblock">
+</div>
+</div>
+<div class="openblock theorem">
+<div class="title">定理（接線連続の保存）</div>
 <div class="content">
-
-</div>
-</div>
 <div class="paragraph">
 <p>接線連続な曲線Cについて、Cのすべての接線が視点を通らないとき、Cの像も接線連続となる。</p>
 </div>
-<div class="openblock">
+</div>
+</div>
+<div class="openblock proof">
+<div class="title">証明</div>
 <div class="content">
-
-</div>
-</div>
 <div class="paragraph">
 <p>定理（接線の保存）より、曲線Cの各点における接線の像は曲線Cの像の接線となる。したがって、接線連続性が保たれる。</p>
 </div>
-<div class="openblock">
-<div class="content">
+</div>
+</div>
 <div class="paragraph">
 <p>直感的には、滑らかな曲線は滑らかな像を与えるという主張です。</p>
 </div>
 <div class="paragraph">
 <p>ただし、定理（位置連続の保存）と異なり、接線が視点を通る場合を除外していることに注意してください。そのような点においては、像に尖った角が生まれる場合があります。</p>
-</div>
-</div>
 </div>
 </div>
 </div>
