@@ -1,0 +1,10 @@
+---
+layout: base.njk
+title: 縮退
+---
+
+:stem: latexmath
+:toc: macro
+:toclevels: 3
+:toc-title: 目次
+toc::[]
