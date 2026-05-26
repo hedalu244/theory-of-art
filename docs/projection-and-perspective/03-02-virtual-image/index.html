@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/theory-of-art/_style/style.css">
+<title>虚像</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>虚像</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_臨界面より後ろの像">臨界面より後ろの像</a></li>
+<li><a href="#_モチベーションとのつながり">モチベーションとのつながり</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_臨界面より後ろの像">臨界面より後ろの像</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>点Pの像は、視点をEとすると半直線EPと投影面の交点でした。なので、点の像は臨界面より前にある場合のみ定義できるのでしたね。しかし、これが原因で場合分けが厄介になっている場面がたくさんあります。</p>
+</div>
+<div class="paragraph">
+<p>そこで、便宜上、以下の概念を定義しておきます。</p>
+</div>
+<div class="openblock definition">
+<div class="title">定義（虚像）</div>
+<div class="content">
+<div class="paragraph">
+<p>視点をEとする。
+点Pに対して、Pの像が存在しないとき、直線EPと投影面の交点があれば、それを虚像と呼ぶ。
+図形Sに対して、S上の点の虚像をすべて集めた図形をSの虚像と呼ぶ。</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>これは要するに、視点Eから点Pと正反対方向に半直線を伸ばしたときに、投影面と交わったところを「虚像」と呼ぼう、と言っています。点Pの虚像をpとすると、Pとpは視点Eを挟んでちょうど180度反対の方向にあります。そのような虚像は点Pが臨界面より後ろにあるときに存在します。</p>
+</div>
+<div class="paragraph">
+<p>虚像は「ガラス板になぞる方法」で言えば見えるわけがありません。人間は前しか見えないし、もし（複眼とかで）後ろが見えたとしても、真反対方向にあるものを「重なっている」といって投影面になぞるのは無理があります。しかし、幾何学的には、半直線より直線のほうが圧倒的に扱いやすいので、こういうものを考えます。</p>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="projection-and-perspective/sketches/image-of-point" data-options="{&quot;virtual&quot;:true}"></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_モチベーションとのつながり">モチベーションとのつながり</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>なぜこんなものを定義したかと言えば、臨界面より前にあるか後ろにあるかで場合分けしたくないからです。なので、 <strong>このセクションに限っては</strong> 断りなく「像」と言ったら基本的に虚像も含むと考えてください。従来の像であることを強調して「実像」と呼ぶことにします。</p>
+</div>
+<div class="paragraph">
+<p>TODO: 書く。情報が増えることについて</p>
+</div>
+</div>
+</div>
+</main>
+<script src="/theory-of-art/_script/main.js"></script>
+</body>
+
+</html>

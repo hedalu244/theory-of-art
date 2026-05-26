@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/theory-of-art/_style/style.css">
+<title>拡張された像</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>拡張された像</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_無限遠点の像">無限遠点の像</a></li>
+<li><a href="#_拡張された直線の像">拡張された直線の像</a></li>
+<li><a href="#_無限遠直線の像">無限遠直線の像</a>
+<ul class="sectlevel2">
+<li><a href="#_直線と無限遠直線の交わり">直線と無限遠直線の交わり</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>TODO: 縮退を除外</p>
+</div>
+<div class="sect1">
+<h2 id="_無限遠点の像">無限遠点の像</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>直線lの消失点を求める操作を思い出してみましょう。「視点Eを通りlに平行な直線vを引いて、直線vと投影面の交点Vをもとめると、Vが消失点となる」のでしたね。これを今覚えた「無限遠点」の言葉を使って言い換えてみましょう。「Eを通りlに平行な直線vを引く」という操作は、lの「方向」に相当する無限遠点をPとすると、「EとPを直線で結ぶ」ことに相当します。そして、EPと投影面の交点が消失点Vになりますね。</p>
+</div>
+<div class="paragraph">
+<p>次に、点の像の求め方を思い出してみます、点Pの像は（虚像を含めると）、EとPを直線で結んで、EPと投影面との交点を求めるのでしたね。</p>
+</div>
+<div class="paragraph">
+<p>あれ、ずいぶんと似ていますね。</p>
+</div>
+<div class="paragraph">
+<p>この点Pが無限遠点である場合の像についても、通常の点と同じように、像を定義してみましょう。無限遠点Pはある「方向」を示しているので、EとPを直線で結ぶことは、Eから見てその「方向」に向かう線を引くことに相当します。すると、その線と投影面の交点がPの像になります。</p>
+</div>
+<div class="paragraph">
+<p>これはまさしく、Pが示している「方向」の消失点そのものですね。つまり、「無限遠点の像は消失点になる」と言えそうです。（ただし、無限遠点は向きを持たないので、投影面より前にあるか後ろにあるかが定義できません。なので、これは像とも虚像とも区別がつかないことになります）</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_拡張された直線の像">拡張された直線の像</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ここまでで、虚像と無限遠点を導入しました。この条件下で、直線の像を考えてみましょう。アニメーションで見てみると以下のようになります。青く表示されるのが虚像です。</p>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="projection-and-perspective/sketches/image-of-line" data-options="{&quot;virtual&quot;: true}"></div>
+</div>
+<div class="paragraph">
+<p>L上で点Pを動かすと、Pが臨界面に近づいたときにPの像ははるか遠方に行きます。そして、Pが臨界面より後ろに行くと、代わりに消失点の反対方向からPの虚像が表れます。直線lが無限遠点Pを通るとき、lの消失点VはPの像になっていました。ということは、消失点Vもlの像に含んでよいことになります。</p>
+</div>
+<div class="paragraph">
+<p>まとめると、投影の前後で以下のような対応関係があります。</p>
+</div>
+<div class="paragraph">
+<p>臨界面より後ろの部分→虚像
+臨界面との交点→投影面上の無限遠点
+臨界面より前の部分→実像
+無限遠点→消失点</p>
+</div>
+<div class="paragraph">
+<p>無限遠点の像＝消失点と虚像を合わせることで、「直線の像は消失点を通る直線である」と言えるようになりました。</p>
+</div>
+<div class="paragraph">
+<p>TODO: 定理として示す。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_無限遠直線の像">無限遠直線の像</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>消失点が無限遠点の像であったのと同様に、　<strong>消失線は無限遠直線の像と考えることができます</strong></p>
+</div>
+<div class="openblock theorem">
+<div class="title">無限遠直線の像</div>
+<div class="content">
+<div class="paragraph">
+<p>平面α上の無限遠直線をlとすると、lの像はαの消失線となる。</p>
+</div>
+</div>
+</div>
+<div class="openblock proof">
+<div class="title">簡易的な証明</div>
+<div class="content">
+<div class="paragraph">
+<p>（射影幾何を使うので交点を持つかの判定は省略する。像か虚像かは定義できない）
+像の定義より、lの像は視点Eとlで定まる平面と投影面の交線である。
+消失線の定義より、これはαの消失線と一致する。■</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_直線と無限遠直線の交わり">直線と無限遠直線の交わり</h3>
+<div class="paragraph">
+<p>無限遠直線lと通常の直線mが同一平面上にあるとき（lが表す「向き」で、かつmが乗るような平面が存在するとき）、lとmはmの無限遠点で交わります。</p>
+</div>
+<div class="paragraph">
+<p>この状況の像を描いてみると理解しやすいでしょう。無限遠直線lの像l&#8217;は消失線であり、mの無限遠点Pの像はmの消失点Vです。Pはl上の点なので、Vはl&#8217;上の点となります。mの消失点が消失線上にあることを表しています。</p>
+</div>
+<div class="paragraph">
+<p>つまり、定理（消失線上の消失点）は直線と無限遠直線の交点の像を表していたのです。</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script src="/theory-of-art/_script/main.js"></script>
+</body>
+
+</html>

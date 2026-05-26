@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/theory-of-art/_style/style.css">
+<title>射影幾何までの道のり</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>射影幾何までの道のり</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_なぜ射影幾何学を考えるのか">なぜ、射影幾何学を考えるのか</a></li>
+<li><a href="#_理由_場合分けを減らしたい">理由① 場合分けを減らしたい</a></li>
+<li><a href="#_理由_像を持たない以上の情報を知りたい">理由② 「像を持たない」以上の情報を知りたい</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_なぜ射影幾何学を考えるのか">なぜ、射影幾何学を考えるのか</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ここまで、作図法や透視図法の理解に必要な定理を確認してきました。これは当たり前のユークリッド幾何学に基づいて考えてきました。
+実は、これらの透視図法の性質は、「射影幾何学」の言葉を使うと、非常にすっきりと、簡潔に書くことができます。</p>
+</div>
+<div class="paragraph">
+<p>ただし、数学で扱う射影幾何学と、美術で扱う（目に見える）透視図法はわずかに違います。そのため、両者がどの点で似ていて、どの点で似ていないのかも、正確に理解する必要があります。</p>
+</div>
+<div class="paragraph">
+<p>先に明かしてしまうと、このセクションでは透視図法の作図に使える新しい事実は一つも登場しません。これまで登場した定理、特に「共線の保存」と「共点の保存」を射影幾何の言葉で書き直すだけです。これは悪い言い方をすると言葉遊び的な側面が強いものです。</p>
+</div>
+<div class="paragraph">
+<p>しかし、この章を通じて射影幾何の視点から理解しなおすことで、より単純で一貫した理解を得ることができるかもしれません。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_理由_場合分けを減らしたい">理由① 場合分けを減らしたい</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>これまで扱ってきた定理には、様々なパターンがありました。例えば平行な場合と交わる場合、投影面と平行な場合とそうでない場合、臨界面より前にある場合と後ろにある場合、像を持つ場合と持たない場合、など多数の場合分けがあって、かなり厄介でした。</p>
+</div>
+<div class="paragraph">
+<p>ここからは定理をできるだけシンプルに、簡単に書き直すため、このような場合分けがなくなるように、定義や公理を拡張していきます。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_理由_像を持たない以上の情報を知りたい">理由② 「像を持たない」以上の情報を知りたい</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ここまでの説明では、点が像を持つ場合と持たない場合があったり、直線の全体が像を持つ場合があったり臨界面より前の部分だけが像を持つ場合があったりしましたね。</p>
+</div>
+<div class="paragraph">
+<p>これは場合分けがあって複雑になるだけでなく、像がないことによって「部分の像」などの定理が適用できずに不便になる部分があります。</p>
+</div>
+<div class="paragraph">
+<p>像や交点の定義を拡張することで、これまで単に「像を持たない」としてひとくくりにしてしまっていた部分に、どのような理由で像がないのか、強いて像があるとしたらどこにあるのか、などといった情報を与えることができます。</p>
+</div>
+<div class="paragraph">
+<p>次のページから、その具体的な方法を紹介していきます。</p>
+</div>
+</div>
+</div>
+</main>
+<script src="/theory-of-art/_script/main.js"></script>
+</body>
+
+</html>

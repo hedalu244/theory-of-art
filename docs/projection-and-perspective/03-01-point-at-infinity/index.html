@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/theory-of-art/_style/style.css">
+<title>無限遠点と無限遠直線</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>無限遠点と無限遠直線</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_平行でないときをなくしたい">「平行でないとき…」をなくしたい！</a></li>
+<li><a href="#_無限遠点">無限遠点</a></li>
+<li><a href="#_無限遠直線">無限遠直線</a></li>
+<li><a href="#_これでどのように場合分けが減ったか">これでどのように場合分けが減ったか</a></li>
+<li><a href="#_モチベーションとのつながり">モチベーションとのつながり</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_平行でないときをなくしたい">「平行でないとき…」をなくしたい！</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>「平行なら…」「交点を持つなら…」というような場合分けが択残ありました。この場合分けもなくしたいですね。</p>
+</div>
+<div class="paragraph">
+<p>通常のユークリッド幾何学では、平面上の2つの線は平行であるか、1点で交わっているかのどちらかです。これを「同一平面上の2つの線は常に1点で交わる」と <strong>書き換える</strong> ことにします。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_無限遠点">無限遠点</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>これは、無限遠点という仮想の点を導入することに相当します。</p>
+</div>
+<div class="openblock definition">
+<div class="title">定義（無限遠点）</div>
+<div class="content">
+<div class="paragraph">
+<p>直線lに対して、以下の性質を見たすような「lの無限遠点P」と呼べる点が存在する。</p>
+</div>
+<div class="paragraph">
+<p>(1) 別の直線mがl//mであれば、mもPを通る。<br>
+(2) 任意の点QとPを結ぶことができて、直線PQはlに平行である。</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>無限遠点というのは特定の点ではなく無数にあり、いわゆる直線の「方向」と対応します。同じ「方向」の直線は同じ無限遠点を通り、異なる「方向」の直線は通りません。ただし、「方向」といっても平行かどうかだけを見ているので、ベクトルと違って180度違う向きは同じ向きになります。直線のどちらにつながっているかとかは考えません。</p>
+</div>
+<div class="paragraph">
+<p>これは別に平行線がどこかでぐにゃりと曲がって交差するようなイメージを持つ必要はありません。「無限遠点を通る」という言葉が出てきたときには、「ああこれは要するに平行のことを言っているんだな」と読み替えてくれれば問題ありません。言葉遊びのようなものだと思ってください。</p>
+</div>
+<div class="paragraph">
+<p>TODO: 図を入れる　平行マークで描くとイメージしやすいだろう</p>
+</div>
+<div class="paragraph">
+<p>例えば、直線lが無限遠点Pを通っているとします。別の直線mがlが平行であれば、つまり同じ「方向」であれば、mは同じ無限遠点Pを通ります。このときlもmもPを通っているので、Pで交わっていると考えることができます。一方、mがlと平行でなければ、つまりlとmが別の「方向」であれば、mはPとは別の無限遠点Qを通るので、Pでは交わりません（同一平面上であれば無限遠点でない交点を持ちます）。</p>
+</div>
+<div class="paragraph">
+<p>(2)は無限遠点に対して直線を引く操作を定めています。l上にない点Qがあったとして、「QとPを直線で結ぶ」といったら、（従来の言葉で言うと）Qを通りlに平行な線を引く操作に相当します。そうして得た直線をmとすると、mとlは平行なので、確かにmはPを通っています。</p>
+</div>
+<div class="paragraph">
+<p>こうすると、「平行になるように線を引く」という特殊な操作を、あたかも「点と点を繋ぐ」と同じことをしているかのように考えることができます。</p>
+</div>
+<div class="paragraph">
+<p>ちなみに、平面αと直線lが平行なとき、lの「方向」を表す無限遠点Pは「α上にある」ということができます。なぜなら、平面α上にl//mとなる直線mを取ることができて、無限遠点Pはm上にあり、mはα上にあるからです。この無限遠点Pは平面αと直線lの両方が通っているので、αとlの交点ということができます。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_無限遠直線">無限遠直線</h2>
+<div class="sectionbody">
+<div class="openblock definition">
+<div class="title">定義（無限遠直線）</div>
+<div class="content">
+<div class="paragraph">
+<p>αが平面の向きに対応する無限遠直線と呼べる直線が存在する。ある直線lがα上にあるか、αと平行なとき、αとlは交点を持つ。</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>lの無限遠点Pとmの無限遠点Qを結ぶ無限遠直線PQは、lとm両方に平行な平面の「向き」に相当します。平面幾何であれば無限遠直線は一つだけで、空間図形を考えると無数にあります。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_これでどのように場合分けが減ったか">これでどのように場合分けが減ったか</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>TODO: 書く
+射影幾何学では、2つの直線は同一平面上であれば必ず交点を持ち、直線と平面は必ず交点を持ちます。</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_モチベーションとのつながり">モチベーションとのつながり</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>TODO: 書く。場合分けが減る、情報が増える</p>
+</div>
+</div>
+</div>
+</main>
+<script src="/theory-of-art/_script/main.js"></script>
+</body>
+
+</html>

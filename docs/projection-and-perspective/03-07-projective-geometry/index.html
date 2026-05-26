@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="toc" class="toc">
 <div id="toctitle" class="title">目次</div>
 <ul class="sectlevel1">
-<li><a href="#_本当に無限遠点は対称なのか">本当に無限遠点は対称なのか</a></li>
+<li><a href="#_本当に無限遠点は他の点と同じように扱ってよいのか">本当に無限遠点は他の点と同じように扱ってよいのか</a></li>
 <li><a href="#_無限遠点と無限遠直線">無限遠点と無限遠直線</a></li>
 <li><a href="#_射影幾何学">射影幾何学</a></li>
 <li><a href="#_球面上での射影幾何学">球面上での射影幾何学</a></li>
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </ul>
 </div>
 <div class="sect1">
-<h2 id="_本当に無限遠点は対称なのか">本当に無限遠点は対称なのか</h2>
+<h2 id="_本当に無限遠点は他の点と同じように扱ってよいのか">本当に無限遠点は他の点と同じように扱ってよいのか</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>無限遠点は通常の点と同じように線を引いたり点を取ったりできる、と言いましたが、いまいちしっくりこない人が多いと思います。今回はその補足です。</p>
@@ -52,6 +52,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="sect1">
 <h2 id="_無限遠点と無限遠直線">無限遠点と無限遠直線</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>定義をおさらいしておきます。</p>
+</div>
 <div class="openblock definition">
 <div class="title">定義（無限遠点）</div>
 <div class="content">
@@ -64,38 +67,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 </div>
 </div>
-<div class="paragraph">
-<p>前回は言及しませんでしたが、無限遠点同士を結んだ場合は無限遠直線というのが生まれます。</p>
-</div>
 <div class="openblock definition">
 <div class="title">定義（無限遠直線）</div>
 <div class="content">
 <div class="paragraph">
 <p>αが平面の向きに対応する無限遠直線と呼べる直線が存在する。ある直線lがα上にあるか、αと平行なとき、αとlは交点を持つ。</p>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>lの無限遠点Pとmの無限遠点Qを結ぶ無限遠直線PQは、lとm両方に平行な平面の「向き」に相当します。平面幾何であれば無限遠直線は一つだけで、空間図形を考えると無数にあります。</p>
-</div>
-<div class="paragraph">
-<p><strong>消失線は無限遠直線の像と考えることができ</strong> て、定理（消失線上の消失点）は直線と無限遠直線の交点の像を得る操作に一致します。同一平面上の直線の消失点が消失線上に並ぶのは共線の保存と同じことを言っています。これも便利な概念ですね。</p>
-</div>
-<div class="openblock theorem">
-<div class="title">無限遠直線の像</div>
-<div class="content">
-<div class="paragraph">
-<p>平面α上の無限遠直線をlとすると、lの像はαの消失線となる。</p>
-</div>
-</div>
-</div>
-<div class="openblock proof">
-<div class="title">簡易的な証明</div>
-<div class="content">
-<div class="paragraph">
-<p>（射影幾何を使うので交点を持つかの判定は省略する。像か虚像かは定義できない）
-像の定義より、lの像は視点Eとlで定まる平面と投影面の交線である。
-消失線の定義より、これはαの消失線と一致する。■</p>
 </div>
 </div>
 </div>

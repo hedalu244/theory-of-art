@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/theory-of-art/_style/style.css">
+<title>共点の保存2</title>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    throwOnError: false,
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "$", right: "$", display: false},
+      {left: "\\[", right: "\\]", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+});
+</script>
+
+<!-- p5.js -->
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.13/lib/p5.min.js"></script>
+</head>
+
+<body>
+<h1>共点の保存2</h1>
+<main>
+<div id="toc" class="toc">
+<div id="toctitle" class="title">目次</div>
+<ul class="sectlevel1">
+<li><a href="#_共点の保存">共点の保存</a></li>
+</ul>
+</div>
+<div class="paragraph">
+<p>「共点の保存」で確認したように、交点が臨界面より後ろにある場合には、実際には交点の像がなくても、直線の像を延長すると交わるという性質がありました。これは今まで無視してきた臨界面より後ろについても、何らかの幾何学的な法則が成り立っていると考えるのが自然です。</p>
+</div>
+<div class="paragraph">
+<p>さらに、「共点の保存」の証明では、線同士が平行である場合とそうでない場合、投影面と平行である場合とそうでない場合、の組み合わせで4パターンの場合分けがありましたね。「シンプルな定理なわりに証明が長いなぁ」と思いませんかでしたか？　これをもっとシンプルに考えたいですよね。</p>
+</div>
+<div class="sect1">
+<h2 id="_共点の保存">共点の保存</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>射影幾何学の言葉で「共点の保存」について考えてみます。</p>
+</div>
+<div class="paragraph">
+<p>まず、共点というのは「3本以上の直線が互いに平行である、または一点で交わる」という概念でしたが、「3本の線が平行である」というのは「同じ無限遠点で交わっている」ということなので、これらはどちらも「3本の直線が一点（ただし無限遠点の場合あり）で交わる」といって差し支えないです。</p>
+</div>
+<div class="paragraph">
+<p>で、定理（共点の保存）の主張は、「3本以上の直線が共点である場合、その像も共点である」でしたね。これは今からするともう当たり前です。三本の直線が1点Pで交わっている場合、Pを通る直線の像はPの像pを通る直線になるので、三本の直線が1点Pで交わっている場合、当然その像も一点で交わります。</p>
+</div>
+<div class="paragraph">
+<p>前回の(1-1)～(2-2)の4つの場合分けは、いまや、交点が普通の点か、臨界面上にあるのか、投影面と平行な無限遠点なのか、そうでない無限遠点なのか、の違いで <strong>しかない</strong> ことがわかります。</p>
+</div>
+<div class="paragraph">
+<p>念のため、射影幾何学を知らなかった頃の言葉に翻訳しておきます。</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Pを通る直線の像はPの像pを通ります。これが普遍原則です。</p>
+</li>
+<li>
+<p>Pが普通の点であるとき、臨界面より前にあればpは目に見える像、臨界面より後ろにあればpは虚像になりますが、いずれにせよです。</p>
+</li>
+<li>
+<p>Pが投影面と平行でない無限遠点であれば、pは消失点になるので、Pを通る直線の像は消失点を通る直線になります。</p>
+</li>
+<li>
+<p>点Pが臨界面上にある普通の点であれば、pは投影面上のEPの無限遠点になるので、どの像も平行になります。</p>
+</li>
+<li>
+<p>交点Pが投影面と平行な無限遠点であれば、pは投影面上の無限遠点P自身になるので、どの像も平行になります。</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>虚像を描いてみると分かりやすいでしょう。</p>
+</div>
+<div class="paragraph">
+<div class="sketch" data-path="projection-and-perspective/sketches/concurrent" data-options="{&quot;virtual&quot;: true}"></div>
+</div>
+</div>
+</div>
+</main>
+<script src="/theory-of-art/_script/main.js"></script>
+</body>
+
+</html>
